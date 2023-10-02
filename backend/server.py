@@ -77,11 +77,9 @@ async def room_handler(websocket):
 
 async def handler(websocket):
     async for message in websocket:
-        sender = message["user"]
-        if sender not in MEMBERS:
-            websocket.send({"user": "system", "text": f"{sender} joined"})
-            MEMBERS.add(sender)
-        websocket.send(message)
+        event = json.loads(message)
+        print(f"{event['user']}: {event['text']}")
+        await websocket.send(message)
 
 
 async def main():
