@@ -1,17 +1,18 @@
 import asyncio
-
 import websockets
+import json
 
-MEMBERS = set()
-
+connections = set()
 
 async def handler(websocket):
     async for message in websocket:
-        sender = message["user"]
-        if sender not in MEMBERS:
-            MEMBERS.add(sender)
-        websocket.send(message)
+        message = json.loads(message);
+        if websocket not in connections:
+            connections.add(websocket)
 
+        out = json.dumps(message)
+        websockets.broadcast(connections, out);
+        continue
 
 async def main():
     async with websockets.serve(handler, "", 8080):
