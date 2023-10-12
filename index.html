@@ -15,15 +15,23 @@
         grid-column-gap: 16px;
       "
     >
-      <form
-        id="connect"
-        style="width: 200px; display: flex; flex-direction: column"
-      >
-        <label for="ws-host">WebSocket URL</label>
-        <textarea id="ws-host" name="ws-host">ws://localhost:8080</textarea>
-        <input type="submit" value="Connect" />
-        <input id="close-ws" type="button" value="Close" />
-      </form>
+      <div>
+        <form
+          id="connect"
+          style="width: 200px; display: flex; flex-direction: column"
+        >
+          <label for="ws-host">WebSocket URL</label>
+          <textarea id="ws-host" name="ws-host">ws://localhost:8080</textarea>
+          <input type="submit" value="Connect" />
+          <input id="close-ws" type="button" value="Close" />
+        </form>
+
+        <div id="room_div">
+          <textarea id="room_id_entry"></textarea>
+          <button id="join_button">Join Room</button>
+          <button id="create_button">Create New</button>
+        </div>
+      </div>
 
       <div
         id="messages"

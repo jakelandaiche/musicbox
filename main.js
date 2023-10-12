@@ -59,10 +59,24 @@ connectform.addEventListener("submit", (event) => {
   });
 
   socket.addEventListener("message", (event) => {
-    const p = document.createElement("p");
-    const data = JSON.parse(event.data);
-    p.innerHTML = event.data;
-    messages.append(p);
+    let data = JSON.parse(event.data);
+    console.log(data);
+    switch (data.type) {
+      case "init":
+        let l = document.createElement("p");
+        l.innerHTML = "Room code: " + data.join;
+        room_div.replaceChildren(l);
+        break;
+      case "message":
+        let p = document.createElement("p");
+        p.innerHTML = `${data.user}: ${data.text}`;
+        messages.append(p);
+        break;
+      case "video":
+        break;
+      default:
+        break;
+    }
   });
 
   socket.addEventListener("close", (event) => {
