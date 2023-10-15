@@ -32,17 +32,22 @@
           <button id="create_button">Create New</button>
         </div>
       </div>
-
-      <div
-        id="messages"
-        style="
-          width: 400px;
-          height: 600px;
-          padding: 16px;
-          overflow-y: scroll;
-          border: 1px solid;
-        "
-      ></div>
+      <div>
+        <script>
+          var tag = document.createElement("script");
+          tag.src = "https://www.youtube.com/iframe_api";
+        </script>
+        <div
+          id="messages"
+          style="
+            width: 400px;
+            height: 600px;
+            padding: 16px;
+            overflow-y: scroll;
+            border: 1px solid;
+          "
+        ></div>
+      </div>
 
       <div id="rhc" style="visibility: hidden">
         <select id="messagetype">
@@ -58,12 +63,6 @@
           <textarea name="user">User</textarea>
           <label for="text">Message</label>
           <textarea name="text"></textarea>
-          <input type="submit" value="Send" />
-        </form>
-
-        <form id="init">
-          <label for="join">Join</label>
-          <textarea name="join"></textarea>
           <input type="submit" value="Send" />
         </form>
 

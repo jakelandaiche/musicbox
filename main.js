@@ -1,23 +1,38 @@
 var socket = null;
 var messages = document.getElementById("messages");
 
-function push_message(str) {
+function push_message(data) {
   const p = document.createElement("p");
-  p.innerHTML = str;
+  p.innerHTML = `${data.user}: ${data.text}`;
   messages.append(p);
   messages.scrollTop = messages.scrollHeight;
 }
+
 function submit(event) {
   event.preventDefault();
-
   const formData = new FormData(event.target);
-  const data = {};
+  const data = { type: event.target.id };
   for (const [key, value] of formData.entries()) {
     data[key] = value;
   }
 
   const payload = data;
   socket.send(JSON.stringify(payload));
+}
+
+function embedVideo(data) {
+  var player = new YT.Player("player", {
+    height: "390",
+    width: "640",
+    videoId: data.id,
+    playerVars: {
+      playsinline: 1,
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+    },
+  });
 }
 
 var connectform = document.getElementById("connect");
@@ -35,14 +50,20 @@ connectform.addEventListener("submit", (event) => {
   // Only care if socket is closed or null!
   if (socket !== null && socket.readyState !== 3) return;
 
-  push_message(`Attempting to connect to ${ws_host}...`);
+  push_message({
+    user: "system",
+    text: `Attempting to connect to ${ws_host}...`,
+  });
   socket = new WebSocket(ws_host);
   const closebtn = document.getElementById("close-ws");
   const close_socket = () => socket.close();
   const rhc = document.getElementById("rhc");
 
   socket.addEventListener("open", (event) => {
-    push_message(`Connected to ${ws_host} successfully`);
+    push_message({
+      user: "system",
+      text: `Connected to ${ws_host} successfully`,
+    });
     rhc.style.visibility = "visible";
 
     types.forEach((t) => {
@@ -68,11 +89,10 @@ connectform.addEventListener("submit", (event) => {
         room_div.replaceChildren(l);
         break;
       case "message":
-        let p = document.createElement("p");
-        p.innerHTML = `${data.user}: ${data.text}`;
-        messages.append(p);
+        push_message(data);
         break;
       case "video":
+        embedVideo(data);
         break;
       default:
         break;
@@ -91,7 +111,7 @@ connectform.addEventListener("submit", (event) => {
   });
 });
 
-const types = ["message", "init", "answer", "raw"];
+const types = ["message", "answer", "raw"];
 const messagetype = document.getElementById("messagetype");
 messagetype.addEventListener("change", (event) => {
   const type = event.target.value;
