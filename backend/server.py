@@ -76,15 +76,8 @@ async def room_handler(websocket):
         await open_room(websocket)
 
 
-async def handler(websocket):
-    async for message in websocket:
-        event = json.loads(message)
-        print(f"{event['user']}: {event['text']}")
-        await websocket.send(message)
-
-
 async def main():
-    async with websockets.serve(handler, "", 8080):
+    async with websockets.serve(room_handler, "", 8080):
         await asyncio.Future()
 
 
