@@ -9,8 +9,8 @@ import json
 
 MEMBERS = set()
 
-# set type
-ROOMS: dict[str, set] = {}
+# code: {connected: connections, history: list[messages], timeout: somehow track time}
+ROOMS: dict[str, dict] = {}
 
 
 async def error(websocket, message):
@@ -21,11 +21,11 @@ async def error(websocket, message):
     await websocket.send(json.dumps(event))
 
 
-async def broadcast_message(websocket, connected):
+async def broadcast_message(websocket, key):
     async for message in websocket:
         data = json.loads(message)
-
-        websockets.broadcast(connected, json.dumps(data))
+        ROOMS[key]["history"].append(data)
+        websockets.broadcast(ROOMS[key]["connected"], json.dumps(data))
 
 
 async def open_room(websocket):
@@ -36,12 +36,12 @@ async def open_room(websocket):
     connected = {websocket}
 
     key = secrets.token_urlsafe(12)
-    ROOMS[key] = connected
+    ROOMS[key] = {"connected": connected, "history": [], "timeout": 0}
 
     try:
         event = {"type": "init", "user": "system", "join": key}
         await websocket.send(json.dumps(event))
-        await broadcast_message(websocket, connected)
+        await broadcast_message(websocket, key)
     finally:
         del ROOMS[key]
 
@@ -51,15 +51,18 @@ async def join_room(websocket, key):
     assign connection to existing room
     """
     try:
-        connected = ROOMS[key]
+        connected = ROOMS[key]["connected"]
     except KeyError:
         await error(websocket, "Room not found.")
         return
 
     connected.add(websocket)
 
+    for message in ROOMS[key]["history"]:
+        await websocket.send(json.dumps(message))
+
     try:
-        await broadcast_message(websocket, connected)
+        await broadcast_message(websocket, key)
     finally:
         connected.remove(websocket)
 
