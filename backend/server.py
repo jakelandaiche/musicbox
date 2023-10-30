@@ -3,6 +3,7 @@ import json
 import os
 import secrets
 import signal
+import datetime as dt
 
 import websockets
 import json
@@ -27,6 +28,11 @@ async def broadcast_message(websocket, key):
         ROOMS[key]["history"].append(data)
         websockets.broadcast(ROOMS[key]["connected"], json.dumps(data))
 
+def cleanup(key:str):
+
+    # Write answers stored in history to a database
+
+    del ROOMS[key]
 
 async def open_room(websocket):
     """
@@ -36,14 +42,16 @@ async def open_room(websocket):
     connected = {websocket}
 
     key = secrets.token_urlsafe(12)
-    ROOMS[key] = {"connected": connected, "history": [], "timeout": 0}
+    ROOMS[key] = {"connected": connected, "history": [], "timeout": 0, "close_time": dt.datetime.max}
 
     try:
         event = {"type": "init", "user": "system", "join": key}
         await websocket.send(json.dumps(event))
         await broadcast_message(websocket, key)
     finally:
-        del ROOMS[key]
+        connected.remove(websocket)
+        if len(connected) == 0:
+            ROOMS[key]["close_time"] = dt.datetime.now() + dt.timedelta(minutes=5)
 
 
 async def join_room(websocket, key):
@@ -65,6 +73,8 @@ async def join_room(websocket, key):
         await broadcast_message(websocket, key)
     finally:
         connected.remove(websocket)
+        if len(connected) == 0:
+            ROOMS[key]["close_time"] = dt.datetime.now() + dt.timedelta(minutes=5)
 
 
 async def room_handler(websocket):
@@ -78,8 +88,22 @@ async def room_handler(websocket):
     else:
         await open_room(websocket)
 
+async def check_closing():
+    while True:
+        to_remove = set()
+        now = dt.datetime.now()
+        for key, room in ROOMS.items():
+            print(f"Room closing at {dt.datetime.strftime(room['close_time'], '%Y-%m-%d @ %H:%M:%S')}")
+            if now > room["close_time"]:
+                to_remove.add(key)
+        for key in to_remove:
+            cleanup(key)
+        await asyncio.sleep(60)
+
 
 async def main():
+    asyncio.create_task(check_closing())
+    print("Returned to main")
     async with websockets.serve(room_handler, "", 8080):
         await asyncio.Future()
 
