@@ -5,13 +5,18 @@ import secrets
 import signal
 import datetime as dt
 
+import pandas as pd
 import websockets
 import json
 
 MEMBERS = set()
 
-# code: {connected: connections, history: list[messages], timeout: somehow track time}
+# code: {connected: connections, history: list[messages], close_time: timestamp to check against before deleting}
 ROOMS: dict[str, dict] = {}
+
+dataset = pd.DataFrame()
+# Not needed if we are not sending over labels to frontend
+# label_data = pd.read_csv("class_labels_indices.csv", on_bad_lines="skip")
 
 
 async def error(websocket, message):
@@ -28,11 +33,12 @@ async def broadcast_message(websocket, key):
         ROOMS[key]["history"].append(data)
         websockets.broadcast(ROOMS[key]["connected"], json.dumps(data))
 
-def cleanup(key:str):
 
+def cleanup(key: str):
     # Write answers stored in history to a database
 
     del ROOMS[key]
+
 
 async def open_room(websocket):
     """
@@ -42,7 +48,12 @@ async def open_room(websocket):
     connected = {websocket}
 
     key = secrets.token_urlsafe(12)
-    ROOMS[key] = {"connected": connected, "history": [], "timeout": 0, "close_time": dt.datetime.max}
+    ROOMS[key] = {
+        "connected": connected,
+        "history": [],
+        "timeout": 0,
+        "close_time": dt.datetime.max,
+    }
 
     try:
         event = {"type": "init", "user": "system", "join": key}
@@ -88,17 +99,28 @@ async def room_handler(websocket):
     else:
         await open_room(websocket)
 
+
 async def check_closing():
     while True:
         to_remove = set()
         now = dt.datetime.now()
         for key, room in ROOMS.items():
-            print(f"Room closing at {dt.datetime.strftime(room['close_time'], '%Y-%m-%d @ %H:%M:%S')}")
+            print(
+                f"Room closing at {dt.datetime.strftime(room['close_time'], '%Y-%m-%d @ %H:%M:%S')}"
+            )
             if now > room["close_time"]:
                 to_remove.add(key)
         for key in to_remove:
             cleanup(key)
         await asyncio.sleep(60)
+
+
+def setup_dataset():
+    dataset = pd.read_csv(
+        "eval_segments.csv", sep=", ", on_bad_lines="skip", skiprows=2, quotechar='"'
+    )
+
+    dataset = dataset[dataset["positive_labels"].str.match(".*/m/04rlf.*")]
 
 
 async def main():
@@ -109,4 +131,5 @@ async def main():
 
 
 if __name__ == "__main__":
+    setup_dataset()
     asyncio.run(main())
