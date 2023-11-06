@@ -1,6 +1,16 @@
 var socket = null;
 
-function setup_player() {}
+function embedVideo(data) {
+  const { id, start_time } = data
+  if (!playerReady) return
+
+  player.loadVideoById({videoId: id, startSeconds: start_time, endSeconds:start_time+10})
+  player.playVideo();
+}
+
+function push_message(msg) {
+  console.log(msg)
+}
 
 // Socket Connection
 var connectform = document.getElementById("connect");
@@ -27,7 +37,11 @@ connectform.addEventListener("submit", (event) => {
       text: `Connected to ${ws_host} successfully`,
     });
     connectform.remove();
-    document.getElementById("room_div").style.visibility = "visible";
+    socket.send(
+      JSON.stringify({
+        type: "init",
+      })
+    );
   });
 
   socket.addEventListener("error", (event) => {
@@ -39,9 +53,7 @@ connectform.addEventListener("submit", (event) => {
     console.log(data);
     switch (data.type) {
       case "init":
-        let l = document.createElement("p");
-        l.innerHTML = "Room code: " + data.join;
-        room_div.replaceChildren(l);
+        room_div.innerHTML = "Room code: " + data.join;
         break;
       case "message":
         push_message(data);
@@ -56,7 +68,6 @@ connectform.addEventListener("submit", (event) => {
         break;
     }
   });
-
   socket.addEventListener("close", (event) => {
     push_message(`Connection to ${ws_host} closed: ${event.reason}`);
     closebtn.removeEventListener("click", close_socket);
@@ -67,48 +78,3 @@ connectform.addEventListener("submit", (event) => {
     socket = null;
   });
 });
-
-document.getElementById("join_button").addEventListener("click", () => {
-  var code = document.getElementById("room_id_entry").value;
-  socket.send(
-    JSON.stringify({
-      type: "init",
-      join: code,
-    })
-  );
-  document.getElementById("room_div").remove();
-  document.getElementById("player_create_div").style.visibility = "visible";
-});
-
-document.getElementById("name_submit").addEventListener("click", () => {
-  var name = document.getElementById("player_name_text").value;
-  var id = name + Math.floor(Math.random() * 100).toString();
-
-  // Expires in 30 minutes worth of milliseconds
-  document.cookie =
-    "playerID=" +
-    id +
-    ";exipires=" +
-    new Date(Date.now() + 1800000).toGMTString();
-
-  socket.send(
-    JSON.stringify({
-      type: "player_data",
-      username: name,
-      id: id,
-    })
-  );
-
-  document.getElementById("player_create_div").remove();
-  document.getElementById("freeform_answer_div").style.visibility = "visible";
-});
-
-document
-  .getElementById("description_submit")
-  .addEventListener("click", () => {
-    var text = document.getElementById("description_text").value;
-    socket.send(JSON.stringify({
-      type: "answer",
-      text: text
-    }))
-  });
