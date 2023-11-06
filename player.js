@@ -2,6 +2,12 @@ var socket = null;
 
 function setup_player() {}
 
+function wait_for_scores() {
+  // Hide text box and show round timer?
+  // Allow for voting on answers
+  // Go to next input type: just text again for Fall
+};
+
 // Socket Connection
 var connectform = document.getElementById("connect");
 connectform.addEventListener("submit", (event) => {
@@ -110,4 +116,6 @@ document
       type: "answer",
       text: text
     }))
+
+    waitForScores();
   });
