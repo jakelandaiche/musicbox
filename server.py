@@ -30,8 +30,13 @@ async def error(websocket, message):
 async def broadcast_message(websocket, key):
     async for message in websocket:
         data = json.loads(message)
+        print(data)
         ROOMS[key]["history"].append(data)
-        websockets.broadcast(ROOMS[key]["connected"], json.dumps(data))
+        match data["type"]:
+            case "message":
+                websockets.broadcast(ROOMS[key]["connected"], json.dumps(data))
+            case _:
+                pass
 
 
 def cleanup(key: str):
@@ -48,11 +53,14 @@ async def open_room(websocket):
     connected = {websocket}
 
     key = secrets.token_urlsafe(12)
+
+    # Room state
     ROOMS[key] = {
         "connected": connected,
         "history": [],
         "timeout": 0,
         "close_time": dt.datetime.max,
+        "players": dict(),
     }
 
     try:
@@ -69,19 +77,42 @@ async def join_room(websocket, key):
     """
     assign connection to existing room
     """
+    # First make sure room is joinable
     try:
         connected = ROOMS[key]["connected"]
+        connected.add(websocket)
     except KeyError:
         await error(websocket, "Room not found.")
         return
 
-    connected.add(websocket)
+    # Send any missing info
+    # Not needed for game client since host can store score
+    # for message in ROOMS[key]["history"]:
+    #     await websocket.send(json.dumps(message))
 
-    for message in ROOMS[key]["history"]:
-        await websocket.send(json.dumps(message))
+    # Connection accepted, ask for player info
+    await websocket.send(
+        json.dumps(
+            {
+                "type": "user_init",
+            }
+        )
+    )
+
+    # Get username back?
+    player_info = json.loads(await websocket.recv())
+    player = {"score": 0, "id": player_info["id"]}
+    ROOMS[key]["players"][player_info["username"]] = player
+    print(f"Added player {player_info['username']}")
+
+    # Game is now ready, sit and wait for messages from the server
+    # New loop since we know these should be answers about songs?
 
     try:
-        await broadcast_message(websocket, key)
+        async for answer in websocket:
+            data = json.loads(answer)
+            print(data)
+            assert data["type"] == "answer"
     finally:
         connected.remove(websocket)
         if len(connected) == 0:
@@ -105,9 +136,6 @@ async def check_closing():
         to_remove = set()
         now = dt.datetime.now()
         for key, room in ROOMS.items():
-            print(
-                f"Room closing at {dt.datetime.strftime(room['close_time'], '%Y-%m-%d @ %H:%M:%S')}"
-            )
             if now > room["close_time"]:
                 to_remove.add(key)
         for key in to_remove:
@@ -117,10 +145,22 @@ async def check_closing():
 
 def setup_dataset():
     dataset = pd.read_csv(
-        "eval_segments.csv", sep=", ", on_bad_lines="skip", skiprows=2, quotechar='"'
+        "eval_segments.csv",
+        sep=", ",
+        on_bad_lines="skip",
+        skiprows=2,
+        quotechar='"',
+        engine="python",
     )
 
     dataset = dataset[dataset["positive_labels"].str.match(".*/m/04rlf.*")]
+
+
+def get_videos() -> list[dict]:
+    videos = []
+    for row in dataset.sample(10):
+        videos.append({"id": row["$ YTID"], "start_time": row["start_seconds"]})
+    return videos
 
 
 async def main():
