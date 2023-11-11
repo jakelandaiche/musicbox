@@ -122,11 +122,20 @@ async def join_room(websocket, key):
     # New loop since we know these should be answers about songs?
 
     try:
+        round = 1
         async for answer in websocket:
             data = json.loads(answer)
             print(data)
             await queue.put(data)
             assert data["type"] == "answer"
+            ROOMS[key]["history"].append(
+                {
+                    "username": player_info["username"],
+                    "answer": data["text"],
+                    "round": round,
+                }
+            )
+            round += 1
     finally:
         connected.remove(websocket)
         if len(connected) == 0:
