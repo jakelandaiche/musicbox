@@ -30,13 +30,12 @@ async def error(websocket, message):
 async def broadcast_message(websocket, key):
     async for message in websocket:
         data = json.loads(message)
-        print(data)
+        print(f"broadcast_message: {data}")
         ROOMS[key]["history"].append(data)
-        match data["type"]:
-            case "message":
-                websockets.broadcast(ROOMS[key]["connected"], json.dumps(data))
-            case _:
-                pass
+        if data["type"] == "message" or data["type"] == "begin":
+            websockets.broadcast(ROOMS[key]["connected"], json.dumps(data))
+        else:
+            pass
 
 
 def cleanup(key: str):
@@ -100,7 +99,9 @@ async def join_room(websocket, key):
     )
 
     # Get username back?
-    player_info = json.loads(await websocket.recv())
+    raw_player = await websocket.recv()
+    websockets.broadcast(ROOMS[key]["connected"], raw_player)
+    player_info = json.loads(raw_player)
     player = {"score": 0, "id": player_info["id"]}
     ROOMS[key]["players"][player_info["username"]] = player
     print(f"Added player {player_info['username']}")
