@@ -28,6 +28,7 @@ async def error(websocket, message):
 
 
 async def broadcast_message(websocket, key):
+
     async for message in websocket:
         data = json.loads(message)
         print(f"broadcast_message: {data}")
@@ -62,14 +63,26 @@ async def open_room(websocket):
         "players": dict(),
     }
 
-    try:
+    videos = get_videos()
+
+    try: 
         event = {"type": "init", "user": "system", "join": key}
         await websocket.send(json.dumps(event))
-        await broadcast_message(websocket, key)
+        await start_game(key, videos)
+        await websocket.wait_closed()
     finally:
         connected.remove(websocket)
         if len(connected) == 0:
             ROOMS[key]["close_time"] = dt.datetime.now() + dt.timedelta(minutes=5)
+
+
+async def start_game(key, videos):
+    """starts a game in a room"""
+    room = ROOMS[key]
+    for video in videos:
+        msg = {"type": "video", "id": video["id"], "start_time": video["start_time"]}
+        websockets.broadcast(room["connected"], json.dumps(msg))
+        await asyncio.sleep(10)
 
 
 async def join_room(websocket, key):
@@ -110,10 +123,20 @@ async def join_room(websocket, key):
     # New loop since we know these should be answers about songs?
 
     try:
+        round = 1
         async for answer in websocket:
             data = json.loads(answer)
             print(data)
+            await queue.put(data)
             assert data["type"] == "answer"
+            ROOMS[key]["history"].append(
+                {
+                    "username": player_info["username"],
+                    "answer": data["text"],
+                    "round": round,
+                }
+            )
+            round += 1
     finally:
         connected.remove(websocket)
         if len(connected) == 0:
@@ -145,7 +168,7 @@ async def check_closing():
 
 
 def setup_dataset():
-    dataset = pd.read_csv(
+    _dataset = pd.read_csv(
         "eval_segments.csv",
         sep=", ",
         on_bad_lines="skip",
@@ -154,14 +177,17 @@ def setup_dataset():
         engine="python",
     )
 
-    dataset = dataset[dataset["positive_labels"].str.match(".*/m/04rlf.*")]
+    global dataset
+    dataset = _dataset[_dataset["positive_labels"].str.match(".*/m/04rlf.*")]
 
 
 def get_videos() -> list[dict]:
     videos = []
-    for row in dataset.sample(10):
-        videos.append({"id": row["$ YTID"], "start_time": row["start_seconds"]})
+    for _, row in dataset.sample(10).iterrows():
+        videos.append({"id": row["# YTID"], "start_time": row["start_seconds"]})
     return videos
+
+
 
 
 async def main():
