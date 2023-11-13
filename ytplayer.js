@@ -20,12 +20,16 @@ function onYouTubeIframeAPIReady () {
         events: {
             'onReady': onPlayerReady,
             'onError': onPlayerError,
+            'onStateChange': onPlayerStateChange,
         }
     });
+}
+function onPlayerStateChange(e) {
 }
 function onPlayerReady(e) {
   playerReady = true;
 }
 function onPlayerError(e) {
+    console.log('player error')
     console.log(e)
 }

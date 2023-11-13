@@ -1,11 +1,14 @@
+var interval;
 var socket = null;
 
 function embedVideo(data) {
+    console.log("playing video")
   const { id, start_time } = data
   if (!playerReady) return
 
   player.loadVideoById({videoId: id, startSeconds: start_time, endSeconds:start_time+10})
-  player.playVideo();
+
+    player.playVideo();
 }
 
 function push_message(msg) {
@@ -39,7 +42,7 @@ connectform.addEventListener("submit", (event) => {
     connectform.remove();
     socket.send(
       JSON.stringify({
-        type: "init",
+          type: "init",
       })
     );
   });
@@ -61,20 +64,56 @@ connectform.addEventListener("submit", (event) => {
       case "video":
         embedVideo(data);
         break;
-      case "user_init":
-        setup_player();
+      case "update":
+        const names = data.players.map((player) => {
+            if (data.show_answers === false) {
+                return player.name
+            } else {
+                return player.name + ': ' + player.answer
+            }
+        }).join("<br>");
+        document.getElementById("player_list").innerHTML = names;
+        document.getElementById("room_text").innerHTML = data.text;
+      case "countdown":
+        clearInterval(interval);
+        let T = data.time;
+        document.getElementById("countdown").innerHTML = T ? T : "";
+        interval = setInterval(() => {
+            if (T > 0) {
+                document.getElementById("countdown").innerHTML = T;
+                T -= 1;
+            } else {
+                document.getElementById("countdown").innerHTML = "";
+                clearInterval(interval);
+            }
+        }, 1000);
         break;
+        break;
+
       default:
         break;
     }
   });
   socket.addEventListener("close", (event) => {
     push_message(`Connection to ${ws_host} closed: ${event.reason}`);
-    closebtn.removeEventListener("click", close_socket);
-    types.forEach((t) => {
+    // closebtn.removeEventListener("click", close_socket);
+    /* types.forEach((t) => {
       document.getElementById(t).onsubmit = null;
-    });
+    }); */
 
     socket = null;
   });
 });
+
+document.getElementById("start_button").addEventListener("click", (event) => {
+    if (socket === null || socket.readyState === 3) return;
+    
+    socket.send(
+      JSON.stringify({
+          type: "start",
+      })
+    );
+    document.getElementById("start_button").style.display = "none";
+    
+});
+
