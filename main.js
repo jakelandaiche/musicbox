@@ -94,6 +94,12 @@ connectform.addEventListener("submit", (event) => {
       case "video":
         embedVideo(data);
         break;
+      case "player_data":
+        push_message({
+          user: "system",
+          text: `${data.username} has joined.`
+        })
+        break;
       default:
         break;
     }
@@ -111,17 +117,13 @@ connectform.addEventListener("submit", (event) => {
   });
 });
 
-const types = ["message", "answer", "raw"];
-const messagetype = document.getElementById("messagetype");
-messagetype.addEventListener("change", (event) => {
-  const type = event.target.value;
-  document.getElementById(type).style.display = "block";
-  types
-    .filter((t) => t !== type)
-    .forEach((t) => {
-      document.getElementById(t).style.display = "none";
-    });
-});
+document.getElementById("begin_button").addEventListener("click", () => {
+  socket.send(
+    JSON.stringify({
+      type: "begin"
+    })
+  )
+})
 
 // Initialize room buttons
 var join_button = document.getElementById("join_button");

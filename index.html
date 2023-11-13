@@ -50,36 +50,9 @@
       </div>
 
       <div id="rhc" style="visibility: hidden">
-        <select id="messagetype">
-          <option value="message">Message</option>
-          <option value="init">Init</option>
-          <option value="answer">Answer</option>
-          <option value="raw">Raw</option>
-        </select>
-        <hr />
-
-        <form id="message">
-          <label for="user">Username</label>
-          <textarea name="user">User</textarea>
-          <label for="text">Message</label>
-          <textarea name="text"></textarea>
-          <input type="submit" value="Send" />
-        </form>
-
-        <form id="answer">
-          <label for="label">Label</label>
-          <textarea name="label"></textarea>
-          <label for="weight">Weight</label>
-          <textarea name="weight"></textarea>
-          <label for="id">Id</label>
-          <textarea name="id"></textarea>
-          <input type="submit" value="Send" />
-        </form>
-
-        <form id="raw" style="display: flex; flex-direction: column">
-          <textarea></textarea>
-          <input type="submit" value="Send" />
-        </form>
+        <button id="begin_button">
+          Begin Game
+        </button>
       </div>
     </div>
 
