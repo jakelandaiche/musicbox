@@ -66,12 +66,6 @@ connectform.addEventListener("submit", (event) => {
     });
     rhc.style.visibility = "visible";
 
-    types.forEach((t) => {
-      document.getElementById(t).onsubmit = submit;
-      document.getElementById(t).style.display = "none";
-    });
-    document.getElementById("message").style.display = "block";
-
     closebtn.addEventListener("click", close_socket);
   });
 
