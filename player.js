@@ -68,6 +68,7 @@ connectform.addEventListener("submit", (event) => {
         break;
     }
   });
+
   socket.addEventListener("close", (event) => {
     push_message(`Connection to ${ws_host} closed: ${event.reason}`);
     closebtn.removeEventListener("click", close_socket);
@@ -83,8 +84,8 @@ document.getElementById("join_button").addEventListener("click", () => {
   var code = document.getElementById("room_id_entry").value;
   socket.send(
     JSON.stringify({
-      type: "init",
-      join: code,
+      type: "join",
+      key: code,
     })
   );
   document.getElementById("room_div").remove();

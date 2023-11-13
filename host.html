@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MusicBox Host</title>
+  </head>
+
+  <body>
+    <div
+      style="
+        padding: 16px;
+        margin: auto;
+        display: block;
+        align-self: center;
+        width: fit-content;
+      "
+    >
+      <div>
+        <form id="connect" style="width: 200px; display: block">
+          <label for="ws-host">WebSocket URL</label>
+          <textarea id="ws-host" name="ws-host">ws://localhost:8080</textarea>
+          <input type="submit" value="Connect" />
+        </form>
+
+        <div
+          id="room_div"
+          style="width: 200px;"
+        >
+        </div>
+        <button id="start_button">Start</button>
+
+        <div
+          id="room_text"
+          style="width: 200px;"
+        >
+        </div>
+        <div
+          id="countdown"
+          style="width: 200px;"
+        >
+        </div>
+
+        <h3>Players</h3>
+        <div
+          id="player_list"
+          style="width: 200px;"
+        >
+        </div>
+
+        <div style="display: none;">
+            <div id="player"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./ytplayer.js"></script>
+    <script src="./host.js"></script>
+  </body>
+</html>
