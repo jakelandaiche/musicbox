@@ -1,4 +1,4 @@
-
+__pycache__/
 class_labels_indices.csv
 eval_segments.csv
 *.ipynb
