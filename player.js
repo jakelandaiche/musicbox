@@ -1,6 +1,16 @@
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
 var socket = null;
 
-function setup_player() {}
+function setupPlayer() {}
+
+function hideSection(id) {
+  document.getElementById(id).style.visibility = "hidden";
+}
+
+function showSection(id) {
+  document.getElementById(id).style.visibility = "visible";
+}
 
 // Socket Connection
 var connectform = document.getElementById("connect");
@@ -50,8 +60,10 @@ connectform.addEventListener("submit", (event) => {
         embedVideo(data);
         break;
       case "user_init":
-        setup_player();
+        setupPlayer();
         break;
+      case "begin":
+        startGame();
       default:
         break;
     }
@@ -99,15 +111,45 @@ document.getElementById("name_submit").addEventListener("click", () => {
   );
 
   document.getElementById("player_create_div").remove();
-  document.getElementById("freeform_answer_div").style.visibility = "visible";
 });
+
+function startGame() {
+  hideSection("player_wait_div");
+  showSection("audio_wait_div");
+  waitForAudio();
+}
+
+// State machine:
+//     1. Music is playing, wait for signal
+//     2. Sound finished, so write out answer
+//     3. Answer is submitted, wait for score to complete
+
+async function waitForScores() {
+  await sleep(10000);
+  hideSection("score_wait_div");
+  showSection("audio_wait_div");
+  waitForAudio();
+}
+
+function submitDescription() {
+  var text = document.getElementById("description_text").value;
+  socket.send(
+    JSON.stringify({
+      type: "answer",
+      text: text,
+    })
+  );
+  hideSection("freeform_answer_div");
+  showSection("score_wait_div");
+  waitForScores();
+}
+
+async function waitForAudio() {
+  await sleep(10000);
+  hideSection("audio_wait_div");
+  showSection("freeform_answer_div");
+}
 
 document
   .getElementById("description_submit")
-  .addEventListener("click", () => {
-    var text = document.getElementById("description_text").value;
-    socket.send(JSON.stringify({
-      type: "answer",
-      text: text
-    }))
-  });
+  .addEventListener("click", submitDescription);
