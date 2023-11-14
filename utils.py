@@ -9,9 +9,7 @@ async def websocket_pusher(websocket, queue):
     while True:
         try:
             message = await websocket.recv()
-            print(message)
         except websockets.ConnectionClosed:
-            print("connection closed")
             message = {
                 "type": "conn_close",
                 "ws_id": websocket.id

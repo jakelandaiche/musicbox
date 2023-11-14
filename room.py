@@ -1,5 +1,6 @@
 import json
 import asyncio
+import websockets
 
 from player import Player
 from game import Game
@@ -18,6 +19,9 @@ class Room:
 
         self.players = dict()
         self.show_answers = False
+
+        self.hooks = []
+
         self.history = []
         self.room_text = ""
         
@@ -25,7 +29,6 @@ class Room:
 
         self.queue = asyncio.Queue()
         self.messages = asyncio.Queue()
-
 
         self.task = asyncio.create_task(self.run())
 
@@ -41,6 +44,7 @@ class Room:
                 }
         await self.websocket.send(json.dumps(countdown_message))
 
+
     async def update_frontend(self):
         update_message = {
                 "type": "update",
@@ -49,6 +53,7 @@ class Room:
                 "show_answers": self.show_answers 
                 }
         await self.websocket.send(json.dumps(update_message))
+
 
     async def run(self):
         init_message = {
@@ -66,8 +71,7 @@ class Room:
 
                 # host connection close
                 if message["type"] == "conn_close" and ws_id == self.websocket.id:
-                    print("Room closing in 15 minutes, bye")
-                    self.destruct_task = asyncio.create_task(self.destruct())
+                    pass
 
                 # host reconnect 
                     # should cancel self.destruct_task

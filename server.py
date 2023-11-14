@@ -1,15 +1,12 @@
 import asyncio
 import json
-import os
 import secrets
-import signal
-import datetime as dt
 import websockets
+import logging
 import json
 
-from player import Player
+from code import code
 from room import ROOMS, Room 
-
 from utils import websocket_pusher
 
 async def ws_handler(websocket):
@@ -27,22 +24,31 @@ async def ws_handler(websocket):
         key = message["key"]
         if key in ROOMS:
             room = ROOMS[key]
-            await websocket_pusher(websocket, ROOMS[key].messages)
+            await websocket_pusher(websocket, room.messages)
 
     # if init, try to create room or find it (reconnect)
     elif message["type"] == "init":
         if "key" in message:
             pass
-        key = secrets.token_urlsafe(12)
+        key = code()
         ROOMS[key] = Room(websocket, key)
         await websocket_pusher(websocket, ROOMS[key].messages)
         
 
-async def main():
-    print("Returned to main")
-    async with websockets.serve(ws_handler, "", 8080):
+async def main(host, port):
+    async with websockets.serve(ws_handler, host, port):
         await asyncio.Future()
 
 
+import argparse
+parser = argparse.ArgumentParser(
+        prog="MusicBox",
+        )
+parser.add_argument("--host", default="localhost")
+parser.add_argument("--port", default=8080)
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    args = parser.parse_args()
+    print(f"Listening on {args.host}:{args.port}")
+
+    asyncio.run(main(args.host, args.port))

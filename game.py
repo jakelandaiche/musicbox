@@ -40,18 +40,21 @@ class Game:
             await self.room.set_countdown(30)
             await asyncio.sleep(32)
 
+            # suspense 
+            self.room.room_text = f"<h3>Round {i+1}</h3>" + "Revealing the answers in..."
+            await self.room.update_frontend()
+            await self.room.set_countdown(7)
+            await asyncio.sleep(9)
 
             # round end
             answers = [player.answer for player in self.room.players.values()]
             print(f"results for {video['id']}")
             print(answers)
-            self.room.room_text = f"<h3>Round {i+1}</h3>" + "The answers revealed"
+            self.room.room_text = f"<h3>Round {i+1}</h3>" + ""
             self.room.show_answers = True
             await self.room.update_frontend()
             await self.room.set_countdown(15)
             await asyncio.sleep(17)
-
-
 
         self.room.room_text = "The game is over. Thanks for playing"
         await self.room.update_frontend()
