@@ -1,13 +1,12 @@
-#!/usr/bin/env python3
-
 seed = 68648
+i = 0
 
 def code():
-    global seed
-    seed = 68648 + 36225 * seed
-    g = [7, 5, 13, 19]
+    global i 
+    n = seed + 41055 * i 
+    i += 1 
+    g = [7, 5, 15, 19]
     d = []
-    n = seed
     for _ in range(4):
         d.append(int(n % 26))
         n //= 26 
