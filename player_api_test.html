@@ -16,7 +16,7 @@
 
     <div style="font-size: 24px;" id="status"></div>
 
-    <div style="display: none;">
+    <div style="display: block;">
         <div id="player"></div>
     </div>
 
@@ -25,6 +25,7 @@
         const id_form = document.getElementById("connect");
         const id_text = document.getElementById("video_id");
         const status = document.getElementById("status");
+        const callbacks = [];
 
         // YouTube IFrame API init stuff
         var tag = document.createElement("script");
@@ -52,20 +53,43 @@
             id_form.addEventListener("submit", (e) => {
                 e.preventDefault();
                 const video_id = id_text.value;
-                console.log(video_id);
-                player.loadVideoById({videoId: video_id, startSeconds:0, endSeconds:10})
-                player.playVideo();
 
-                clearInterval(interval);
-                let T = 10;
-                interval = setInterval(() => {
-                    if (T > 0) {
-                        status.innerHTML = T;
-                        T -= 1;
-                    } else {
-                        status.innerHTML = "";
-                        clearInterval(interval);
+                let timeout_id;
+                callbacks.push((e) => {
+                    clearTimeout(timeout_id);
+                    const code = e.data;
+                    switch (code) {
+                        case 2:
+                        console.error("Invalid video id");
+                            break;
+                        case 5:
+                        console.error("Player error");
+                            break;
+                        case 100:
+                        console.error("Video not found");
+                            break;
+                        case 101:
+                        case 150:
+                        console.error("Video not embeddable");
+                            break;
                     }
+                    alert("Unplayable");
+                });
+
+                player.cueVideoById({videoId: video_id, startSeconds:0, endSeconds:10})
+                timeout_id = setTimeout(() => {
+                    player.playVideo();
+                    clearInterval(interval);
+                    let T = 10;
+                    interval = setInterval(() => {
+                        if (T > 0) {
+                            status.innerHTML = T;
+                            T -= 1;
+                        } else {
+                            status.innerHTML = "";
+                            clearInterval(interval);
+                        }
+                    }, 1000);
                 }, 1000);
             });
         }
@@ -73,7 +97,9 @@
 
         }
         function onPlayerError(e) {
-            console.log(e)
+            if (callbacks.length > 0) {
+                callbacks.pop()(e);
+            }
         }
     </script>
 
