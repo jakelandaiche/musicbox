@@ -1,8 +1,6 @@
 import asyncio
 import json
-import secrets
 import websockets
-import logging
 import json
 
 from code import code
@@ -38,7 +36,6 @@ async def ws_handler(websocket):
 async def main(host, port):
     async with websockets.serve(ws_handler, host, port):
         await asyncio.Future()
-
 
 import argparse
 parser = argparse.ArgumentParser(
