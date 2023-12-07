@@ -2,7 +2,7 @@ import asyncio
 
 class Hub:
     def __init__(self):
-        self.subscriptions = {}
+        self.subscriptions = set()
 
     def pub(self, message):
         for queue in self.subscriptions:

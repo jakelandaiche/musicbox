@@ -1,10 +1,6 @@
-import json
 import asyncio
-import websockets
 from bidict import bidict
 
-from player import Player
-from game import Game
 from utils import Hub, Sub
 
 ROOMS = bidict()
@@ -13,5 +9,14 @@ class Room:
     """ room """
 
     def __init__(self, websocket):
-        print("Room created")
+        self.websocket = websocket
+
         self.messages = Hub()
+        self.players = bidict()
+
+        asyncio.create_task(self.run())
+
+    async def run(self):
+        with Sub(self.messages) as queue:
+
+            pass
