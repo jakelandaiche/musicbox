@@ -1,7 +1,7 @@
 seed = 68648
 i = 0
 
-def code():
+def generate_code():
     global i 
     n = seed + 41055 * i 
     i += 1 

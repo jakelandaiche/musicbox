@@ -2,7 +2,7 @@ import pandas as pd
 
 def setup_dataset():
     dataset = pd.read_csv(
-        "eval_segments.csv",
+        "eval_segments_old.csv",
         sep=", ",
         on_bad_lines="skip",
         skiprows=2,
