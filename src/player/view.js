@@ -1,14 +1,19 @@
 import { socket } from "/src/socket.js"
-import { state, Name } from "/src/player/model.js"
+import { STATE, NAME, COLOR, READY } from "/src/player/model.js"
 import { update, bind } from "/src/state.js"
 
 const divs = {
   CONNECT: "div-connect",
   JOIN: "div-join",
-  GAMESTART: "div-gamestart"
+  LOBBY: "div-lobby",
+  GAMESTART: "div-gamestart",
+  ROUNDSTART: "div-roundstart",
+  ROUNDCOLLECT: "div-roundcollect",
+  ROUNDEND: "div-roundend",
+  GAMEEND: "div-gameend",
 }
 
-bind(state, (s) => {
+bind(STATE, (s) => {
   Object.keys(divs)
     .forEach(k => {
       document.getElementById(divs[k]).style.display = "none"
@@ -19,7 +24,7 @@ bind(state, (s) => {
 export function initConnect() {
   const connectform = document.getElementById("connectform")
   connectform.addEventListener("submit", (event) => {
-    event.preventDefault(); // prevent browser from reloading (default behavior)
+    event.preventDefault() // prevent browser from reloading (default behavior)
 
     // init socket
     const formData = new FormData(connectform);
@@ -39,7 +44,7 @@ export function initJoin() {
     const name = formData.get("name");
     const code = formData.get("code");
 
-    update(Name, name)
+    update(NAME, name)
     socket.send({
       type: "join",
       name: name,
@@ -48,9 +53,22 @@ export function initJoin() {
   });
 }
 
-export function initGameStart() {
-  const nametext = document.getElementById("gamestart-nametext")
-  bind(Name, (n) => {
+export function initLobby() {
+  const nametext = document.getElementById("lobby-nametext")
+  const colorinput = document.getElementById("lobby-colorinput")
+  const readyinput = document.getElementById("lobby-readyinput")
+
+  colorinput.addEventListener("change", (event) => {
+    update(COLOR, colorinput.value)
+  })
+  readyinput.addEventListener("change", (event) => {
+    update(READY, readyinput.checked)
+  })
+
+  bind(NAME, (n) => {
     nametext.innerText = n
   })
+}
+
+export function initGameStart() {
 }

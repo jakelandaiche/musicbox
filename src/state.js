@@ -1,5 +1,6 @@
 /**
- *  State module
+ *   Basic reactive state
+ *   @module
  */
 
 const state = {}

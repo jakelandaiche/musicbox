@@ -31,7 +31,7 @@ class MusicBoxSocket {
 
     // Message handler
     this.socket.addEventListener("message", (event) => {
-      console.group("WebSocket Message")
+      console.group("Received WebSocket Message")
       console.log("Raw:", event.data);
 
       // Try to parse data
@@ -80,8 +80,12 @@ class MusicBoxSocket {
   }
 
   send(data) {
-    if (this.socket !== null && this.socket.readyState !== 3) 
-      this.socket.send(JSON.stringify(data))
+    if (this.socket === null || this.socket.readyState === 3) return;
+    
+    console.group("Sent WebSocket Message")
+    console.log("Payload", data)
+    this.socket.send(JSON.stringify(data))
+    console.groupEnd()
   }
 
   addMessageHandler(type, handler) {

@@ -1,4 +1,5 @@
 var videoplayer = null;
+var videoreplaybutton = null;
 
 const tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
@@ -8,9 +9,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 function play_video(video_id, start, end) {
   if (videoplayer === null) return;
 
-  let timeout_id;
   videoplayer.err_callbacks.push((error) => {
-      clearTimeout(timeout_id);
       const code = error.data;
       switch (code) {
           case 2:
@@ -30,25 +29,11 @@ function play_video(video_id, start, end) {
       alert("Unplayable");
   });
 
-  player.cueVideoById({
+  videoplayer.cueVideoById({
     videoId: video_id, 
     startSeconds: start, 
     endSeconds: end
   })
-
-  timeout_id = setTimeout(() => {
-      videoplayer.playVideo();
-      clearInterval(videoplayer.interval);
-      let T = 10;
-      interval = setInterval(() => {
-        if (T > 0) {
-          console.log(T);
-          T -= 1;
-        } else {
-          clearInterval(videoplayer.interval);
-        }
-      }, 1000);
-  }, 1000);
 }
 
 function onYouTubeIframeAPIReady () {
