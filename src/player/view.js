@@ -1,20 +1,20 @@
-import { socket } from "./src/socket.js";
-import { STATE, NAME, COLOR, READY } from "./src/player/model.js";
-import { update, bind } from "./src/state.js";
+import { socket } from "../socket.js"
+import { update, bind } from "../state.js"
+import { STATE, NAME, COLOR, READY } from "./model.js"
 
 export const stateViews = {
   CONNECT: {
     div: "div-connect",
     init: () => {
-      const connectform = document.getElementById("connectform");
+      const connectform = document.getElementById("connectform")
       connectform.addEventListener("submit", (event) => {
-        event.preventDefault(); // prevent browser from reloading (default behavior)
+        event.preventDefault() // prevent browser from reloading (default behavior)
 
         // init socket
-        const formData = new FormData(connectform);
-        const ws_host = formData.get("ws-host");
-        socket.init(ws_host);
-      });
+        const formData = new FormData(connectform)
+        const ws_host = formData.get("ws-host")
+        socket.init(ws_host)
+      })
     },
     reset: () => {},
   },
@@ -22,59 +22,59 @@ export const stateViews = {
   JOIN: {
     div: "div-join",
     init: () => {
-      const joinform = document.getElementById("joinform");
+      const joinform = document.getElementById("joinform")
 
       joinform.addEventListener("submit", (event) => {
-        event.preventDefault(); // prevent browser from reloading (default behavior)
+        event.preventDefault() // prevent browser from reloading (default behavior)
 
         // init socket
-        const formData = new FormData(joinform);
-        const name = formData.get("name");
-        const code = formData.get("code");
+        const formData = new FormData(joinform)
+        const name = formData.get("name")
+        const code = formData.get("code")
 
-        update(NAME, name);
+        update(NAME, name)
         socket.send({
           type: "join",
           name: name,
           code: code,
-        });
-      });
+        })
+      })
     },
     reset: () => {
-      const codeinput = document.getElementById("join-codeinput");
-      const nameinput = document.getElementById("join-nameinput");
+      const codeinput = document.getElementById("join-codeinput")
+      const nameinput = document.getElementById("join-nameinput")
 
-      codeinput.value = "";
-      nameinput.value = "";
+      codeinput.value = ""
+      nameinput.value = ""
     },
   },
 
   LOBBY: {
     div: "div-lobby",
     init: () => {
-      const nametext = document.getElementById("lobby-nametext");
-      const colorinput = document.getElementById("lobby-colorinput");
-      const readyinput = document.getElementById("lobby-readyinput");
+      const nametext = document.getElementById("lobby-nametext")
+      const colorinput = document.getElementById("lobby-colorinput")
+      const readyinput = document.getElementById("lobby-readyinput")
 
       colorinput.addEventListener("change", (event) => {
-        update(COLOR, colorinput.value);
-      });
+        update(COLOR, colorinput.value)
+      })
       readyinput.addEventListener("change", (event) => {
-        update(READY, readyinput.checked);
-      });
+        update(READY, readyinput.checked)
+      })
 
       bind(NAME, (n) => {
-        nametext.innerText = n;
-      });
+        nametext.innerText = n
+      })
     },
     reset: () => {
-      const nametext = document.getElementById("lobby-nametext");
-      const colorinput = document.getElementById("lobby-colorinput");
-      const readyinput = document.getElementById("lobby-readyinput");
+      const nametext = document.getElementById("lobby-nametext")
+      const colorinput = document.getElementById("lobby-colorinput")
+      const readyinput = document.getElementById("lobby-readyinput")
 
-      nametext.innerText = "";
-      colorinput.value = "#000000";
-      readyinput.checked = false;
+      nametext.innerText = ""
+      colorinput.value = "#000000"
+      readyinput.checked = false
     },
   },
 
@@ -93,33 +93,33 @@ export const stateViews = {
   ROUNDCOLLECT: {
     div: "div-roundcollect",
     init: () => {
-      const answerform = document.getElementById("answerform");
-      const answerinput = document.getElementById("answerinput");
-      const postsubmit = document.getElementById("roundcollect-postsubmit");
+      const answerform = document.getElementById("answerform")
+      const answerinput = document.getElementById("answerinput")
+      const postsubmit = document.getElementById("roundcollect-postsubmit")
 
       answerform.addEventListener("submit", (event) => {
-        event.preventDefault(); // prevent browser from reloading (default behavior)
+        event.preventDefault() // prevent browser from reloading (default behavior)
 
-        const formData = new FormData(answerform);
-        const answer = formData.get("answer");
+        const formData = new FormData(answerform)
+        const answer = formData.get("answer")
 
         socket.send({
           type: "answer",
           answer: answer,
-        });
+        })
 
-        answerform.style.display = "none";
-        postsubmit.style.display = "block";
-      });
+        answerform.style.display = "none"
+        postsubmit.style.display = "block"
+      })
     },
     reset: () => {
-      const answerform = document.getElementById("answerform");
-      const answerinput = document.getElementById("answerinput");
-      const postsubmit = document.getElementById("roundcollect-postsubmit");
+      const answerform = document.getElementById("answerform")
+      const answerinput = document.getElementById("answerinput")
+      const postsubmit = document.getElementById("roundcollect-postsubmit")
 
-      answerform.style.display = "block";
-      postsubmit.style.display = "none";
-      answerinput.value = "";
+      answerform.style.display = "block"
+      postsubmit.style.display = "none"
+      answerinput.value = ""
     },
   },
 
@@ -134,7 +134,7 @@ export const stateViews = {
     init: () => {},
     reset: () => {},
   },
-};
+}
 
 const divs = {
   CONNECT: "div-connect",
@@ -145,20 +145,20 @@ const divs = {
   ROUNDCOLLECT: "div-roundcollect",
   ROUNDEND: "div-roundend",
   GAMEEND: "div-gameend",
-};
+}
 
 bind(STATE, (s) => {
   Object.keys(stateViews)
     .filter((k) => k != s)
     .forEach((k) => {
-      document.getElementById(stateViews[k].div).style.display = "none";
-    });
+      document.getElementById(stateViews[k].div).style.display = "none"
+    })
   Object.keys(stateViews)
     .filter((k) => k != s)
-    .forEach((k) => stateViews[k].reset());
-  document.getElementById(stateViews[s].div).style.display = "block";
-});
+    .forEach((k) => stateViews[k].reset())
+  document.getElementById(stateViews[s].div).style.display = "block"
+})
 
 export function initViews() {
-  Object.keys(stateViews).forEach((k) => stateViews[k].init());
+  Object.keys(stateViews).forEach((k) => stateViews[k].init())
 }
