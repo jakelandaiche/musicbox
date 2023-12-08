@@ -1,9 +1,31 @@
 import json
 import asyncio
+
 from data import get_video
 from utils import Sub
+from database import Database
+
+common_words = [
+    "the",
+    "be",
+    "to",
+    "of",
+    "and",
+    "a",
+    "in",
+    "that",
+    "have",
+    "it",
+    "for",
+    "not",
+    "on",
+    "with",
+    "as",
+    "at",
+]
 
 async def start_game(room, N):
+    db = Database()
     player_data = {player.name: PlayerData(player) for player in room.players.values()}
 
     async with room.lock:
@@ -73,6 +95,9 @@ async def start_game(room, N):
             "state": "GAMEEND"
             }))
 
+        db.cur.close()
+        db.con.close()
+
 
 class PlayerData:
     def __init__(self, player):
@@ -98,25 +123,48 @@ class PlayerData:
 
 def compute_scores(player_data, video_id):
     scores = []
-    for player in player_data.values():
-        if player.answer is not None:
-            player.score = len(player.answer)
 
-            scores.append({
-                "id": video_id,
-                "label": player.answer,
-                "score": player.score
-                })
+    with_answers = [player for player in player_data.values if player.answer is not None]
 
-        else:
-            player.score = 0
-        player.total = player.total + player.score 
+
+    for player in with_answers:
+        score = 0
+        mult = 10
+        
+        # get words
+        answer_l = player.answer \
+                .replace(".","") \
+                .replace(",","") \
+                .split(" ")
+        answer_s = set(answer_l)
+
+        for word in answer_s:
+            if word not in common_words:
+                # increase multiplier for each uncommon word
+                if mult < 20:
+                    mult += 1
+
+                # more points for words in common with others
+                for other in with_answers:
+                    if other is not player:
+                        score += 1 if other.answer.count(word) else 0
+
+        player.score = score * mult
+        player.total = player.total + player.score
+
+        scores.append({
+            "id": video_id,
+            "name": player.name,
+            "label": player.answer,
+            "score": player.score
+            })
 
     return scores
 
 
 
 async def all_submit(room, player_data):
+    """ returns when all players have submitted """ 
     with Sub(room.messages) as queue:
         try:
             while True:
