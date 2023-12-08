@@ -7,6 +7,8 @@ from game import start_game
 
 ROOMS = bidict()
 
+MIN_PLAYERS_TO_START = 0
+
 class Room:
     """ room """
 
@@ -49,7 +51,7 @@ class Room:
                     num_players = len(self.players)
                     all_ready = all(player.ready for player in self.players.values())
 
-                    if num_players >= 2 and all_ready:
+                    if num_players >= MIN_PLAYERS_TO_START and all_ready:
                         self.game = asyncio.create_task(start_game(self, 5))
 
                     
