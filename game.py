@@ -1,60 +1,72 @@
-import asyncio
 import json
-import random
-
+import asyncio
 from data import get_videos
 
-def decide_winner(answers):
-    return random.choice(answers)
+async def all_submit(room):
+    pass
 
-class Game:
-    def __init__(self, room, N):
-        self.state = "START"
-        self.room = room
-        self.N = N
+async def all_submit_or(room, T):
+    await asyncio.sleep(30)
 
-    async def run(self):
-        # game explanation
-        self.room.room_text = f"<h3>MusicBox</h3>" + "Welcome to MusicBox. The game will start soon"
-        await self.room.update_frontend()
-        await self.room.set_countdown(15)
-        await asyncio.sleep(17)
-        
-        for i in range(self.N):
-            # play audio
-            for player in self.room.players.values():
-                player.answer = ""
-            self.room.show_answers = False 
-            video = get_videos()[0]
-            msg = {"type": "video", "id": video["id"], "start_time": video["start_time"]}
-            await self.room.websocket.send(json.dumps(msg))
+class GamePlayerData:
+    def __init__(self):
+        self.answer = None
+        self.total = 0
+        self.score = 0
 
-            self.room.room_text = f"<h3>Round {i+1}</h3>" + "Listen to this audio carefully"
-            await self.room.update_frontend()
-            await self.room.set_countdown(15)
-            await asyncio.sleep(17)
+    def clear(self):
+        self.answer = None
+        self.score = 0
 
-            # collect answers
-            self.room.room_text = f"<h3>Round {i+1}</h3>" + "Put down your answers"
-            await self.room.update_frontend()
-            await self.room.set_countdown(30)
-            await asyncio.sleep(32)
+    def to_obj(self):
+        return {
+                "answer": self.answer,
+                "total": self.total,
+                "score": self.score,
+                }
 
-            # suspense 
-            self.room.room_text = f"<h3>Round {i+1}</h3>" + "Revealing the answers in..."
-            await self.room.update_frontend()
-            await self.room.set_countdown(7)
-            await asyncio.sleep(9)
+async def start_game(room, N):
+    playerdata = {name: GamePlayerData() for name in room.players.keys()}
+    print(playerdata)
 
-            # round end
-            answers = [player.answer for player in self.room.players.values()]
-            print(f"results for {video['id']}")
-            print(answers)
-            self.room.room_text = f"<h3>Round {i+1}</h3>" + ""
-            self.room.show_answers = True
-            await self.room.update_frontend()
-            await self.room.set_countdown(15)
-            await asyncio.sleep(17)
+    async with room.lock:
+        # Game Start
+        await room.broadcast(json.dumps({
+            "type": "state",
+            "state": "GAMESTART"
+            }))
+        await asyncio.sleep(30)
 
-        self.room.room_text = "The game is over. Thanks for playing"
-        await self.room.update_frontend()
+
+        for n in range(1, N+1):
+            # Round Start
+            await room.broadcast(json.dumps({
+                "type": "state",
+                "state": "ROUNDSTART"
+                }))
+            await room.websocket.send(json.dumps({
+
+                }))
+            await asyncio.sleep(30)
+
+            # Round Collect
+            await room.broadcast(json.dumps({
+                "type": "state",
+                "state": "ROUNDCOLLECT"
+                }))
+            await all_submit_or(room, 30)
+
+            # Round End 
+            await room.broadcast(json.dumps({
+                "type": "state",
+                "state": "ROUNDEND"
+                }))
+            await asyncio.sleep(30)
+
+
+        await room.broadcast(json.dumps({
+            "type": "state",
+            "state": "GAMEEND"
+            }))
+        await asyncio.sleep(room, 30)
+
