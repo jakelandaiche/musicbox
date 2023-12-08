@@ -10,7 +10,9 @@ function play_video(video_id, start, end) {
   if (videoplayer === null) return;
   console.log("Playing video...")
 
+  let timeout_id;
   videoplayer.err_callbacks.push((error) => {
+      clearTimeout(timeout_id);
       const code = error.data;
       switch (code) {
           case 2:
@@ -35,6 +37,9 @@ function play_video(video_id, start, end) {
     startSeconds: start, 
     endSeconds: end
   })
+  timeout_id = setTimeout(() => {
+      videoplayer.playVideo();
+  }, 1000);
 }
 
 function onYouTubeIframeAPIReady () {
