@@ -166,7 +166,7 @@ export const stateViews = {
             p.style.color = data.color
 
             const p2 = document.createElement("p")
-            p2.innerText = `Final score: ${data.score}`
+            p2.innerText = `Final score: ${data.total}`
 
             d.appendChild(p)
             d.appendChild(p2)
