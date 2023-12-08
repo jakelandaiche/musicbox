@@ -1,4 +1,4 @@
-import { socket } from "..socket.js";
+import { socket } from "../socket.js";
 import { STATE, NAME, COLOR, READY } from "./model.js";
 import { update, bind } from "./src/state.js";
 
