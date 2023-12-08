@@ -1,12 +1,12 @@
-import { socket } from "./src/socket.js";
+import { socket } from "../socket.js";
+import { bind } from "../state.js";
 import {
   STATE,
   CODE,
   PLAYERS,
   PLAYER_DATA,
   ROUND_NUM,
-} from "./src/host/model.js";
-import { bind } from "./src/state.js";
+} from "./model.js";
 
 export const stateViews = {
   CONNECT: {

@@ -1,8 +1,8 @@
-import { socket } from "/src/socket.js";
-import { update } from "/src/state.js"
+import { socket } from "../socket.js";
+import { update } from "../state.js"
 
-import { STATE, CODE } from "/src/host/model.js"
-import * as View from "/src/host/view.js"
+import { STATE, CODE } from "./model.js"
+import * as View from "./view.js"
 
 console.log("%cStarting MusicBox!", "font-size: 18px; font-weight: bold;");
 
