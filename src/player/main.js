@@ -6,9 +6,7 @@ import * as View from "/src/player/view.js"
 
 console.log("%cStarting MusicBox! (Player)", "font-size: 18px; font-weight: bold;");
 
-View.initConnect()
-View.initJoin()
-View.initLobby()
+View.initViews()
 
 console.info("Finished initializing view");
 

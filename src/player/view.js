@@ -2,6 +2,113 @@ import { socket } from "/src/socket.js"
 import { STATE, NAME, COLOR, READY } from "/src/player/model.js"
 import { update, bind } from "/src/state.js"
 
+export const stateViews = {
+  CONNECT: {
+    div: "div-connect",
+    init: () => {
+      const connectform = document.getElementById("connectform")
+      connectform.addEventListener("submit", (event) => {
+        event.preventDefault() // prevent browser from reloading (default behavior)
+
+        // init socket
+        const formData = new FormData(connectform);
+        const ws_host = formData.get("ws-host");
+        socket.init(ws_host) 
+      });
+    },
+    reset: () => {},
+  },
+
+  JOIN: {
+    div: "div-join",
+    init: () => {
+      const joinform = document.getElementById("joinform")
+
+      joinform.addEventListener("submit", (event) => {
+        event.preventDefault(); // prevent browser from reloading (default behavior)
+
+        // init socket
+        const formData = new FormData(joinform);
+        const name = formData.get("name");
+        const code = formData.get("code");
+
+        update(NAME, name)
+        socket.send({
+          type: "join",
+          name: name,
+          code: code,
+        }) 
+      });
+    },
+    reset: () => {
+      const codeinput = document.getElementById("join-codeinput")
+      const nameinput = document.getElementById("join-nameinput")
+
+      codeinput.innerText = ""
+      nameinput.innerText = ""
+    },
+  },
+
+  LOBBY: {
+    div: "div-lobby",
+    init: () => {
+      const nametext = document.getElementById("lobby-nametext")
+      const colorinput = document.getElementById("lobby-colorinput")
+      const readyinput = document.getElementById("lobby-readyinput")
+
+      colorinput.addEventListener("change", (event) => {
+        update(COLOR, colorinput.value)
+      })
+      readyinput.addEventListener("change", (event) => {
+        update(READY, readyinput.checked)
+      })
+
+      bind(NAME, (n) => {
+        nametext.innerText = n
+      })
+    },
+    reset: () => {
+      const nametext = document.getElementById("lobby-nametext")
+      const colorinput = document.getElementById("lobby-colorinput")
+      const readyinput = document.getElementById("lobby-readyinput")
+
+      nametext.innerText = ""
+      colorinput.value = "#000000"
+      readyinput.checked = false
+    },
+  },
+
+  GAMESTART: {
+    div: "div-gamestart",
+    init: () => {},
+    reset: () => {},
+  },
+
+  ROUNDSTART: {
+    div: "div-roundstart",
+    init: () => {},
+    reset: () => {},
+  },
+
+  ROUNDCOLLECT: {
+    div: "div-roundcollect",
+    init: () => {},
+    reset: () => {},
+  },
+
+  ROUNDEND: {
+    div: "div-roundend",
+    init: () => {},
+    reset: () => {},
+  },
+
+  GAMEEND: {
+    div: "div-gameend",
+    init: () => {},
+    reset: () => {},
+  },
+}
+
 const divs = {
   CONNECT: "div-connect",
   JOIN: "div-join",
@@ -14,61 +121,18 @@ const divs = {
 }
 
 bind(STATE, (s) => {
-  Object.keys(divs)
+  Object.keys(stateViews)
+    .filter(k => k != s)
     .forEach(k => {
-      document.getElementById(divs[k]).style.display = "none"
+      document.getElementById(stateViews[k].div).style.display = "none"
     })
-  document.getElementById(divs[s]).style.display = "block"
+  Object.keys(stateViews)
+    .filter(k => k != s)
+    .forEach(k => stateViews[k].reset())
+  document.getElementById(stateViews[s].div).style.display = "block"
 })
 
-export function initConnect() {
-  const connectform = document.getElementById("connectform")
-  connectform.addEventListener("submit", (event) => {
-    event.preventDefault() // prevent browser from reloading (default behavior)
-
-    // init socket
-    const formData = new FormData(connectform);
-    const ws_host = formData.get("ws-host");
-    socket.init(ws_host) 
-  });
-}
-
-export function initJoin() {
-  const joinform = document.getElementById("joinform")
-
-  joinform.addEventListener("submit", (event) => {
-    event.preventDefault(); // prevent browser from reloading (default behavior)
-
-    // init socket
-    const formData = new FormData(joinform);
-    const name = formData.get("name");
-    const code = formData.get("code");
-
-    update(NAME, name)
-    socket.send({
-      type: "join",
-      name: name,
-      code: code,
-    }) 
-  });
-}
-
-export function initLobby() {
-  const nametext = document.getElementById("lobby-nametext")
-  const colorinput = document.getElementById("lobby-colorinput")
-  const readyinput = document.getElementById("lobby-readyinput")
-
-  colorinput.addEventListener("change", (event) => {
-    update(COLOR, colorinput.value)
-  })
-  readyinput.addEventListener("change", (event) => {
-    update(READY, readyinput.checked)
-  })
-
-  bind(NAME, (n) => {
-    nametext.innerText = n
-  })
-}
-
-export function initGameStart() {
+export function initViews() {
+  Object.keys(stateViews)
+    .forEach(k => stateViews[k].init())
 }
