@@ -45,7 +45,7 @@
       <div id="div-gamestart" style="display: none;">
         <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
           <p>Welcome to MusicBox. This game is [...]</p>
-          <div class="progressbar" style="--duration: 30;">
+          <div class="progressbar" style="--duration: 15;">
             <div></div>
           </div>
         </div>
@@ -54,8 +54,9 @@
       <!-- Round Start -->
       <div id="div-roundstart" style="display: none;">
         <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <h2 id="roundstart-roundnumtext"></h2>
           <p>Listen carefully</p>
-          <div class="progressbar" style="--duration: 30;">
+          <div class="progressbar" style="--duration: 20;">
             <div></div>
           </div>
         </div>
@@ -92,10 +93,13 @@
         <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
           <p>Thanks for playing!</p>
         </div>
+
+        <div id="gameend-playerlist">
+        </div>
       </div>
 
       <!-- Hidden video player -->
-      <div style="display: none;">
+      <div style="display: block;">
         <div id="videoplayer"></div>
         <script src="/src/videoplayer.js"></script>
       </div>

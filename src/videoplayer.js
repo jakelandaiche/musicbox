@@ -8,6 +8,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function play_video(video_id, start, end) {
   if (videoplayer === null) return;
+  console.log("Playing video...")
 
   videoplayer.err_callbacks.push((error) => {
       const code = error.data;

@@ -1,5 +1,5 @@
 import { socket } from "/src/socket.js"
-import { STATE, CODE, PLAYERS } from "/src/host/model.js"
+import { STATE, CODE, PLAYERS, PLAYER_DATA, ROUND_NUM } from "/src/host/model.js"
 import { bind } from "/src/state.js"
 
 export const stateViews = {
@@ -72,6 +72,11 @@ export const stateViews = {
   ROUNDSTART: {
     div: "div-roundstart",
     init: () => {
+      const roundnumtext = document.getElementById("roundstart-roundnumtext")
+
+      bind(ROUND_NUM, round_num => {
+        roundnumtext.innerText = `Round ${round_num}`
+      })
     },
     reset: () => {
     },
@@ -80,20 +85,97 @@ export const stateViews = {
   ROUNDCOLLECT: {
     div: "div-roundcollect",
     init: () => {
+      const playerlist = document.getElementById("roundcollect-playerlist")
+
+      bind(PLAYER_DATA, player_data => {
+        while (playerlist.hasChildNodes())
+          playerlist.removeChild(playerlist.firstChild)
+
+        player_data
+          .map(data => {
+            const d = document.createElement("div")
+            const p = document.createElement("p")
+            p.innerText = data.name + (data.answer !== null ? " ✅" : "") + ` (${data.total})`
+
+            p.style.color = data.color
+
+            const p2 = document.createElement("p")
+            p2.innerText = (data.answer !== null ? "*".repeat(data.answer.length) : "")
+
+            d.appendChild(p)
+            d.appendChild(p2)
+
+            return d
+          })
+          .forEach(elem => playerlist.appendChild(elem))
+      })
     },
     reset: () => {
+
     },
   },
 
   ROUNDEND: {
     div: "div-roundend",
-    init: () => {},
+    init: () => {
+      const playerlist = document.getElementById("roundend-playerlist")
+
+      bind(PLAYER_DATA, player_data => {
+        while (playerlist.hasChildNodes())
+          playerlist.removeChild(playerlist.firstChild)
+
+        player_data
+          .map(data => {
+            const d = document.createElement("div")
+            const p = document.createElement("p")
+            p.innerText = data.name + (data.answer !== null ? " ✅" : "") + ` (${data.total})`
+            p.style.color = data.color
+
+            const p2 = document.createElement("p")
+            p2.innerText = (data.answer !== null ? data.answer : "")
+
+            const p3 = document.createElement("p")
+            p3.innerText = `Score: ${data.score}`
+
+            d.appendChild(p)
+            d.appendChild(p2)
+            d.appendChild(p3)
+
+            return d
+          })
+          .forEach(elem => playerlist.appendChild(elem))
+      })
+    },
     reset: () => {},
   },
 
   GAMEEND: {
     div: "div-gameend",
-    init: () => {},
+    init: () => {
+      const playerlist = document.getElementById("gameend-playerlist")
+
+      bind(PLAYER_DATA, player_data => {
+        while (playerlist.hasChildNodes())
+          playerlist.removeChild(playerlist.firstChild)
+
+        player_data
+          .map(data => {
+            const d = document.createElement("div")
+            const p = document.createElement("p")
+            p.innerText = data.name 
+            p.style.color = data.color
+
+            const p2 = document.createElement("p")
+            p2.innerText = `Final score: ${data.score}`
+
+            d.appendChild(p)
+            d.appendChild(p2)
+
+            return d
+          })
+          .forEach(elem => playerlist.appendChild(elem))
+      })
+    },
     reset: () => {},
   },
 }
