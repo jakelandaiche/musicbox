@@ -44,8 +44,8 @@ export const stateViews = {
       const codeinput = document.getElementById("join-codeinput")
       const nameinput = document.getElementById("join-nameinput")
 
-      codeinput.innerText = ""
-      nameinput.innerText = ""
+      codeinput.value = ""
+      nameinput.value = ""
     },
   },
 
@@ -92,8 +92,35 @@ export const stateViews = {
 
   ROUNDCOLLECT: {
     div: "div-roundcollect",
-    init: () => {},
-    reset: () => {},
+    init: () => {
+      const answerform = document.getElementById("answerform")
+      const answerinput = document.getElementById("answerinput")
+      const postsubmit = document.getElementById("roundcollect-postsubmit")
+
+      answerform.addEventListener("submit", (event) => {
+        event.preventDefault() // prevent browser from reloading (default behavior)
+
+        const formData = new FormData(answerform)
+        const answer = formData.get("answer")
+
+        socket.send({
+          type: "answer",
+          answer: answer,
+        })
+
+        answerform.style.display="none"
+        postsubmit.style.display="block"
+      })
+    },
+    reset: () => {
+      const answerform = document.getElementById("answerform")
+      const answerinput = document.getElementById("answerinput")
+      const postsubmit = document.getElementById("roundcollect-postsubmit")
+
+      answerform.style.display = "block"
+      postsubmit.style.display = "none"
+      answerinput.value = ""
+    },
   },
 
   ROUNDEND: {

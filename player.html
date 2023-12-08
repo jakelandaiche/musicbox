@@ -58,22 +58,36 @@
 
       <!-- Round Start -->
       <div id="div-roundstart" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>Listen to the audio carefully</p>
+        </div>
       </div>
 
       <!-- Round Collect -->
       <div id="div-roundcollect" style="display: none;">
-        <form id="answerform" style="width: 200px;">
-          <textarea name="answer" placeholder="Answer, e.g "></textarea>
-          <input type="submit" value="Submit"></input>
-        </form>
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <form id="answerform" style="width: 400px;">
+            <textarea id="answerinput" name="answer" placeholder="Answer, e.g "></textarea>
+            <input type="submit" value="Submit"></input>
+          </form>
+          <div id="roundcollect-postsubmit" style="display: none;"> 
+            <p>You've submitted your answer!</p>
+          </div>
+        </div>
       </div>
 
       <!-- Round End -->
       <div id="div-roundend" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>See how everyone else answered</p>
+        </div>
       </div>
 
       <!-- Game End -->
       <div id="div-gameend" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>Thanks for playing!</p>
+        </div>
       </div>
 
       <script type="module" src="/src/player/main.js"></script>
