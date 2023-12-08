@@ -1,14 +1,10 @@
-const clear = (elem) => elem.innerHTML = "";
-const status = document.getElementById("status");
-
 var videoplayer = null;
 
-function init_videoplayer() {
-  const tag = document.createElement("script");
-  tag.src = "https://www.youtube.com/iframe_api";
-  const firstScriptTag = document.getElementsByTagName("script")[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-}
+const tag = document.createElement("script");
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
 function play_video(video_id, start, end) {
   if (videoplayer === null) return;
 
@@ -59,7 +55,7 @@ function onYouTubeIframeAPIReady () {
   console.info("Player API is ready");
 
   const err_callbacks = [];
-  videoplayer = new YT.Player("player", {
+  videoplayer = new YT.Player("videoplayer", {
     height: "390",
     width: "640",
     videoId: "y8OnoxKotPQ",

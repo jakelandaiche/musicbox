@@ -4,9 +4,13 @@
     <title>MusicBox</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./css/stylesheet.css">
+    <link rel="stylesheet" href="/css/stylesheet.css">
 
-    <script type="module" src="./src/socket.js"></script>
+    <script type="module" src="/src/socket.js"></script>
+    <script type="module" src="/src/state.js"></script>
+
+    <script type="module" src="/src/host/model.js"></script>
+    <script type="module" src="/src/host/view.js"></script>
   </head>
 
   <body>
@@ -15,7 +19,35 @@
       <hr>
     </header>
     <main>
-      <div id="root"></div>
-      <script type="module" src="./src/host/main.js"></script>
+
+      <!-- Connection form -->
+      <div id="div-connect" style="display: none;">
+        <form id="connectform" style="width: 200px;">
+          <label for="ws-host">WebSocket URL</label>
+          <textarea name="ws-host">ws://localhost:8080</textarea>
+          <input type="submit" value="Connect"></input>
+        </form>
+      </div>
+
+      <!-- Game Start Lobby -->
+      <div id="div-lobby" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>Join using the code</p>
+          <h1 id="gamestart-codetext" style="text-align: center;"></h1>
+          <button id="gamestart-startbtn" style="width: 100px;">Start Game</button>
+        </div>
+        To start, there must be at least three players, and all players must be ready.
+        <h2>Players</h2>
+        <div id="gamestart-playerlist" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+
+
+      <div style="display: none;">
+        <div id="videoplayer"></div>
+        <script src="/src/videoplayer.js"></script>
+      </div>
+
+      <script type="module" src="/src/host/main.js"></script>
+    </main>
   </body>
 </html>

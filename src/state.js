@@ -1,14 +1,27 @@
-// Lobby
-// GameStart
-// RoundStart
-// RoundCollect
-// RoundEnd
-// GameEnd
-//
-const STATE = {
-  GAME_START: 0,
-  ROUND_START: 1,
-  ROUND_COLLECT: 2,
-  ROUND_END: 3,
-  GAME_END: 4,
+/**
+ *  State module
+ */
+
+const state = {}
+const handlers = {}
+
+export function declare(init, name) {
+  const sym = name === undefined ? Symbol() : Symbol(name)
+  state[sym] = init
+  handlers[sym] = []
+  return sym
+}
+
+export function update(sym, value) {
+  console.debug(`[STATE UPDATE] ${sym.description}: ${state[sym]} -> ${value}`)
+  state[sym] = value
+  handlers[sym].forEach(h => h(value))
+}
+
+export function retrieve(sym) {
+  return state[sym]
+}
+
+export function bind(sym, handler) {
+  handlers[sym].push(handler)
 }
