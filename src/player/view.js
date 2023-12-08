@@ -1,5 +1,5 @@
-import { socket } from "./src/socket.js";
-import { STATE, NAME, COLOR, READY } from "./src/player/model.js";
+import { socket } from "..socket.js";
+import { STATE, NAME, COLOR, READY } from "./model.js";
 import { update, bind } from "./src/state.js";
 
 export const stateViews = {
