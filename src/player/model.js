@@ -1,5 +1,5 @@
-import { socket } from "./src/socket.js";
-import { declare, update, bind, retrieve } from "./src/state.js";
+import { socket } from "../socket.js";
+import { declare, update, bind, retrieve } from "../state.js";
 
 export const STATE = declare("CONNECT", "Page State");
 
