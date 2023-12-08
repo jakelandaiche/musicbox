@@ -21,6 +21,6 @@ class Database:
 
     def write_answer(self, player, round):
         self.cur.execute(
-            f"INSERT INTO answers(answer, round, score, player) VALUES('{player.answer}', {round}, 0, {player.db_id})"
+            f"INSERT INTO answers(answer, round, score, player) VALUES('{player.answer}', {round}, {player.score}, {player.db_id})"
         )
         self.con.commit()

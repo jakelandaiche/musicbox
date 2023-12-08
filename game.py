@@ -26,7 +26,11 @@ common_words = [
 
 async def start_game(room, N):
     db = Database()
-    player_data = {player.name: PlayerData(player) for player in room.players.values()}
+    game_id = db.create_game()
+
+    player_data = {player.name: \
+            PlayerData(player, db.create_player(player.name, game_id)) \
+            for player in room.players.values() }
 
     async with room.lock:
         await room.websocket.send(json.dumps({
@@ -72,8 +76,11 @@ async def start_game(room, N):
                 "state": "ROUNDCOLLECT"
                 }))
             await all_submit_or(room, player_data, 30)
-            scores = compute_scores(player_data, video["id"])
-            # do something with scores
+            compute_scores(player_data, video["id"])
+
+            for player in player_data.values():
+                db.write_answer(player, n)
+                    
 
             await room.websocket.send(json.dumps({
                 "type": "player_data",
@@ -100,7 +107,13 @@ async def start_game(room, N):
 
 
 class PlayerData:
-    def __init__(self, player):
+    """ 
+    this a separate class because... 
+    i have no good reason i just didnt find the time to factor 
+    this back into Player
+    """
+    def __init__(self, player, db_id):
+        self.db_id = db_id 
         self.name = player.name
         self.color = player.color
         self.answer = None
@@ -122,10 +135,7 @@ class PlayerData:
 
 
 def compute_scores(player_data, video_id):
-    scores = []
-
     with_answers = [player for player in player_data.values if player.answer is not None]
-
 
     for player in with_answers:
         score = 0
@@ -152,14 +162,6 @@ def compute_scores(player_data, video_id):
         player.score = score * mult
         player.total = player.total + player.score
 
-        scores.append({
-            "id": video_id,
-            "name": player.name,
-            "label": player.answer,
-            "score": player.score
-            })
-
-    return scores
 
 
 
