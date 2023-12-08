@@ -135,7 +135,7 @@ class PlayerData:
 
 
 def compute_scores(player_data, video_id):
-    with_answers = [player for player in player_data.values if player.answer is not None]
+    with_answers = [player for player in player_data.values() if player.answer is not None]
 
     for player in with_answers:
         score = 0
