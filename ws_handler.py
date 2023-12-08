@@ -127,6 +127,8 @@ async def get_info(websocket):
             # "join" message must have "name"
             if "name" in message:
                 name = message["name"]
+                if name in room.players:
+                    continue
             else:
                 continue
 
