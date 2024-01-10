@@ -1,61 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Chatbot</title>
+    <title>MusicBox</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./css/stylesheet.css">
   </head>
 
   <body>
-    <div
-      style="
-        max-width: 800px;
-        padding: 16px;
-        margin: 100px auto auto auto;
-        display: grid;
-        grid-template-columns: auto auto auto;
-        grid-column-gap: 16px;
-      "
-    >
-      <div>
-        <form
-          id="connect"
-          style="width: 200px; display: flex; flex-direction: column"
-        >
-          <label for="ws-host">WebSocket URL</label>
-          <textarea id="ws-host" name="ws-host">ws://localhost:8080</textarea>
-          <input type="submit" value="Connect" />
-          <input id="close-ws" type="button" value="Close" />
-        </form>
+    <header>
+      <h1>MusicBox</h1>
+      <hr>
+    </header>
+    <main>
+      <p>I am a...</p>
 
-        <div id="room_div">
-          <textarea id="room_id_entry"></textarea>
-          <button id="join_button">Join Room</button>
-          <button id="create_button">Create New</button>
-        </div>
-      </div>
-      <div>
-        <script>
-          var tag = document.createElement("script");
-          tag.src = "https://www.youtube.com/iframe_api";
-        </script>
-        <div
-          id="messages"
-          style="
-            width: 400px;
-            height: 600px;
-            padding: 16px;
-            overflow-y: scroll;
-            border: 1px solid;
-          "
-        ></div>
-      </div>
+      <p><a href="./host.html">Host</a></p>
 
-      <div id="rhc" style="visibility: hidden">
-        <button id="begin_button" type="button">
-          Begin Game
-        </button>
-      </div>
-    </div>
-
-    <script src="./main.js"></script>
+      <p><a href="./player.html">Player</a></p>
   </body>
 </html>

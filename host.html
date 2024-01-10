@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MusicBox</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./css/stylesheet.css">
+
+    <script type="module" src="./src/socket.js"></script>
+    <script type="module" src="./src/state.js"></script>
+
+    <script type="module" src="./src/host/model.js"></script>
+    <script type="module" src="./src/host/view.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <h1>MusicBox</h1>
+      <hr>
+    </header>
+    <main>
+
+      <!-- Connection form -->
+      <div id="div-connect" style="display: none;">
+        <form id="connectform" style="width: 200px;">
+          <label for="ws-host">WebSocket URL</label>
+          <textarea id="connectform-hostinput" name="ws-host">ws://localhost:8080</textarea>
+          <input type="submit" value="Connect"></input>
+        </form>
+      </div>
+
+      <!-- Lobby -->
+      <div id="div-lobby" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>Join using the code</p>
+          <h1 id="lobby-codetext" style="text-align: center;"></h1>
+          <button id="lobby-startbtn" style="width: 100px;">Start Game</button>
+        </div>
+        To start, there must be at least three players, and all players must be ready.
+        <h2>Players</h2>
+        <div id="lobby-playerlist" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+
+      <!-- Game Start -->
+      <div id="div-gamestart" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>Welcome to MusicBox. This game is [...]</p>
+          <div class="progressbar" style="--duration: 15;">
+            <div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Round Start -->
+      <div id="div-roundstart" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <h2 id="roundstart-roundnumtext"></h2>
+          <p>Listen carefully</p>
+          <div class="progressbar" style="--duration: 20;">
+            <div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Round Collect -->
+      <div id="div-roundcollect" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>Enter your answers now!</p>
+          <div class="progressbar" style="--duration: 30;">
+            <div></div>
+          </div>
+        </div>
+
+        <div id="roundcollect-playerlist">
+        </div>
+      </div>
+
+      <!-- Round End -->
+      <div id="div-roundend" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>Here is how everyone answered, and their current scores</p>
+          <div class="progressbar" style="--duration: 30;">
+            <div></div>
+          </div>
+        </div>
+
+        <div id="roundend-playerlist">
+        </div>
+      </div>
+
+      <!-- Game End -->
+      <div id="div-gameend" style="display: none;">
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+          <p>Thanks for playing!</p>
+        </div>
+
+        <div id="gameend-playerlist">
+        </div>
+      </div>
+
+      <!-- Hidden video player -->
+      <div style="display: none;">
+        <div id="videoplayer"></div>
+        <script src="./src/videoplayer.js"></script>
+      </div>
+
+      <script type="module" src="./src/host/main.js"></script>
+    </main>
+  </body>
+</html>
