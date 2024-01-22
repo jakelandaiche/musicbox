@@ -5,9 +5,11 @@ class Player:
         self.color = "#000000"
         self.ready = False
 
+
     def to_obj(self):
         return {
                 "name": self.name,
                 "color": self.color,
                 "ready": self.ready,
                 }
+

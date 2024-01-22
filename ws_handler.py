@@ -1,4 +1,5 @@
 import json
+import websockets
 
 from code import generate_code
 from room import ROOMS, Room 
@@ -11,55 +12,70 @@ async def ws_handler(websocket):
     """
     print(f"New connection: {websocket.remote_address}, {websocket.id}")
 
-    info = await get_info(websocket)
-    if info is None:
-        return
+    try:
+        # try to sort this websocket into player or host and which room
+        info = await get_info(websocket)
+        if info is None:
+            return
 
-    # Host connection
-    if info["type"] == "host":
-        room = info["room"]
+        # Host connection
+        if info["type"] == "host":
+            room = info["room"]
 
-        # Send back code
-        await websocket.send(json.dumps({
-            "type": "init",
-            "code": ROOMS.inv[room]
-            }))
+            # Send back code
+            await websocket.send(json.dumps({
+                "type": "init",
+                "code": ROOMS.inv[room]
+                }))
 
-        # Push messages to room
-        async for message in websocket:
-            message = json.loads(message)
-            message["host"] = True
-            room.messages.pub(message)
+            # Push messages to room
+            async for message in websocket:
+                message = json.loads(message)
+                message["host"] = True
+                room.messages.pub(message)
 
-        # When done, cleanup
-        room.stop()
-        del ROOMS[ROOMS.inv[room]]
+            # When done, cleanup
+            room.stop()
+            del ROOMS[ROOMS.inv[room]]
 
 
-    # Player connection
-    if info["type"] == "player":
-        room = info["room"]
+        # Player connection
+        if info["type"] == "player":
+            room = info["room"]
 
-        # Add player to room
-        name = info["name"]
-        player = Player(name, websocket)
-        room.players[name] = player
-        await room.update_players()
+            # Add player to room
+            name = info["name"]
+            player = Player(name, websocket)
+            room.players[name] = player
+            await room.update_players()
 
-        await websocket.send(json.dumps({
-            "type": "init",
-            "code": ROOMS.inv[room]
-            }))
+            await websocket.send(json.dumps({
+                "type": "init",
+                "code": ROOMS.inv[room]
+                }))
 
-        # Push messages to room
-        async for message in websocket:
-            message = json.loads(message)
-            message["player"] = player
-            room.messages.pub(message)
+            # Push messages to room
+            async for message in websocket:
+                message = json.loads(message)
+                message["player"] = player
+                room.messages.pub(message)
 
-        # When done, cleanup
-        del room.players[name]
-        await room.update_players()
+            # When done, cleanup
+            if room.alive:
+                del room.players[name]
+                await room.update_players()
+
+    except websockets.exceptions.WebSocketException as e:
+        print(f"WebSocket {websocket.remote_address} Error")
+        print(e)
+
+    except Exception as e:
+        print("ws_handler error")
+        print(e)
+
+    finally:
+        print("Connection closed")
+
 
 
 
