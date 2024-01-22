@@ -144,7 +144,7 @@ def compute_scores(player_data, video_id):
 
     for i in range(len(with_answers)):
         player = with_answers[i]
-        score = math.floor(sim_scores[i] * 500)
+        score = math.floor(sim_scores[i] * 1000)
         mult = 0
 
         # get words
