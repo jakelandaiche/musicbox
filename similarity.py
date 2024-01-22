@@ -17,3 +17,4 @@ class Similarity:
                     tot += util.pytorch_cos_sim(tensors[y], cur).item()
             scores.append(tot / (l - 1))
         return scores
+

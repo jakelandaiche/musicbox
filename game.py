@@ -1,9 +1,13 @@
 import json
 import asyncio
+import math
 
 from data import get_video
 from utils import Sub
 from database import Database
+from similarity import Similarity
+
+sim_checker = Similarity()
 
 common_words = [
     "the",
@@ -136,17 +140,21 @@ class PlayerData:
 
 def compute_scores(player_data, video_id):
     with_answers = [player for player in player_data.values() if player.answer is not None]
+    sim_scores = sim_checker.sim_scores([player.answer for player in with_answers])
 
-    for player in with_answers:
-        score = 0
-        mult = 10
-        
+    for i in range(len(with_answers)):
+        player = with_answers[i]
+        score = math.floor(sim_scores[i] * 500)
+        mult = 0
+
         # get words
         answer_l = player.answer \
                 .replace(".","") \
                 .replace(",","") \
                 .split(" ")
         answer_s = set(answer_l)
+
+        matches = 0
 
         for word in answer_s:
             if word not in common_words:
@@ -157,9 +165,9 @@ def compute_scores(player_data, video_id):
                 # more points for words in common with others
                 for other in with_answers:
                     if other is not player:
-                        score += 1 if other.answer.count(word) else 0
+                        matches += 1 if other.answer.count(word) else 0
 
-        player.score = score * mult
+        player.score = score + matches * mult
         player.total = player.total + player.score
 
 
