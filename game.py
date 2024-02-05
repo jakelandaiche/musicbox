@@ -163,20 +163,22 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
         for word in answer_l:
             if word not in common_words:
                 if word not in answer_s:
-                    # increase multiplier for each uncommon word
+                    # increase multiplier for each unique uncommon word
                     if mult < 20:
                         mult += 1
-
+                match = False
                 # more points for words in common with others
                 for other in with_answers:
                     if other is not player and other.answer.count(word):
-                        matches += 1
-                        # keep track of what words have been matching and assign each a number
-                        if word not in colors:
-                            colors[word] = max(colors.values()) + 1
-                        player.color_list.append(colors[word])
-                    else:
-                        player.color_list.append(0)
+                        match = True
+                if match:
+                    matches += 1
+                    # keep track of what words have been matching and assign each a number
+                    if word not in colors:
+                        colors[word] = max(colors.values()) + 1
+                    player.color_list.append(colors[word])
+                else:
+                    player.color_list.append(0)
                 answer_s.add(word)
             else:
                 player.color_list.append(0)
