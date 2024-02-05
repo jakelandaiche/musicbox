@@ -128,6 +128,7 @@ class PlayerData:
     def clear(self):
         self.answer = None
         self.score = 0
+        self.color_list = []
 
     def to_obj(self):
         return {
@@ -169,7 +170,7 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
                 for other in with_answers:
                     if other is not player and other.answer.count(word):
                         matches += 1
-                        # keep track of what words have been matching
+                        # keep track of what words have been matching and assign each a number
                         if word not in colors:
                             colors[word] = max(colors.values()) + 1
                         player.color_list.append(colors[word])
