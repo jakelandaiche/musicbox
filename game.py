@@ -118,11 +118,12 @@ class PlayerData:
     """
     def __init__(self, player, db_id):
         self.db_id = db_id 
-        self.name = player.name
+        self.name: str = player.name
         self.color = player.color
-        self.answer = None
-        self.total = 0
-        self.score = 0
+        self.answer: str = None
+        self.total: int = 0
+        self.score: int = 0
+        self.color_list: list[int] = []
 
     def clear(self):
         self.answer = None
@@ -135,12 +136,14 @@ class PlayerData:
                 "answer": self.answer,
                 "total": self.total,
                 "score": self.score,
+                "color_list": self.color_list
                 }
 
 
-def compute_scores(player_data, video_id):
+def compute_scores(player_data: dict[str, PlayerData], video_id):
     with_answers = [player for player in player_data.values() if player.answer is not None]
     sim_scores = sim_checker.sim_scores([player.answer for player in with_answers])
+    colors: dict[str, int] = {"the": 0}
 
     for i in range(len(with_answers)):
         player = with_answers[i]
@@ -164,8 +167,16 @@ def compute_scores(player_data, video_id):
 
                 # more points for words in common with others
                 for other in with_answers:
-                    if other is not player:
-                        matches += 1 if other.answer.count(word) else 0
+                    if other is not player and other.answer.count(word):
+                        matches += 1
+                        # keep track of what words have been matching
+                        if word not in colors:
+                            colors[word] = max(colors.values()) + 1
+                        player.color_list.append(colors[word])
+                    else:
+                        player.color_list.append(0)
+            else:
+                player.color_list.append(0)
 
         player.score = score + matches * mult
         player.total = player.total + player.score
