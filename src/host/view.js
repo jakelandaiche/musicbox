@@ -148,6 +148,7 @@ export const stateViews = {
             p.style.color = data.color;
 
             const p2 = document.createElement("p");
+            var styled_word = "";
             if (data.answer !== null) {
               var answer_colors = data.color_list;
               var answer_words = data.answer.split(" ");
@@ -160,8 +161,7 @@ export const stateViews = {
                     answer_words[i] +
                     "</span> ";
                   p2.innerText.concat(styled_word);
-                }
-                else {
+                } else {
                   p2.innerText.concat(answer_words[i] + " ");
                 }
               }
