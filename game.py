@@ -156,15 +156,16 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
                 .replace(".","") \
                 .replace(",","") \
                 .split(" ")
-        answer_s = set(answer_l)
+        answer_s = set()
 
         matches = 0
 
-        for word in answer_s:
+        for word in answer_l:
             if word not in common_words:
-                # increase multiplier for each uncommon word
-                if mult < 20:
-                    mult += 1
+                if word not in answer_s:
+                    # increase multiplier for each uncommon word
+                    if mult < 20:
+                        mult += 1
 
                 # more points for words in common with others
                 for other in with_answers:
@@ -176,10 +177,11 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
                         player.color_list.append(colors[word])
                     else:
                         player.color_list.append(0)
+                answer_s.add(word)
             else:
                 player.color_list.append(0)
 
-        player.score = score + matches * mult
+        player.score = (score + matches ^ 2) * (1 + mult/100)
         player.total = player.total + player.score
 
 
