@@ -160,9 +160,9 @@ export const stateViews = {
                     ";'>" +
                     answer_words[i] +
                     "</span> ";
-                  p2.innerText.concat(styled_word);
+                  p2.innerText += styled_word;
                 } else {
-                  p2.innerText.concat(answer_words[i] + " ");
+                  p2.innerText += answer_words[i] + " ";
                 }
               }
             } else {
