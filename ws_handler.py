@@ -1,81 +1,34 @@
 import json
-import websockets
+from asyncio import create_task
 
-from code import generate_code
+from utils import generate_code
 from room import ROOMS, Room 
-from player import Player
+from subsystem import echo
 
 async def ws_handler(websocket):
     """
     WebSocket connection handler, determines what type of connection
     (player or host) and then pushes messages to the correct room
     """
+
     print(f"New connection: {websocket.remote_address}, {websocket.id}")
 
-    try:
-        # try to sort this websocket into player or host and which room
-        info = await get_info(websocket)
-        if info is None:
-            return
+    info = await get_info(websocket)
+    if info is None:
+        return
 
-        # Host connection
-        if info["type"] == "host":
-            room = info["room"]
+    if info["type"] == "host":
+        print(f"{websocket.remote_address} is host")
+        room = info["room"]
+        await room.bind_host(websocket)
 
-            # Send back code
-            await websocket.send(json.dumps({
-                "type": "init",
-                "code": ROOMS.inv[room]
-                }))
+    if info["type"] == "player":
+        print(f"{websocket.remote_address} is player")
+        room = info["room"]
+        name = info["name"]
+        await room.bind_player(websocket, name)
 
-            # Push messages to room
-            async for message in websocket:
-                message = json.loads(message)
-                message["host"] = True
-                room.messages.pub(message)
-
-            # When done, cleanup
-            room.stop()
-            del ROOMS[ROOMS.inv[room]]
-
-
-        # Player connection
-        if info["type"] == "player":
-            room = info["room"]
-
-            # Add player to room
-            name = info["name"]
-            player = Player(name, websocket)
-            room.players[name] = player
-            await room.update_players()
-
-            await websocket.send(json.dumps({
-                "type": "init",
-                "code": ROOMS.inv[room]
-                }))
-
-            # Push messages to room
-            async for message in websocket:
-                message = json.loads(message)
-                message["player"] = player
-                room.messages.pub(message)
-
-            # When done, cleanup
-            if room.alive:
-                del room.players[name]
-                await room.update_players()
-
-    except websockets.exceptions.WebSocketException as e:
-        print(f"WebSocket {websocket.remote_address} Error")
-        print(e)
-
-    except Exception as e:
-        print("ws_handler error")
-        print(e)
-
-    finally:
-        print("Connection closed")
-
+    print(f"{websocket.remote_address}: Handler terminated")
 
 
 
@@ -99,24 +52,17 @@ async def get_info(websocket):
         if "type" not in message:
             continue
 
-
         # Case: Message type is "init"
         # (Host connection)
         if message["type"] == "init":
 
-            if "code" in message:
-                # If message contains code, then check if room exists
-                code = message["code"]
-                if code in ROOMS:
-                    # Get room if exists
-                    room = ROOMS[code]
-                else:
-                    # If not, ignore
-                    continue
+            code = message.get("code", generate_code())
+            if code in ROOMS:
+                room = ROOMS[code]
             else:
-                # If not, create room 
-                room = Room(websocket)
-                ROOMS[generate_code()] = room
+                room = Room()
+                room.subsystems.add(create_task(echo.bind(room)))
+                ROOMS[code] = room
 
             # Done
             return {
@@ -143,8 +89,6 @@ async def get_info(websocket):
             # "join" message must have "name"
             if "name" in message:
                 name = message["name"]
-                if name in room.players:
-                    continue
             else:
                 continue
 
@@ -156,5 +100,4 @@ async def get_info(websocket):
 
     # Can only reach here if connection was closed
     return None
-
 

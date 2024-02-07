@@ -171,10 +171,9 @@ def compute_scores(player_data, video_id):
 
 async def all_submit(room, player_data):
     """ returns when all players have submitted """ 
-    with Sub(room.messages) as queue:
-        try:
-            while True:
-                message = await queue.get()
+    try:
+        with Sub(room.messages) as messages:
+            async for message in messages:
                 if message["type"] == "answer":
                     name = message["player"].name
                     player_data[name].answer = message["answer"]
@@ -185,9 +184,8 @@ async def all_submit(room, player_data):
 
                 if all(p.answer is not None for p in player_data.values()):
                    break 
-        except asyncio.CancelledError:
-            raise
-    return
+    except asyncio.CancelledError:
+        raise
 
 
 async def all_submit_or(room, player_data, T):

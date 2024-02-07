@@ -2,6 +2,7 @@ seed = 68648
 i = 0
 
 def generate_code():
+    """Basic linear congruential generator"""
     global i 
     n = seed + 41055 * i 
     i += 1 
