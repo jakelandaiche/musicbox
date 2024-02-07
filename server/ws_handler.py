@@ -1,9 +1,17 @@
 import json
 from asyncio import create_task
 
-from utils import generate_code
-from room import ROOMS, Room 
-from subsystem import echo
+from .utils import generate_code
+from .room import ROOMS, Room 
+from .subsystem import echo, Subsystem
+
+from .subsystems.playercolor import playercolor
+from .subsystems.base import base 
+
+SUBSYSTEMS: list[Subsystem] = [ 
+                               echo,
+                               base
+                               ]
 
 async def ws_handler(websocket):
     """
@@ -61,7 +69,9 @@ async def get_info(websocket):
                 room = ROOMS[code]
             else:
                 room = Room()
-                room.subsystems.add(create_task(echo.bind(room)))
+                for subsystem in SUBSYSTEMS:
+                    print(f"Installing {subsystem.name}")
+                    room.subsystems.add(create_task(subsystem.bind(room)))
                 ROOMS[code] = room
 
             # Done

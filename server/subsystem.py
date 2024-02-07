@@ -1,10 +1,10 @@
 from asyncio import CancelledError
-from typing import Callable
+from typing import Callable, Coroutine
 
-from room import Room
-from utils import Sub
+from .room import Room
+from .utils import Sub
 
-callback = Callable[[dict, Room], None]
+callback = Callable[[dict, Room], Coroutine]
 
 class Subsystem:
     """
@@ -31,17 +31,21 @@ class Subsystem:
                 async for message in messages:
                     if "type" not in message:
                         continue
-                    if message["type"] in self.typed_callbacks:
-                        self.typed_callbacks[message["type"]](message, room)
+                    message_type = message["type"]
+
+                    if message_type in self.typed_callbacks:
+                        await self.typed_callbacks[message["type"]](message, room)
 
                     for func in self.all_callbacks:
-                        func(message, room)
+                        await func(message, room)
 
         except CancelledError:
             print(f"{room.code}-{self.name} shutting down")
 
+
 echo = Subsystem("Echoer")
 @echo.all
-def echo_message(message, _):
+async def echo_message(message, _):
     print("ECHO!")
     print(message)
+

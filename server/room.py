@@ -3,36 +3,31 @@ Room module
 """
 
 import json
-from asyncio import Task, sleep, create_task, CancelledError, current_task
-from typing import Iterable
+from asyncio import Task, sleep, create_task, CancelledError
+from typing import Iterable, Callable, Coroutine
+from bidict import bidict
 
 from websockets import broadcast
 from websockets.server import WebSocketServerProtocol as Socket
 from websockets.exceptions import ConnectionClosed
 
-from bidict import bidict
-from utils import Hub, Sub, send
-from game import start_game 
-from player import Player
+from .utils import Hub, Sub, send
+from .player import Player
 
 # Global rooms object
 ROOMS: bidict[str, "Room"] = bidict()
 
-MIN_PLAYERS_TO_START = 0
 
-class HostDisconnectedException(Exception):
-    pass
 class HasHostSocketException(Exception):
     pass
+
 
 class Room:
     """ 
     A Room object. 
 
-    This holds 
-    - A WebSocket, for messages to/from the host machine
-    - A collection of Player objects
-    - Corresponding task variables that hold timeout tasks
+
+
     """
     def __init__(self, websocket=None):
         # The Host WebSocket tied to this room.
@@ -92,7 +87,6 @@ class Room:
         # Push messages to queue
         async for message in websocket:
             message = json.loads(message)
-            message["host"] = True
             self.messages.pub(message)
         self.messages.pub({ "type": "hostleave" })
         
@@ -110,9 +104,9 @@ class Room:
             del ROOMS[self.code]
             for subsystem in self.subsystems:
                 subsystem.cancel()
-            await self.broadcast(json.dumps({
-                "type": "room_close",
-                }))
+            for connection in self.connections:
+                await connection.close()
+            
         except CancelledError:
             print(f"{self.code}: Self-destruct cancelled")
             
@@ -131,11 +125,19 @@ class Room:
 
 
     async def bind_player(self, websocket: Socket, name: str):
+        # If there is a game going on, don't
+        if self.game is not None:
+            return
+        
         # Check if there is already a player with the given name
         if name in self.players:
             self.players[name].websocket = websocket
         else:
             self.players[name] = Player(name, websocket=websocket)
+            self.messages.pub({
+                "type": "newplayer",
+                "name": name
+                })
 
         # Cancel timeout if there
         if name in self.player_timeout_tasks:
@@ -151,7 +153,6 @@ class Room:
         await self.update_players()
         async for message in websocket:
             message = json.loads(message)
-            message["player"] = True
             self.messages.pub(message)
 
         # Remove websocket
@@ -162,19 +163,19 @@ class Room:
 
 
     async def update_players(self):
+        players = [player.to_obj() for player in self.players.values()]
+        await self.send({"type":"players", "players":players})
+
+    async def send(self, message):
         if self.websocket is not None:
-            players = [player.to_obj() for player in self.players.values()]
             try:
-                await send(self.websocket, {
-                    "type": "players",
-                    "players": players,
-                    })
+                await send(self.websocket, message)
             except ConnectionClosed:
                 pass
 
 
     async def broadcast(self, message, with_host=True):
-        broadcast(self.connections, message)
+        broadcast(self.connections, json.dumps(message))
 
         if with_host:
             if self.websocket is not None:
@@ -184,25 +185,31 @@ class Room:
                     return
 
 
-    async def run(self):
-        with Sub(self.messages) as messages:
-            async for message in messages:
-                if "type" not in message:
-                    continue
-                T = message["type"]
-
-                if T == "start":
-                    num_players = len(self.players)
-                    all_ready = all(player.ready for player in self.players.values())
-
-                    if num_players >= MIN_PLAYERS_TO_START and all_ready:
-                        self.game = create_task(start_game(self, 5))
-
-                if T == "exit":
+    def listen(self, message_type: str):
+        def decorator(func: Callable[[dict, Room], Coroutine]):
+            async def task():
+                try:
+                    with Sub(self.messages) as messages:
+                        async for message in messages:
+                            if "type" not in message:
+                                continue
+                            if message["type"] == message_type:
+                                await func(message, self)
+                except CancelledError:
                     pass
-                    
-                if T == "player_info":
-                    player = message["player"]
-                    player.color = message["color"]
-                    player.ready = message["ready"]
-                    await self.update_players()
+            return create_task(task())
+        return decorator
+
+
+    def until(self):
+        def decorator(func: Callable[[dict], bool]):
+            async def task():
+                with Sub(self.messages) as messages:
+                    async for message in messages:
+                        if func(message):
+                            break
+                return True
+            return create_task(task())
+        return decorator
+
+

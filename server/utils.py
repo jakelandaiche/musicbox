@@ -27,36 +27,6 @@ class Sub:
         message = await self.queue.get()
         return message
 
-from typing import Callable
-from functools import wraps
-
-class Listener:
-    """
-    """
-    def __init__(self):
-        self.callbacks: dict[str, Callable] = dict()
-
-    async def bind(self, hub: Hub):
-        with Sub(hub) as messages:
-            async for message in messages:
-                if "type" not in message:
-                    continue
-                if message["type"] in self.callbacks:
-                    self.callbacks[message["type"]](message)
-
-
-    def on(self, message_type: str) -> Callable:
-        def decorator(func):
-            self.callbacks[message_type] = func
-            return func
-        return decorator
-
-
-test = Listener()
-@test.on("hehe")
-def what(message):
-    pass
-
 seed = 68648
 i = 0
 
@@ -78,8 +48,6 @@ from websockets.server import WebSocketServerProtocol as Socket
 async def send(websocket: Socket, message: dict):
     await websocket.send(json.dumps(message))
 
-def statechange(state):
-    return json.dumps({
-        "type": "state",
-        "state": state
-        })
+from typing import Callable, Coroutine
+def anonymous_task(f: Callable[..., Coroutine]) -> asyncio.Task:
+    return asyncio.create_task(f())
