@@ -2,7 +2,7 @@ from websockets.server import WebSocketServerProtocol as Socket
 
 from dataclasses import dataclass, field
 
-@dataclass(eq=False)
+@dataclass(eq=False, frozen=False)
 class Player:
     """
     A dataclass that holds fields for a Player, which is

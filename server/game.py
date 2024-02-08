@@ -19,7 +19,7 @@ async def game_task(room: Room, N=5):
         # Init 
         for player in room.players.values():
             player.answer = None
-            player.db_id = ""
+            player.db_id = db.create_player(player.name, game_id)
             player.total = 0
             player.score = 0
             player.color_list = []
@@ -71,6 +71,8 @@ async def game_task(room: Room, N=5):
 
             # Compute scores
             compute_scores(room)
+            for player in room.players.values():
+                db.write_answer(player, n)
 
             # Round end
             await room.update_players()
