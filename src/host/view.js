@@ -7,6 +7,20 @@ import {
   ROUND_NUM,
 } from "./model.js"
 
+function getRandomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+const colors = [];
+for (let x = 0; x < 25; x++) {
+  colors.push(getRandomColor());
+}
+
 export const stateViews = {
   CONNECT: {
     div: "div-connect",
@@ -169,7 +183,16 @@ function renderPlayer(player) {
     case "ROUNDEND":
       entry.innerText += ` [${player.total}]`
       const fullanswer = document.createElement("p")
-      fullanswer.innerText = player.answer !== null ? player.answer : ""
+      const color_list = player.color_list;
+      raw_answer = player.answer !== null ? player.answer : ""
+      fullanswer.innerText = raw_answer.split(" ")
+        .map((word, i) => 
+          color_list[i] == 0 ? 
+            words[i] 
+          :
+            `<span style="color: ${colors[color_list[i]]};">${word}</span>`
+        )
+        .join(" ");
       div.appendChild(fullanswer)
       div.appendChild(score)
       div.style.justifyContent = "space-between"
