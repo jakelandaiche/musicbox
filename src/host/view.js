@@ -157,7 +157,7 @@ function renderPlayer(player) {
 
   const score = document.createElement("p")
   score.style.fontSize = "22pt"
-  score.innerText = player.score
+  score.innerText = Math.round(player.score)
 
   const answerDiv = document.createElement("div")
 
@@ -167,38 +167,41 @@ function renderPlayer(player) {
       entry.innerText += player.ready ? " ✅" : ""
       break
     case "GAMESTART":
-      entry.innerText += ` [${player.total}]`
+      entry.innerText += ` [${Math.round(player.total)}]`
       break;
     case "ROUNDSTART":
-      entry.innerText += ` [${player.total}]`
+      entry.innerText += ` [${Math.round(player.total)}]`
       div.style.justifyContent = "space-between"
       break
     case "ROUNDCOLLECT":
-      entry.innerText += ` [${player.total}]`
+      entry.innerText += ` [${Math.round(player.total)}]`
       const hiddenanswer = document.createElement("p")
       hiddenanswer.innerText = player.answer !== null ? "* ".repeat(player.answer.length) : ""
       answerDiv.appendChild(hiddenanswer)
       div.appendChild(answerDiv)
       break
     case "ROUNDEND":
-      entry.innerText += ` [${player.total}]`
+      entry.innerText += ` [${Math.round(player.total)}]`
       const fullanswer = document.createElement("p")
+      console.log(player.color_list)
+      console.log(player.answer)
       const color_list = player.color_list;
-      raw_answer = player.answer !== null ? player.answer : ""
-      fullanswer.innerText = raw_answer.split(" ")
+      const raw_answer = player.answer !== null ? player.answer : ""
+      fullanswer.innerHTML = raw_answer.split(" ")
         .map((word, i) => 
           color_list[i] == 0 ? 
-            words[i] 
+            word 
           :
             `<span style="color: ${colors[color_list[i]]};">${word}</span>`
         )
         .join(" ");
+      console.log(fullanswer.innerHTML)
       div.appendChild(fullanswer)
       div.appendChild(score)
       div.style.justifyContent = "space-between"
       break
     case "GAMEEND":
-      entry.innerText += ` [${player.total}]`
+      entry.innerText += ` [${Math.round(player.total)}]`
       break
   }
 
