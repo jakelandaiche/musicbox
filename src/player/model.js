@@ -1,5 +1,5 @@
 import { socket } from "../socket.js"
-import { declare, update, bind, retrieve } from "../state.js"
+import { declare, update, bind, retrieve, reset } from "../state.js"
 import { debounce, throttle } from "../utils.js"
 
 export const STATE = declare("CONNECT", "Page State")
