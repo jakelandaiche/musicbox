@@ -29,7 +29,7 @@ socket.addMessageHandler("reset", () => {
   reset(ROUND_NUM)
 })
 
-socket.onClose("reset", () => {
+socket.onClose(() => {
   reset(STATE)
   reset(CODE)
   reset(PLAYERS)

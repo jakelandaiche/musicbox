@@ -43,7 +43,7 @@ socket.addMessageHandler("reset", () => {
   reset(SUBMITTED)
 })
 
-socket.onClose("reset", () => {
+socket.onClose(() => {
   reset(CODE)
   reset(NAME)
   reset(COLOR)
