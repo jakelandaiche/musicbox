@@ -47,6 +47,7 @@ export const stateViews = {
       const codetext = document.getElementById("lobby-codetext")
       const startbtn = document.getElementById("lobby-startbtn")
       const datasetselect = document.getElementById("lobby-datasetselect")
+      const nroundsinput = document.getElementById("lobby-nroundsinput")
 
       datasetselect.addEventListener("change", (event) => {
         socket.send({
@@ -54,6 +55,14 @@ export const stateViews = {
           dataset: event.target.value
         })
       })
+
+      nroundsinput.addEventListener("change", (event) => {
+        socket.send({
+          type: "nrounds",
+          nrounds: event.target.value
+        })
+      })
+
       startbtn.addEventListener("click", (event) => {
         socket.send({
           type: "start",

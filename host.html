@@ -45,6 +45,9 @@
                 <option value="filtered2.csv">Dataset 5</option>
                 <option value="unfiltered.csv">Dataset 6</option>
               </select>
+              <div>
+              <input type="number" id="lobby-nroundsinput" name="nrounds" value="5" min="0" max="10" style="width:40px;"> Rounds
+              </div>
             </div>
             To start, there must be at least three players, and all players must be ready.
           </div>
@@ -100,6 +103,7 @@
           <div id="div-gameend" style="display: none;">
             <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
               <p>Thanks for playing!</p>
+              <button id="gameend-restartbtn" style="width: 100px;">Another Game</button>
             </div>
 
             <div id="gameend-playerlist">
