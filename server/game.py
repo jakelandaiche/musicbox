@@ -22,6 +22,7 @@ async def game_task(room: Room, N=5):
             player.db_id = ""
             player.total = 0
             player.score = 0
+            player.color_list = []
         await room.update_players()
 
         # Game Start
@@ -36,6 +37,7 @@ async def game_task(room: Room, N=5):
             for player in room.players.values():
                 player.answer = None
                 player.score = 0
+                player.color_list = []
             await room.update_players()
 
             # Update round number
