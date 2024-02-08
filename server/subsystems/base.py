@@ -15,6 +15,14 @@ async def start_game(_, room):
         print("starting!")
         room.game = create_task(game_task(room, N=room.nrounds))
 
+@base.on("restart")
+async def restart(_, room):
+    room.game = None
+    await room.broadcast({
+        "type": "reset",
+        })
+
+
 
 @base.on("dataset")
 async def update_dataset(message, room):
