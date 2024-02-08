@@ -36,9 +36,6 @@ socket.addMessageHandler("state", (message) => {
 
 socket.addMessageHandler("reset", () => {
   update(STATE, "LOBBY")
-  reset(CODE)
-  reset(NAME)
-  reset(COLOR)
   reset(READY)
   reset(SUBMITTED)
 })
