@@ -11,7 +11,7 @@ async def game_task(room: Room, N=5):
     db = Database()
     game_id = db.create_game()
 
-    videos = get_videos(N=N)
+    videos = get_videos(N=N, dataset=room.dataset)
 
     try:
         # Init 

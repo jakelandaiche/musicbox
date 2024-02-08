@@ -212,7 +212,6 @@ class Room:
 
     def listen(self, message_type: str):
         """
-        Holy shit
         """
         def decorator(func: Callable[[dict, Room], Coroutine]):
             async def task():
