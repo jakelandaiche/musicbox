@@ -24,8 +24,7 @@ async def update_dataset(message, room):
 @base.on("restart")
 async def restart_game(_, room):
     await room.broadcast({
-        "type": "state",
-        "state": "LOBBY"
+        "type": "restart",
         })
 
 
