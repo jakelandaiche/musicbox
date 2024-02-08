@@ -1,6 +1,6 @@
 from websockets.server import WebSocketServerProtocol as Socket
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass(eq=False)
 class Player:
@@ -12,7 +12,7 @@ class Player:
     name: str
 
     color: str = "#000000"
-    color_list: list[int] = []
+    color_list: list[int] = field(default_factory=list)
     ready: bool = False
     answer: str | None = None
     score: int = 0
