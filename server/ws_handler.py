@@ -3,10 +3,11 @@ from asyncio import create_task
 
 from .utils import generate_code
 from .room import ROOMS, Room 
-from .subsystem import echo, Subsystem
+from .subsystem import Subsystem
 
-from .subsystems.playercolor import playercolor
 from .subsystems.base import base 
+from .subsystems.echo import echo 
+
 
 SUBSYSTEMS: list[Subsystem] = [ 
                                echo,
@@ -37,6 +38,7 @@ async def ws_handler(websocket):
         await room.bind_player(websocket, name)
 
     print(f"{websocket.remote_address}: Handler terminated")
+
 
 
 

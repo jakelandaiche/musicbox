@@ -30,8 +30,8 @@ def get_video():
 
     return {"id": row["# YTID"], "start_time": row["start_seconds"]}
 
-def get_videos() -> list[dict]:
+def get_videos(N=10) -> list[dict]:
     videos = []
-    for _, row in dataset.sample(10).iterrows():
+    for _, row in dataset.sample(N).iterrows():
         videos.append({"id": row["# YTID"], "start_time": row["start_seconds"]})
     return videos

@@ -15,6 +15,8 @@ class Subsystem:
         self.all_callbacks: set[callback] = set()
         self.name = name
 
+        self.event_callbacks: dict[object, Callable] = dict()
+
     def on(self, message_type: str):
         def decorator(func: callback):
             self.typed_callbacks[message_type] = func
@@ -27,8 +29,9 @@ class Subsystem:
         
     async def bind(self, room: Room):
         try:
-            with Sub(room.messages) as messages:
-                async for message in messages:
+            with Sub(room.messages) as queue:
+                while True:
+                    message = await queue.get()
                     if "type" not in message:
                         continue
                     message_type = message["type"]
@@ -40,12 +43,5 @@ class Subsystem:
                         await func(message, room)
 
         except CancelledError:
-            print(f"{room.code}-{self.name} shutting down")
-
-
-echo = Subsystem("Echoer")
-@echo.all
-async def echo_message(message, _):
-    print("ECHO!")
-    print(message)
+            raise
 

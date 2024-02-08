@@ -1,13 +1,22 @@
 from websockets.server import WebSocketServerProtocol as Socket
-class Player:
-    def __init__(self, name, websocket=None):
-        self.name: str = name 
-        self.websocket: Socket | None = websocket
 
-        self.info = {
-                "color": "#000000",
-                "ready": False,
-                }
+from dataclasses import dataclass
+
+@dataclass(eq=False)
+class Player:
+    """
+    A dataclass that holds fields for a Player, which is
+    a member of a Room
+    """
+    websocket: Socket | None
+    name: str
+
+    color: str = "#000000"
+    ready: bool = False
+    answer: str | None = None
+    score: int = 0
+    total: int = 0
+    db_id: str | None = None
 
     @property
     def connected(self):
@@ -17,7 +26,12 @@ class Player:
         return {
                 "name": self.name,
                 "connected": self.connected,
-                **self.info,
+                "color": self.color,
+                "ready": self.ready,
+                "answer": self.answer,
+                "score": self.score,
+                "total": self.total,
+                "db_id": self.db_id
                 }
 
 class PlayerManager:

@@ -15,17 +15,10 @@ class Sub:
 
     def __enter__(self):
         self.hub.subscriptions.add(self.queue)
-        return self
+        return self.queue 
 
     def __exit__(self, type, value, traceback):
         self.hub.subscriptions.remove(self.queue)
-
-    def __aiter__(self):
-        return self
-
-    async def __anext__(self):
-        message = await self.queue.get()
-        return message
 
 seed = 68648
 i = 0
