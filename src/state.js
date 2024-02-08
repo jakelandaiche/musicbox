@@ -31,4 +31,5 @@ export function bind(sym, handler) {
 
 export function reset(sym) {
   state[sym] = inits[sym]
+  handlers[sym].forEach(h => h(inits[sym]))
 }
