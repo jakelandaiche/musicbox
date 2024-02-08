@@ -22,7 +22,14 @@ socket.addMessageHandler("round_num", (message) => {
   update(ROUND_NUM, message.round_num)
 })
 
-socket.onClose(() => {
+socket.addMessageHandler("reset" () => {
+  update(STATE, "LOBBY")
+  reset(CODE)
+  reset(PLAYERS)
+  reset(ROUND_NUM)
+})
+
+socket.onClose("reset" () => {
   reset(STATE)
   reset(CODE)
   reset(PLAYERS)

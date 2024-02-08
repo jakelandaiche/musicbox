@@ -33,3 +33,20 @@ socket.addMessageHandler("state", (message) => {
     ack: "state"
   })
 })
+
+socket.addMessageHandler("reset" () => {
+  update(STATE, "LOBBY")
+  reset(CODE)
+  reset(NAME)
+  reset(COLOR)
+  reset(READY)
+  reset(SUBMITTED)
+})
+
+socket.onClose("reset" () => {
+  reset(CODE)
+  reset(NAME)
+  reset(COLOR)
+  reset(READY)
+  reset(SUBMITTED)
+})

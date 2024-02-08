@@ -78,7 +78,9 @@ export const stateViews = {
     },
     reset: () => {
       const codetext = document.getElementById("lobby-codetext")
+      const nroundsinput = document.getElementById("lobby-nroundsinput")
       codetext.innerText = ""
+      nroundsinput.value = "5"
     },
   },
 
@@ -114,7 +116,14 @@ export const stateViews = {
 
   GAMEEND: {
     div: "div-gameend",
-    init: () => {},
+    init: () => {
+      const restartbtn = document.getElementById("gameend-restartbtn")
+      restartbtn.addEventListener("click", (event) => {
+        socket.send({
+          type: "restart",
+        })
+      })
+    },
     reset: () => {},
   },
 }
