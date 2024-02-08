@@ -43,7 +43,7 @@ async def game_task(room: Room, N=5):
             "type": "state",
             "state": "GAMESTART"
             })
-        await asyncio.sleep(1)
+        await asyncio.sleep(15)
 
         for n in range(1, N+1):
             # Reset scores

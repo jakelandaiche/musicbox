@@ -13,7 +13,7 @@ async def start_game(_, room):
 
     if (num_players >= Room.MIN_TO_START) and all_ready:
         print("starting!")
-        room.game = create_task(game_task(room, 3))
+        room.game = create_task(game_task(room, 5))
 
 
 @base.on("dataset")
