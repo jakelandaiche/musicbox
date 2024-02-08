@@ -25,3 +25,5 @@ socket.addMessageHandler("init", (message) => {
   update(STATE, "LOBBY")
   update(CODE, message.code)
 })
+
+socket.init("ws://localhost:8080")

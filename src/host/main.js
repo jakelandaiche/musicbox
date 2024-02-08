@@ -19,3 +19,5 @@ socket.onOpen(() => {
     type: "init"
   })
 })
+
+socket.init("ws://localhost:8080")
