@@ -77,9 +77,7 @@ export const stateViews = {
       update(PLAYERS, [])
     },
     reset: () => {
-      const codetext = document.getElementById("lobby-codetext")
       const nroundsinput = document.getElementById("lobby-nroundsinput")
-      codetext.innerText = ""
       nroundsinput.value = "5"
     },
   },
