@@ -10,16 +10,29 @@ from .utils import Sub
 from .room import Room
 
 async def game_task(room: Room, N=5):
-    db = Database()
-    game_id = db.create_game()
+    try:
+        db = Database()
+        game_id = db.create_game()
+    except Exception as e:
+        print("Database error")
+        print(e)
+        return
 
-    videos = get_videos(N=N, dataset=room.dataset)
+    try:
+        videos = get_videos(N=N, dataset=room.dataset)
+    except Exception as e:
+        print("Error retrieving videos")
+        print(e)
 
     try:
         # Init 
         for player in room.players.values():
+            try:
+                player.db_id = db.create_player(player.name, game_id)
+            except Exception as e:
+                print("Database error")
+                print(e)
             player.answer = None
-            player.db_id = db.create_player(player.name, game_id)
             player.total = 0
             player.score = 0
             player.color_list = []
@@ -70,9 +83,18 @@ async def game_task(room: Room, N=5):
                 pass
 
             # Compute scores
-            compute_scores(room)
-            for player in room.players.values():
-                db.write_answer(player, n)
+            try:
+                compute_scores(room)
+            except Exception as e:
+                print("Error computing scores")
+                print(e)
+
+            try:
+                for player in room.players.values():
+                    db.write_answer(player, n)
+            except Exception as e:
+                print("Error writing to database")
+                print(e)
 
             # Round end
             await room.update_players()
@@ -90,6 +112,9 @@ async def game_task(room: Room, N=5):
 
     except asyncio.CancelledError:
         raise
+    except Exception as e:
+        print("Error in game")
+        print(e)
     finally:
         db.cur.close()
         db.con.close()
