@@ -28,96 +28,100 @@ common_words = [
     "at",
 ]
 
+
 async def start_game(room, N):
     db = Database()
     game_id = db.create_game()
 
-    player_data = {player.name: \
-            PlayerData(player, db.create_player(player.name, game_id)) \
-            for player in room.players.values() }
+    player_data = {
+        player.name: PlayerData(player, db.create_player(player.name, game_id))
+        for player in room.players.values()
+    }
 
     async with room.lock:
-        await room.websocket.send(json.dumps({
-            "type": "player_data",
-            "player_data": [p.to_obj() for p in player_data.values()]
-            }))
+        await room.websocket.send(
+            json.dumps(
+                {
+                    "type": "player_data",
+                    "player_data": [p.to_obj() for p in player_data.values()],
+                }
+            )
+        )
 
         # Game Start
-        await room.broadcast(json.dumps({
-            "type": "state",
-            "state": "GAMESTART"
-            }))
+        await room.broadcast(json.dumps({"type": "state", "state": "GAMESTART"}))
         await asyncio.sleep(15)
 
-        for n in range(1, N+1):
-            await room.websocket.send(json.dumps({
-                "type": "round_num",
-                "round_num": n,
-            }))
+        for n in range(1, N + 1):
+            await room.websocket.send(
+                json.dumps(
+                    {
+                        "type": "round_num",
+                        "round_num": n,
+                    }
+                )
+            )
 
             # Round Start
-            await room.broadcast(json.dumps({
-                "type": "state",
-                "state": "ROUNDSTART"
-                }))
+            await room.broadcast(json.dumps({"type": "state", "state": "ROUNDSTART"}))
             video = get_video()
-            await room.websocket.send(json.dumps({
-                "type": "video",
-                "id": video["id"],
-                "start_time": video["start_time"]
-                }))
+            await room.websocket.send(
+                json.dumps(
+                    {
+                        "type": "video",
+                        "id": video["id"],
+                        "start_time": video["start_time"],
+                    }
+                )
+            )
             await asyncio.sleep(20)
 
             # Round Collect
             for p in player_data.values():
                 p.clear()
-            await room.websocket.send(json.dumps({
-                "type": "player_data",
-                "player_data": [p.to_obj() for p in player_data.values()]
-                }))
-            await room.broadcast(json.dumps({
-                "type": "state",
-                "state": "ROUNDCOLLECT"
-                }))
+            await room.websocket.send(
+                json.dumps(
+                    {
+                        "type": "player_data",
+                        "player_data": [p.to_obj() for p in player_data.values()],
+                    }
+                )
+            )
+            await room.broadcast(json.dumps({"type": "state", "state": "ROUNDCOLLECT"}))
             await all_submit_or(room, player_data, 30)
             compute_scores(player_data, video["id"])
 
             for player in player_data.values():
                 db.write_answer(player, n)
-                    
 
-            await room.websocket.send(json.dumps({
-                "type": "player_data",
-                "player_data": [p.to_obj() for p in player_data.values()]
-                }))
+            await room.websocket.send(
+                json.dumps(
+                    {
+                        "type": "player_data",
+                        "player_data": [p.to_obj() for p in player_data.values()],
+                    }
+                )
+            )
 
-
-
-            # Round End 
-            await room.broadcast(json.dumps({
-                "type": "state",
-                "state": "ROUNDEND"
-                }))
+            # Round End
+            await room.broadcast(json.dumps({"type": "state", "state": "ROUNDEND"}))
             await asyncio.sleep(30)
 
-
-        await room.broadcast(json.dumps({
-            "type": "state",
-            "state": "GAMEEND"
-            }))
+        await room.broadcast(json.dumps({"type": "state", "state": "GAMEEND"}))
 
         db.cur.close()
         db.con.close()
 
 
 class PlayerData:
-    """ 
-    this a separate class because... 
-    i have no good reason i just didnt find the time to factor 
+    """
+    this a separate class because...
+    i have no good reason i just didnt find the time to factor
     this back into Player
     """
+
     def __init__(self, player, db_id):
-        self.db_id = db_id 
+        self.db_id = db_id
         self.name: str = player.name
         self.color = player.color
         self.answer: str = None
@@ -132,17 +136,19 @@ class PlayerData:
 
     def to_obj(self):
         return {
-                "name": self.name,
-                "color": self.color,
-                "answer": self.answer,
-                "total": self.total,
-                "score": self.score,
-                "color_list": self.color_list
-                }
+            "name": self.name,
+            "color": self.color,
+            "answer": self.answer,
+            "total": self.total,
+            "score": self.score,
+            "color_list": self.color_list,
+        }
 
 
 def compute_scores(player_data: dict[str, PlayerData], video_id):
-    with_answers = [player for player in player_data.values() if player.answer is not None]
+    with_answers = [
+        player for player in player_data.values() if player.answer is not None
+    ]
     sim_scores = sim_checker.sim_scores([player.answer for player in with_answers])
     colors: dict[str, int] = {"the": 0}
 
@@ -152,10 +158,7 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
         mult = 0
 
         # get words
-        answer_l = player.answer \
-                .replace(".","") \
-                .replace(",","") \
-                .split(" ")
+        answer_l = player.answer.replace(".", "").replace(",", "").split(" ")
         answer_s = set()
 
         matches = 0
@@ -183,14 +186,12 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
             else:
                 player.color_list.append(0)
 
-        player.score = (score + matches ^ 2) * (1 + mult/100)
+        player.score = (score + matches ^ 2) * (1 + mult / 100)
         player.total = player.total + player.score
 
 
-
-
 async def all_submit(room, player_data):
-    """ returns when all players have submitted """ 
+    """returns when all players have submitted"""
     with Sub(room.messages) as queue:
         try:
             while True:
@@ -198,13 +199,19 @@ async def all_submit(room, player_data):
                 if message["type"] == "answer":
                     name = message["player"].name
                     player_data[name].answer = message["answer"]
-                    await room.websocket.send(json.dumps({
-                        "type": "player_data",
-                        "player_data": [p.to_obj() for p in player_data.values()]
-                        }))
+                    await room.websocket.send(
+                        json.dumps(
+                            {
+                                "type": "player_data",
+                                "player_data": [
+                                    p.to_obj() for p in player_data.values()
+                                ],
+                            }
+                        )
+                    )
 
                 if all(p.answer is not None for p in player_data.values()):
-                   break 
+                    break
         except asyncio.CancelledError:
             raise
     return
@@ -215,5 +222,3 @@ async def all_submit_or(room, player_data, T):
         await asyncio.wait_for(all_submit(room, player_data), timeout=T)
     except asyncio.TimeoutError:
         return
-
-
