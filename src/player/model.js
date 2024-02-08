@@ -34,7 +34,7 @@ socket.addMessageHandler("state", (message) => {
   })
 })
 
-socket.addMessageHandler("reset" () => {
+socket.addMessageHandler("reset", () => {
   update(STATE, "LOBBY")
   reset(CODE)
   reset(NAME)
@@ -43,7 +43,7 @@ socket.addMessageHandler("reset" () => {
   reset(SUBMITTED)
 })
 
-socket.onClose("reset" () => {
+socket.onClose("reset", () => {
   reset(CODE)
   reset(NAME)
   reset(COLOR)
