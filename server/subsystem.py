@@ -37,10 +37,19 @@ class Subsystem:
                     message_type = message["type"]
 
                     if message_type in self.typed_callbacks:
-                        await self.typed_callbacks[message["type"]](message, room)
+                        try:
+                            func = self.typed_callbacks[message["type"]]
+                            await func(message, room)
+                        except Exception as e:
+                            print(f"Error occurred while running {func.__name__} in {self.name}")
+                            print(e)
 
                     for func in self.all_callbacks:
-                        await func(message, room)
+                        try:
+                            await func(message, room)
+                        except Exception as e:
+                            print(f"Error occurred while running {func.__name__} in {self.name}")
+                            print(e)
 
         except CancelledError:
             raise

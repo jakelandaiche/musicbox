@@ -43,7 +43,9 @@ class Room:
         # The running systems
         self.subsystems: set[Task] = set()
 
+        # Game info
         self.dataset = "musicCaps1.csv"
+        self.nrounds = 5
 
         # The currently running game
         self.game: Task | None = None
@@ -103,9 +105,9 @@ class Room:
             await sleep(timeout)
 
             del ROOMS[self.code]
-            for subsystem in self.subsystems:
+            for subsystem in list(self.subsystems):
                 subsystem.cancel()
-            for connection in self.connections:
+            for connection in list(self.connections):
                 await connection.close()
             
         except CancelledError:

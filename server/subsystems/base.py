@@ -21,6 +21,11 @@ async def update_dataset(message, room):
     room.dataset = message["dataset"]
 
 
+@base.on("nrounds")
+async def update_nrounds(message, room):
+    room.nrounds = message["nrounds"]
+
+
 @base.on("restart")
 async def restart_game(_, room):
     await room.broadcast({
