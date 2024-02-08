@@ -19,7 +19,7 @@ async def start_game(_, room):
 @base.on("restart")
 async def restart(_, room):
     room.game = None
-    for player in room.players:
+    for player in room.players.values():
         player.ready = False
     await room.update_players()
     await room.broadcast({
