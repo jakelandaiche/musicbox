@@ -1,8 +1,10 @@
 import asyncio
+import math
 from asyncio import CancelledError
 
 from data import get_videos
 from database import Database
+from similarity import Similarity
 
 from .utils import Sub 
 from .room import Room
@@ -90,8 +92,71 @@ async def game_task(room: Room, N=5):
         room.game = None
 
 
+sim_checker = Similarity()
+
+common_words = [
+    "the",
+    "be",
+    "to",
+    "of",
+    "and",
+    "a",
+    "in",
+    "that",
+    "have",
+    "it",
+    "for",
+    "not",
+    "on",
+    "with",
+    "as",
+    "at",
+]
+
 def compute_scores(room):
-    pass
+    with_answers = [player for player in room.players.values() if player.answer is not None]
+    sim_scores = sim_checker.sim_scores([player.answer for player in with_answers])
+    colors: dict[str, int] = {"the": 0}
+
+    for i in range(len(with_answers)):
+        player = with_answers[i]
+        score = math.floor(sim_scores[i] * 1000)
+        mult = 0
+
+        # get words
+        answer_l = player.answer \
+                .replace(".","") \
+                .replace(",","") \
+                .split(" ")
+        answer_s = set()
+
+        matches = 0
+
+        for word in answer_l:
+            if word not in common_words:
+                if word not in answer_s:
+                    # increase multiplier for each unique uncommon word
+                    if mult < 20:
+                        mult += 1
+                match = False
+                # more points for words in common with others
+                for other in with_answers:
+                    if other is not player and other.answer.count(word):
+                        match = True
+                if match:
+                    matches += 1
+                    # keep track of what words have been matching and assign each a number
+                    if word not in colors:
+                        colors[word] = max(colors.values()) + 1
+                    player.color_list.append(colors[word])
+                else:
+                    player.color_list.append(0)
+                answer_s.add(word)
+            else:
+                player.color_list.append(0)
+
+        player.score = (score + matches ^ 2) * (1 + mult/100)
+        player.total = player.total + player.score
 
 
 async def wait_for_answers(room):

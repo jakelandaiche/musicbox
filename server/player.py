@@ -12,6 +12,7 @@ class Player:
     name: str
 
     color: str = "#000000"
+    color_list: list[int] = []
     ready: bool = False
     answer: str | None = None
     score: int = 0
@@ -27,6 +28,7 @@ class Player:
                 "name": self.name,
                 "connected": self.connected,
                 "color": self.color,
+                "color_list": self.color_list,
                 "ready": self.ready,
                 "answer": self.answer,
                 "score": self.score,
