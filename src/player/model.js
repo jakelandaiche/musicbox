@@ -1,35 +1,35 @@
 import { socket } from "../socket.js"
 import { declare, update, bind, retrieve } from "../state.js"
+import { debounce, throttle } from "../utils.js"
 
 export const STATE = declare("CONNECT", "Page State")
-
 export const CODE = declare("####", "Room Code")
-
 export const NAME = declare("", "Player Name")
-
 export const COLOR = declare("#000000", "Player Color")
 export const READY = declare("", "Player Is Ready")
-
 export const SUBMITTED = declare(false, "Player Submitted Answer")
 
-bind(COLOR, (c) => {
+bind(COLOR, throttle((c) => {
   socket.send({
-    type: "player_info",
+    type: "playercolor",
     name: retrieve(NAME),
-    ready: retrieve(READY),
     color: c,
   })
-})
+}, 100))
 
-bind(READY, (r) => {
+bind(READY, debounce((r) => {
   socket.send({
-    type: "player_info",
+    type: "playerready",
     name: retrieve(NAME),
     ready: r,
     color: retrieve(COLOR),
   })
-})
+}, 100))
 
 socket.addMessageHandler("state", (message) => {
   update(STATE, message.state)
+  socket.send({
+    type: "ack",
+    ack: "state"
+  })
 })

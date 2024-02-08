@@ -1,10 +1,9 @@
 import { socket } from "../socket.js"
-import { bind } from "../state.js"
+import { bind, retrieve, update } from "../state.js"
 import {
   STATE,
   CODE,
   PLAYERS,
-  PLAYER_DATA,
   ROUND_NUM,
 } from "./model.js"
 
@@ -32,38 +31,31 @@ export const stateViews = {
     div: "div-lobby",
     init: () => {
       const codetext = document.getElementById("lobby-codetext")
-      const playerlist = document.getElementById("lobby-playerlist")
       const startbtn = document.getElementById("lobby-startbtn")
+      const datasetselect = document.getElementById("lobby-datasetselect")
 
+      datasetselect.addEventListener("change", (event) => {
+        socket.send({
+          type: "dataset",
+          dataset: event.target.value
+        })
+      })
       startbtn.addEventListener("click", (event) => {
         socket.send({
           type: "start",
         })
       })
-
       bind(CODE, (c) => {
         codetext.innerText = c
       })
-
-      bind(PLAYERS, (p) => {
-        while (playerlist.hasChildNodes())
-          playerlist.removeChild(playerlist.firstChild)
-
-        p.forEach((player) => {
-          const entry = document.createElement("p")
-          entry.innerText = player.name + (player.ready ? " ✅" : "")
-          entry.style.color = player.color
-          playerlist.appendChild(entry)
-        })
+      bind(PLAYERS, (players) => {
+        // startbtn.disabled = players.length < 3
       })
+      update(PLAYERS, [])
     },
     reset: () => {
       const codetext = document.getElementById("lobby-codetext")
-      const playerlist = document.getElementById("lobby-playerlist")
-
       codetext.innerText = ""
-      while (playerlist.hasChildNodes())
-        playerlist.removeChild(playerlist.firstChild)
     },
   },
 
@@ -87,103 +79,19 @@ export const stateViews = {
 
   ROUNDCOLLECT: {
     div: "div-roundcollect",
-    init: () => {
-      const playerlist = document.getElementById("roundcollect-playerlist")
-
-      bind(PLAYER_DATA, (player_data) => {
-        while (playerlist.hasChildNodes())
-          playerlist.removeChild(playerlist.firstChild)
-
-        player_data
-          .map((data) => {
-            const d = document.createElement("div")
-            const p = document.createElement("p")
-            p.innerText =
-              data.name +
-              (data.answer !== null ? " ✅" : "") +
-              ` (${data.total})`
-
-            p.style.color = data.color
-
-            const p2 = document.createElement("p")
-            p2.innerText =
-              data.answer !== null ? "*".repeat(data.answer.length) : ""
-
-            d.appendChild(p)
-            d.appendChild(p2)
-
-            return d
-          })
-          .forEach((elem) => playerlist.appendChild(elem))
-      })
-    },
+    init: () => {},
     reset: () => {},
   },
 
   ROUNDEND: {
     div: "div-roundend",
-    init: () => {
-      const playerlist = document.getElementById("roundend-playerlist")
-
-      bind(PLAYER_DATA, (player_data) => {
-        while (playerlist.hasChildNodes())
-          playerlist.removeChild(playerlist.firstChild)
-
-        player_data
-          .map((data) => {
-            const d = document.createElement("div")
-            const p = document.createElement("p")
-            p.innerText =
-              data.name +
-              (data.answer !== null ? " ✅" : "") +
-              ` (${data.total})`
-            p.style.color = data.color
-
-            const p2 = document.createElement("p")
-            p2.innerText = data.answer !== null ? data.answer : ""
-
-            const p3 = document.createElement("p")
-            p3.innerText = `Score: ${data.score}`
-
-            d.appendChild(p)
-            d.appendChild(p2)
-            d.appendChild(p3)
-
-            return d
-          })
-          .forEach((elem) => playerlist.appendChild(elem))
-      })
-    },
+    init: () => {},
     reset: () => {},
   },
 
   GAMEEND: {
     div: "div-gameend",
-    init: () => {
-      const playerlist = document.getElementById("gameend-playerlist")
-
-      bind(PLAYER_DATA, (player_data) => {
-        while (playerlist.hasChildNodes())
-          playerlist.removeChild(playerlist.firstChild)
-
-        player_data
-          .map((data) => {
-            const d = document.createElement("div")
-            const p = document.createElement("p")
-            p.innerText = data.name
-            p.style.color = data.color
-
-            const p2 = document.createElement("p")
-            p2.innerText = `Final score: ${data.total}`
-
-            d.appendChild(p)
-            d.appendChild(p2)
-
-            return d
-          })
-          .forEach((elem) => playerlist.appendChild(elem))
-      })
-    },
+    init: () => {},
     reset: () => {},
   },
 }
@@ -215,3 +123,98 @@ export function initVideoPlayer() {
     play_video(message.id, message.start_time, message.start_time + 10)
   })
 }
+
+function renderPlayer(player) {
+  const div = document.createElement("div")
+  div.style.display = "flex"
+  div.style.flexDirection = "column"
+  div.style.justifyContent = "flex-start"
+  div.style.alignItems = "center"
+  div.style.border = `5px solid ${player.color}`
+  div.style.grid = "50%"
+
+  const state = retrieve(STATE)
+
+  const entry = document.createElement("p")
+  entry.innerText = player.name 
+  entry.style.fontSize = "18pt"
+  entry.style.fontWeight = "bold"
+  entry.innerText += player.connected ? "" : " 🔌"
+
+  const score = document.createElement("p")
+  score.style.fontSize = "22pt"
+  score.innerText = player.score
+
+  const answerDiv = document.createElement("div")
+
+  div.appendChild(entry)
+  switch (state) {
+    case "LOBBY":
+      entry.innerText += player.ready ? " ✅" : ""
+      break
+    case "GAMESTART":
+      entry.innerText += ` [${player.total}]`
+      break;
+    case "ROUNDSTART":
+      entry.innerText += ` [${player.total}]`
+      div.style.justifyContent = "space-between"
+      break
+    case "ROUNDCOLLECT":
+      entry.innerText += ` [${player.total}]`
+      const hiddenanswer = document.createElement("p")
+      hiddenanswer.innerText = player.answer !== null ? "* ".repeat(player.answer.length) : ""
+      answerDiv.appendChild(hiddenanswer)
+      div.appendChild(answerDiv)
+      break
+    case "ROUNDEND":
+      entry.innerText += ` [${player.total}]`
+      const fullanswer = document.createElement("p")
+      fullanswer.innerText = player.answer !== null ? player.answer : ""
+      div.appendChild(fullanswer)
+      div.appendChild(score)
+      div.style.justifyContent = "space-between"
+      break
+    case "GAMEEND":
+      entry.innerText += ` [${player.total}]`
+      break
+  }
+
+  return div
+}
+
+bind(STATE, (s) => {
+  if (s != "CONNECT") {
+    document.getElementById("playerdiv").style.display = "flex"
+  } else {
+    document.getElementById("playerdiv").style.display = "none"
+  }
+})
+
+const playerlist = document.getElementById("playerlist")
+const playercount = document.getElementById("playercount")
+
+bind(PLAYERS, (players) => {
+  renderPlayers(players)
+})
+bind(STATE, () => {
+  renderPlayers(retrieve(PLAYERS))
+})
+
+function renderPlayers(players) {
+  // Clear player list div
+  while (playerlist.hasChildNodes())
+    playerlist.removeChild(playerlist.firstChild)
+
+  players.map(renderPlayer)
+    .forEach(div => playerlist.appendChild(div))
+  playercount.innerText = `(${players.length}/8)`
+
+  for (let i = 0; i < 8-players.length; i++) {
+    const div = document.createElement("div")
+    div.style.border = "5px solid #A9A9A9"
+    div.style.grid = "50%"
+    playerlist.appendChild(div)
+  }
+}
+
+const rank = document.getElementById("rankdiv")

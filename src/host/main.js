@@ -19,6 +19,3 @@ socket.onOpen(() => {
     type: "init"
   })
 })
-socket.onClose(() => {
-  update(STATE, "CONNECT")
-})

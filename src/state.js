@@ -4,10 +4,12 @@
  */
 
 const state = {}
+const inits = {}
 const handlers = {}
 
 export function declare(init, name) {
   const sym = name === undefined ? Symbol() : Symbol(name)
+  inits[sym] = init
   state[sym] = init
   handlers[sym] = []
   return sym
@@ -25,4 +27,8 @@ export function retrieve(sym) {
 
 export function bind(sym, handler) {
   handlers[sym].push(handler)
+}
+
+export function reset(sym) {
+  state[sym] = inits[sym]
 }
