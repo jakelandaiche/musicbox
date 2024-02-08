@@ -10,6 +10,7 @@ from .utils import Sub
 from .room import Room
 
 async def game_task(room: Room, N=5):
+    print(f"Starting game with {room.dataset} and {N} rounds")
     try:
         db = Database()
         game_id = db.create_game()

@@ -44,8 +44,8 @@ class Room:
         self.subsystems: set[Task] = set()
 
         # Game info
-        self.dataset = "musicCaps1.csv"
-        self.nrounds = 5
+        self.dataset: str = "musicCaps1.csv"
+        self.nrounds: int = 5
 
         # The currently running game
         self.game: Task | None = None
