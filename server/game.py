@@ -207,9 +207,9 @@ async def wait_for_answers(room):
                 except KeyError:
                     print("No key")
 
-        print("All answers")
+        print("Received all answers")
     except CancelledError:
-        print("oops")
+        print("Did not receive all answers")
     finally:
         return
 
