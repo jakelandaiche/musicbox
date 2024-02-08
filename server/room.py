@@ -120,10 +120,6 @@ class Room:
         A player is either created or rebound as necessary
         """
 
-        # If there is a game going on, don't
-        if self.game is not None:
-            return
-
         # If there are too many players, don't
         if len(self.players) >= Room.MAX_PLAYERS:
             return
@@ -157,9 +153,15 @@ class Room:
 
         # Remove websocket
         # Note code can only reach here if connection was closed
-        self.players[name].websocket = None
-        await self.update_players()
-        self.player_timeout_tasks[name] = create_task(self.player_timeout(name))
+        if self.game is None:
+            # If no game running, just remove player
+            del self.players[name]
+            await self.update_players()
+        else:
+            # If game is running, set a timeout so player can reconnect
+            self.players[name].websocket = None
+            await self.update_players()
+            self.player_timeout_tasks[name] = create_task(self.player_timeout(name))
 
 
     async def player_timeout(self, name, timeout=30):
