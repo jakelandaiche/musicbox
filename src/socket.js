@@ -64,7 +64,7 @@ class MusicBoxSocket {
     });
     this.socket.addEventListener("close", (event) => {
       console.info(`Connection to ${ws_host} closed. Reason:` , event.reason);
-      this.onclose.forEach(_ => _(event))
+      this.onclose.forEach(f => f(event))
 
       // Null socket when closed
       this.socket = null;

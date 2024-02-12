@@ -1,5 +1,5 @@
 import { socket } from "../socket.js"
-import { update, bind } from "../state.js"
+import { update, bind, retrieve } from "../state.js"
 import { STATE, NAME, COLOR, READY } from "./model.js"
 
 export const stateViews = {
@@ -105,6 +105,7 @@ export const stateViews = {
 
         socket.send({
           type: "answer",
+          name: retrieve(NAME),
           answer: answer,
         })
 
