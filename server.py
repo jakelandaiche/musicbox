@@ -1,8 +1,8 @@
 import asyncio
-import websockets
 import argparse
+from websockets import serve
 
-from ws_handler import ws_handler
+from server import ws_handler
 
 parser = argparse.ArgumentParser(
         prog="MusicBox",
@@ -12,7 +12,7 @@ parser.add_argument("--port", default=8080)
 
 
 async def main(host, port):
-    async with websockets.serve(ws_handler, host, port):
+    async with serve(ws_handler, host, port):
         await asyncio.Future()
 
 
