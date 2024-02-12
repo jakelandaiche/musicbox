@@ -74,6 +74,7 @@ export const stateViews = {
     reset: () => {
       const nroundsinput = document.getElementById("lobby-nroundsinput");
       nroundsinput.value = "5";
+
     },
   },
 
