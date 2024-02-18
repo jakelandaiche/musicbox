@@ -1,13 +1,86 @@
 import asyncio
 import math
+from dataclasses import replace
 from asyncio import CancelledError
-
 from data import get_videos
 from database import Database
 from similarity import Similarity
 
+from .player import Player
 from .utils import Sub 
 from .room import Room
+
+async def fake_game(room: Room):
+
+    # Update round number
+    await room.send({
+        "type": "round_num",
+        "round_num": 3,
+    })
+
+    fake_players = [replace(player) for player in room.players.values()]
+    fake_answers = [
+            "This is a song about a woman being happy that she is young and succesful.",
+            "Chill pop song with an interesting out of tune horns.",
+            "A woman singing in a low, repetitive, quiet voice about being successful. The song has a moderately fast tempo and features detuned horns.",
+            "OH MY GOD IT'S ARIANA GRANDE",
+            "answer 4",
+            "answer 5",
+            "answer 6",
+            "answer 7",
+            ]
+    async def update_fake_players():
+        objs = [player.to_obj() for player in fake_players]
+        await room.send({"type":"players", "players":objs})
+
+    for player in fake_players:
+        player.answer = None
+        player.total = 0
+        player.score = 0
+        player.color_list = []
+
+
+    # Round Start
+    await room.broadcast({
+        "type": "state",
+        "state": "ROUNDSTART"
+        })
+    await update_fake_players()
+    await room.send({
+        "type": "video",
+        "id": "_IvArrFhcp0",
+        "start_time": 52
+        })
+    await asyncio.sleep(20)
+
+    
+    # Collect
+    await room.broadcast({
+        "type": "state",
+        "state": "ROUNDCOLLECT"
+        })
+    # Input fake answers at timed intervals 
+    for player, answer in zip(fake_players, fake_answers):
+        await asyncio.sleep(1)
+        player.answer = answer
+        await update_fake_players()
+    await asyncio.sleep(1)
+
+    # Compute scores
+    try:
+        compute_scores(fake_players)
+    except Exception as e:
+        print("Error computing scores")
+        print(e)
+
+    # Round End
+    await update_fake_players()
+    await room.broadcast({
+        "type": "state",
+        "state": "ROUNDEND"
+        })
+    await asyncio.sleep(30)
+
 
 async def game_task(room: Room, N=5):
     print(f"Starting game with {room.dataset} and {N} rounds")
@@ -24,6 +97,7 @@ async def game_task(room: Room, N=5):
     except Exception as e:
         print("Error retrieving videos")
         print(e)
+        return
 
     try:
         # Init 
@@ -44,7 +118,10 @@ async def game_task(room: Room, N=5):
             "type": "state",
             "state": "GAMESTART"
             })
+
         await asyncio.sleep(15)
+
+        await fake_game(room)
 
         for n in range(1, N+1):
             # Reset scores
@@ -59,7 +136,6 @@ async def game_task(room: Room, N=5):
                 "type": "round_num",
                 "round_num": n,
             })
-
             # Round Start
             await room.broadcast({
                 "type": "state",
@@ -85,7 +161,7 @@ async def game_task(room: Room, N=5):
 
             # Compute scores
             try:
-                compute_scores(room)
+                compute_scores(list(room.players.values()))
             except Exception as e:
                 print("Error computing scores")
                 print(e)
@@ -143,8 +219,8 @@ common_words = [
     "at",
 ]
 
-def compute_scores(room):
-    with_answers = [player for player in room.players.values() if player.answer is not None]
+def compute_scores(players: list[Player]):
+    with_answers: list[Player] = [player for player in players if player.answer is not None]
     sim_scores = sim_checker.sim_scores([player.answer for player in with_answers])
     colors: dict[str, int] = {"the": 0}
 
@@ -185,8 +261,8 @@ def compute_scores(room):
             else:
                 player.color_list.append(0)
 
-        player.score = (score + matches ^ 2) * (1 + mult/100)
-        player.total = player.total + player.score
+        player.score = int((score + matches ^ 2) * (1 + mult/100))
+        player.total = int(player.total + player.score)
 
 
 async def wait_for_answers(room):
