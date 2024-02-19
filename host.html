@@ -55,8 +55,56 @@
           <!-- Game Start -->
           <div id="div-gamestart" style="display: none;">
             <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
-              <p>Welcome to MusicBox. This game is [...]</p>
+              <p>Welcome to MusicBox. This game tests how well you can describe music. A short demo round will play.</p>
               <div class="progressbar" style="--duration: 15;">
+                <div></div>
+              </div>
+              <button id="gamestart-skip" disabled style="width: 100px;">Skip</button>
+            </div>
+          </div>
+
+          <!-- Fake Round Start -->
+          <div id="div-fakeroundstart" style="display: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+              <p>You will be presented with a short clip of music to listen to</p>
+              <div class="progressbar" style="--duration: 20;">
+                <div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fake Round Collect -->
+          <div id="div-fakeroundcollect" style="display: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+              <p>Then, you will write what you think the music sounded like.</p>
+              <div class="progressbar" style="--duration: 20;">
+                <div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fake Round End -->
+          <div id="div-fakeroundend" style="display: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+              <p>Your response will be evaluated based on several factors.</p>
+              <ul>
+                <li>- Similarity with other players answers </li>
+                <li>- How meaningful your answer is </li>
+                <li>- Matching words </li>
+                <li>- Length </li>
+              </ul>
+              <p>And your score will appear on the bottom of your card</p>
+              <div class="progressbar" style="--duration: 20;">
+                <div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fake Round End 2 -->
+          <div id="div-fakeroundend2" style="display: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
+              <p>That's all. Your cumulative score is tracked between rounds next to your name. Try to get the highest score!</p>
+              <div class="progressbar" style="--duration: 10;">
                 <div></div>
               </div>
             </div>

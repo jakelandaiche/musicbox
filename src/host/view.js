@@ -88,6 +88,27 @@ export const stateViews = {
     reset: () => {},
   },
 
+  FAKEROUNDSTART: {
+    div: "div-fakeroundstart",
+    init: () => {},
+    reset: () => {},
+  },
+  FAKEROUNDCOLLECT: {
+    div: "div-fakeroundcollect",
+    init: () => {},
+    reset: () => {},
+  },
+  FAKEROUNDEND: {
+    div: "div-fakeroundend",
+    init: () => {},
+    reset: () => {},
+  },
+  FAKEROUNDEND2: {
+    div: "div-fakeroundend2",
+    init: () => {},
+    reset: () => {},
+  },
+
   ROUNDSTART: {
     div: "div-roundstart",
     init: () => {
@@ -141,7 +162,10 @@ bind(STATE, (s) => {
     document.getElementById(stateViews[k].div).style.display = "none"
   })
   Object.keys(stateViews).forEach((k) => stateViews[k].reset())
-  document.getElementById(stateViews[s].div).style.display = "block"
+  console.log(stateViews)
+  if (s in stateViews) {
+    document.getElementById(stateViews[s].div).style.display = "block"
+  }
 })
 
 export function initViews() {
@@ -185,6 +209,59 @@ function renderPlayer(player) {
     case "GAMESTART":
       entry.innerText += ` [${Math.round(player.total)}]`
       break;
+    case "FAKEROUNDSTART":
+      break;
+    case "FAKEROUNDCOLLECT":
+      {
+      const hiddenanswer = document.createElement("p")
+      hiddenanswer.innerText = player.answer !== null ? "* ".repeat(player.answer.length) : ""
+      answerDiv.appendChild(hiddenanswer)
+      div.appendChild(answerDiv)
+      }
+      break;
+    case "FAKEROUNDEND":
+      {
+      const fullanswer = document.createElement("p")
+      console.log(player.color_list)
+      console.log(player.answer)
+      const color_list = player.color_list;
+      const raw_answer = player.answer !== null ? player.answer : ""
+      fullanswer.innerHTML = raw_answer.split(" ")
+        .map((word, i) => 
+          color_list[i] == 0 ? 
+            word 
+          :
+            `<span style="color: ${colors[color_list[i]]};">${word}</span>`
+        )
+        .join(" ");
+      console.log(fullanswer.innerHTML)
+      div.appendChild(fullanswer)
+      div.appendChild(score)
+      div.style.justifyContent = "space-between"
+      }
+      break
+    case "FAKEROUNDEND2":
+      {
+      entry.innerText += ` [${Math.round(player.total)}]`
+      const fullanswer = document.createElement("p")
+      console.log(player.color_list)
+      console.log(player.answer)
+      const color_list = player.color_list;
+      const raw_answer = player.answer !== null ? player.answer : ""
+      fullanswer.innerHTML = raw_answer.split(" ")
+        .map((word, i) => 
+          color_list[i] == 0 ? 
+            word 
+          :
+            `<span style="color: ${colors[color_list[i]]};">${word}</span>`
+        )
+        .join(" ");
+      console.log(fullanswer.innerHTML)
+      div.appendChild(fullanswer)
+      div.appendChild(score)
+      div.style.justifyContent = "space-between"
+      }
+      break
     case "ROUNDSTART":
       entry.innerText += ` [${Math.round(player.total)}]`
       div.style.justifyContent = "space-between"
