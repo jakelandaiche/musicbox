@@ -12,18 +12,12 @@ from .room import Room
 
 async def fake_game(room: Room):
 
-    # Update round number
-    await room.send({
-        "type": "round_num",
-        "round_num": 3,
-    })
-
     fake_players = [replace(player) for player in room.players.values()]
     fake_answers = [
             "This is a song about a woman being happy that she is young and succesful.",
             "Chill pop song with an interesting out of tune horns.",
             "A woman singing in a low, repetitive, quiet voice about being successful. The song has a moderately fast tempo and features detuned horns.",
-            "OH MY GOD IT'S ARIANA GRANDE",
+            "ARIANA GRANDE",
             "answer 4",
             "answer 5",
             "answer 6",
@@ -43,7 +37,7 @@ async def fake_game(room: Room):
     # Round Start
     await room.broadcast({
         "type": "state",
-        "state": "ROUNDSTART"
+        "state": "FAKEROUNDSTART"
         })
     await update_fake_players()
     await room.send({
@@ -57,7 +51,7 @@ async def fake_game(room: Room):
     # Collect
     await room.broadcast({
         "type": "state",
-        "state": "ROUNDCOLLECT"
+        "state": "FAKEROUNDCOLLECT"
         })
     # Input fake answers at timed intervals 
     for player, answer in zip(fake_players, fake_answers):
@@ -77,9 +71,17 @@ async def fake_game(room: Room):
     await update_fake_players()
     await room.broadcast({
         "type": "state",
-        "state": "ROUNDEND"
+        "state": "FAKEROUNDEND"
         })
-    await asyncio.sleep(30)
+    await asyncio.sleep(20)
+
+    # Round End 2
+    await update_fake_players()
+    await room.broadcast({
+        "type": "state",
+        "state": "FAKEROUNDEND2"
+        })
+    await asyncio.sleep(10)
 
 
 async def game_task(room: Room, N=5):
