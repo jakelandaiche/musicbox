@@ -18,10 +18,10 @@ async def fake_game(room: Room):
             "Chill pop song with an interesting out of tune horns.",
             "A woman singing in a low, repetitive, quiet voice about being successful. The song has a moderately fast tempo and features detuned horns.",
             "ARIANA GRANDE",
-            "answer 4",
-            "answer 5",
-            "answer 6",
-            "answer 7",
+            "The track unfolds as a vibrant sonic tapestry, blending pulsating beats with the artist's vocals. Its buoyant energy and uplifting lyrics create a musical journey that encapsulates the essence of triumph and accomplishment by repeating the word successful.",
+            "A successful woman",
+            "A womans singing over minimal arrangement",
+            "uhh",
             ]
     async def update_fake_players():
         objs = [player.to_obj() for player in fake_players]
@@ -170,7 +170,7 @@ async def game_task(room: Room, N=5):
 
             try:
                 for player in room.players.values():
-                    db.write_answer(player, n)
+                    db.write_answer(player, n, video["id"])
             except Exception as e:
                 print("Error writing to database")
                 print(e)

@@ -19,8 +19,8 @@ class Database:
         self.con.commit()
         return self.cur.lastrowid
 
-    def write_answer(self, player, round):
+    def write_answer(self, player, round, video_id):
         self.cur.execute(
-            f"INSERT INTO answers(answer, round, score, player) VALUES('{player.answer}', {round}, {player.score}, {player.db_id})"
+            f"INSERT INTO answers(answer, round, score, player) VALUES('{player.answer}', {round}, {player.score}, {player.db_id}, {video_id})"
         )
         self.con.commit()
