@@ -1,6 +1,7 @@
 import json
 import asyncio
 import math
+import re
 
 from data import get_video
 from utils import Sub
@@ -9,23 +10,15 @@ from similarity import Similarity
 
 sim_checker = Similarity()
 
+# 3 letters or longer, already not going to count smaller ones
 common_words = [
     "the",
-    "be",
-    "to",
-    "of",
     "and",
-    "a",
-    "in",
     "that",
     "have",
-    "it",
     "for",
     "not",
-    "on",
     "with",
-    "as",
-    "at",
 ]
 
 
@@ -149,6 +142,9 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
     with_answers = [
         player for player in player_data.values() if player.answer is not None
     ]
+    split_answers = []
+    for p in with_answers:
+        split_answers.extend(re.split(", | |\. |; ", p.answer))
     sim_scores = sim_checker.sim_scores([player.answer for player in with_answers])
     colors: dict[str, int] = {"the": 0}
 
@@ -158,24 +154,20 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
         mult = 0
 
         # get words
-        answer_l = player.answer.replace(".", "").replace(",", "").split(" ")
+        answer_l = re.split(", | |. |; ", player.answer)
         answer_s = set()
-
         matches = 0
 
         for word in answer_l:
-            if word not in common_words:
-                if word not in answer_s:
-                    # increase multiplier for each unique uncommon word
-                    if mult < 20:
-                        mult += 1
-                match = False
+            if  len(word) > 2 and word not in common_words:
+                
                 # more points for words in common with others
-                for other in with_answers:
-                    if other is not player and other.answer.count(word):
-                        match = True
-                if match:
-                    matches += 1
+                if word in split_answers:
+                    if word not in answer_s:
+                        # increase multiplier for each unique uncommon word
+                        if mult < 20:
+                            mult += 1
+                        matches += 1
                     # keep track of what words have been matching and assign each a number
                     if word not in colors:
                         colors[word] = max(colors.values()) + 1

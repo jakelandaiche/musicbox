@@ -2,7 +2,7 @@ import pandas as pd
 
 def setup_dataset_filtered():
     dataset = pd.read_csv(
-        "filtered.csv",
+        "manuallySelected.csv",
         on_bad_lines="skip",
         quotechar='"',
         engine="python",
