@@ -8,7 +8,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function play_video(video_id, start, end) {
   if (videoplayer === null) return;
-  console.log("Playing video...")
+  console.log("Playing video...", video_id)
 
   let timeout_id;
   videoplayer.err_callbacks.push((error) => {
@@ -57,6 +57,7 @@ function onYouTubeIframeAPIReady () {
     events: {
       'onReady': () => {
         console.info("Player is ready", videoplayer);
+        play_video('QhtL-6Cf5Xk', 0, 264);
       },
       'onError': (error) => {
         if (err_callbacks.length > 0) {
