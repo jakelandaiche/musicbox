@@ -163,7 +163,6 @@ bind(STATE, (s) => {
     document.getElementById(stateViews[s].div).style.display = "block"
   }
 })
->>>>>>> feat/game-start-demo
 
 export function initViews() {
   Object.keys(stateViews).forEach((k) => stateViews[k].init());
