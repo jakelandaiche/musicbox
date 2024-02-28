@@ -83,6 +83,27 @@ export const stateViews = {
     init: () => {},
     reset: () => {},
   },
+  FAKEROUNDSTART: {
+    div: "div-gamestart",
+    init: () => {},
+    reset: () => {},
+  },
+  FAKEROUNDCOLLECT: {
+    div: "div-gamestart",
+    init: () => {},
+    reset: () => {},
+  },
+  FAKEROUNDEND: {
+    div: "div-gamestart",
+    init: () => {},
+    reset: () => {},
+  },
+  FAKEROUNDEND2: {
+    div: "div-gamestart",
+    init: () => {},
+    reset: () => {},
+  },
+
 
   ROUNDSTART: {
     div: "div-roundstart",
