@@ -74,7 +74,6 @@ export const stateViews = {
     reset: () => {
       const nroundsinput = document.getElementById("lobby-nroundsinput");
       nroundsinput.value = "5";
-
     },
   },
 
@@ -196,8 +195,6 @@ function renderPlayer(player) {
     case "ROUNDEND":
       entry.innerText += ` [${Math.round(player.total)}]`;
       const fullanswer = document.createElement("p");
-      console.log(player.color_list);
-      console.log(player.answer);
       const color_list = player.color_list;
       const raw_answer = player.answer !== null ? player.answer : "";
       fullanswer.innerHTML = raw_answer
@@ -208,7 +205,6 @@ function renderPlayer(player) {
             : `<span style="color: ${colors[color_list[i]]};">${word}</span>`
         )
         .join(" ");
-      console.log(fullanswer.innerHTML);
       div.appendChild(fullanswer);
       div.appendChild(score);
       div.style.justifyContent = "space-between";
