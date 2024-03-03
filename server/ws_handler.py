@@ -5,12 +5,10 @@ from .utils import generate_code
 from .room import ROOMS, Room 
 from .subsystem import Subsystem
 
-from .subsystems.base import base 
-from .subsystems.echo import echo 
+from .subsystems.base import base
 
 
 SUBSYSTEMS: list[Subsystem] = [ 
-                               echo,
                                base
                                ]
 
