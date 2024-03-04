@@ -46,7 +46,7 @@ class Player:
             "total": self.total,
             "db_id": self.db_id,
             "score_info": self.score_info,
-            "unique_words": list(self.unique_words),
+            "unique_words": len(self.unique_words),
             "avg_len": self.word_len / self.word_count if self.word_count > 0 else 0,
         }
 
