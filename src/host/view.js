@@ -32,7 +32,7 @@ export const stateViews = {
     },
     reset: () => {
       const hostinput = document.getElementById("connectform-hostinput");
-      hostinput.innerText = "ws://backend.drexel-musicbox.com:8080";
+      hostinput.innerText = "wss://backend.drexel-musicbox.com:8080";
     },
   },
 

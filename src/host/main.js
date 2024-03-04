@@ -20,8 +20,7 @@ socket.onOpen(() => {
   });
 });
 
-socket.init("ws://backend.drexel-musicbox.com:8080")
+socket.init("wss://backend.drexel-musicbox.com:8080");
 setTimeout(() => {
-  if (socket.socket == null) 
-    socket.init("ws://localhost:8080")
-}, 1000)
+  if (socket.socket == null) socket.init("ws://localhost:8080");
+}, 1000);
