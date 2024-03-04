@@ -5,11 +5,12 @@ import logging
 import sys
 import websockets
 
-from room import Room
-from player import Player
-from code import generate_code
-from websockets import serve
+from asyncio import create_task
 
+from server.room import Room
+from server.player import Player
+from server.utils import generate_code
+from server.subsystems.base import base
 
 class Server:
 
@@ -58,46 +59,15 @@ class Server:
 
         # Host connection
         if info["type"] == "host":
-            # Send back code
-            await websocket.send(json.dumps({
-                "type": "init",
-                "code": code
-                }))
-
-            # Push messages to room
-            async for message in websocket:
-                message = json.loads(message)
-                message["host"] = True
-                room.messages.pub(message)
-
-            # When done, cleanup
-            room.stop()
-            del self.rooms[code]
+            await room.bind_host(websocket)
 
 
         # Player connection
         if info["type"] == "player":
-
-            # Add player to room
             name = info["name"]
-            player = Player(name, websocket)
-            room.players[name] = player
-            await room.update_players()
-
-            await websocket.send(json.dumps({
-                "type": "init",
-                "code": code
-                }))
-
-            # Push messages to room
-            async for message in websocket:
-                message = json.loads(message)
-                message["player"] = player
-                room.messages.pub(message)
-
-            # When done, cleanup
-            del room.players[name]
-            await room.update_players()
+            await room.bind_player(websocket, name)
+        
+        self.logger.debug(f"{websocket.remote_address}: Handler terminated")
 
     async def get_info(self, websocket):
         """
@@ -113,7 +83,7 @@ class Server:
             try:
                 message = json.loads(message)
             except Exception as ex:
-                self.logger.warn(f"Message was not json: {ex}")
+                self.logger.error(f"Message was not json: {ex}")
                 continue
 
             # Message must have type
@@ -124,27 +94,21 @@ class Server:
             # Case: Message type is "init"
             # (Host connection)
             if message["type"] == "init":
-                if "code" in message:
-                    # If message contains code, then check if room exists
-                    code = message["code"]
-                    if code in self.rooms:
-                        # Get room if exists
-                        room = self.rooms[code]
-                    else:
-                        # If not, ignore
-                        self.logger.warn()
-                        continue
+                new_code = generate_code()
+                code = message.get("code", new_code)
+                if code in self.rooms:
+                    # Get room if exists
+                    room = self.rooms[code]
                 else:
-                    # If not, create room 
-                    room = Room(websocket, self.debug)
-                    new_code = generate_code()
-                    self.rooms[new_code] = room
+                    room = Room(new_code, None, self.debug)
+                    room.subsystems.add(create_task(base.bind(room)))
 
-                # Done
+                    self.rooms[code] = room
+
                 return {
-                        "type": "host",
-                        "room": new_code
-                        }
+                    "type": "host",
+                    "room": code
+                }
 
 
             # Case: Message type is "join"
@@ -165,8 +129,6 @@ class Server:
                 # "join" message must have "name"
                 if "name" in message:
                     name = message["name"]
-                    if name in room.players:
-                        continue
                 else:
                     continue
 

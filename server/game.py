@@ -5,6 +5,7 @@ from asyncio import CancelledError
 from data import get_videos
 from database import Database
 from similarity import Similarity
+import re
 
 from .player import Player
 from .utils import Sub 
@@ -128,9 +129,7 @@ async def game_task(room: Room, N=5):
         for n in range(1, N+1):
             # Reset scores
             for player in room.players.values():
-                player.answer = None
-                player.score = 0
-                player.color_list = []
+                player.clear()
             await room.update_players()
 
             # Update round number
@@ -183,6 +182,12 @@ async def game_task(room: Room, N=5):
                 })
             await asyncio.sleep(30)
 
+        await room.broadcast(
+            {
+                "type": "player_stats",
+                "player_stats": [p.to_obj() for p in room.players.values()]
+            }
+        )
 
         await room.broadcast({
             "type": "state",
@@ -204,25 +209,22 @@ sim_checker = Similarity()
 
 common_words = [
     "the",
-    "be",
-    "to",
-    "of",
     "and",
-    "a",
-    "in",
     "that",
     "have",
-    "it",
     "for",
     "not",
-    "on",
     "with",
-    "as",
-    "at",
+    "music"
 ]
 
 def compute_scores(players: list[Player]):
-    with_answers: list[Player] = [player for player in players if player.answer is not None]
+    with_answers = [
+        player for player in players if player.answer is not None
+    ]
+    split_answers = []
+    for p in with_answers:
+        split_answers.extend(re.split(", | |\. |; ", p.answer))
     sim_scores = sim_checker.sim_scores([player.answer for player in with_answers])
     colors: dict[str, int] = {"the": 0}
 
@@ -232,27 +234,23 @@ def compute_scores(players: list[Player]):
         mult = 0
 
         # get words
-        answer_l = player.answer \
-                .replace(".","") \
-                .replace(",","") \
-                .split(" ")
+        answer_l = re.split(", | |. |; ", player.answer)
         answer_s = set()
-
         matches = 0
 
         for word in answer_l:
-            if word not in common_words:
-                if word not in answer_s:
-                    # increase multiplier for each unique uncommon word
-                    if mult < 20:
-                        mult += 1
-                match = False
+            player.word_count += 1
+            player.unique_words.add(word)
+            length = len(word)
+            player.word_len += length
+            if length > 2 and word not in common_words:
                 # more points for words in common with others
-                for other in with_answers:
-                    if other is not player and other.answer.count(word):
-                        match = True
-                if match:
-                    matches += 1
+                if word in split_answers:
+                    if word not in answer_s:
+                        # increase multiplier for each unique uncommon word
+                        if mult < 10:
+                            mult += 1
+                        matches += 1
                     # keep track of what words have been matching and assign each a number
                     if word not in colors:
                         colors[word] = max(colors.values()) + 1
@@ -263,8 +261,14 @@ def compute_scores(players: list[Player]):
             else:
                 player.color_list.append(0)
 
-        player.score = int((score + matches ^ 2) * (1 + mult/100))
-        player.total = int(player.total + player.score)
+        final_mult = matches / 10 * 35 / 100
+        player.score = (score + matches ^ 2) * (1 + final_mult)
+        player.total += player.score
+        player.score_info = {
+            "bonus": f"{final_mult}%",
+            "similarity": score,
+            "matches": matches ^ 2
+        }
 
 
 async def wait_for_answers(room):

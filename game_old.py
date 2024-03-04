@@ -138,7 +138,7 @@ class PlayerData:
         }
 
 
-def compute_scores(player_data: dict[str, PlayerData], video_id):
+def compute_scores(players: list[Player]):
     with_answers = [
         player for player in player_data.values() if player.answer is not None
     ]
@@ -159,8 +159,8 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
         matches = 0
 
         for word in answer_l:
-            if  len(word) > 2 and word not in common_words:
-                
+            if len(word) > 2 and word not in common_words:
+
                 # more points for words in common with others
                 if word in split_answers:
                     if word not in answer_s:
@@ -184,10 +184,9 @@ def compute_scores(player_data: dict[str, PlayerData], video_id):
 
 async def all_submit(room, player_data):
     """returns when all players have submitted"""
-    with Sub(room.messages) as queue:
-        try:
-            while True:
-                message = await queue.get()
+    try:
+        with Sub(room.messages) as messages:
+            async for message in messages:
                 if message["type"] == "answer":
                     name = message["player"].name
                     player_data[name].answer = message["answer"]
@@ -201,12 +200,10 @@ async def all_submit(room, player_data):
                             }
                         )
                     )
-
                 if all(p.answer is not None for p in player_data.values()):
                     break
-        except asyncio.CancelledError:
-            raise
-    return
+    except asyncio.CancelledError:
+        raise
 
 
 async def all_submit_or(room, player_data, T):
