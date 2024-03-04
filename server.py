@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 import websockets
+import ssl
 
 from asyncio import create_task
 
@@ -11,6 +12,7 @@ from server.room import Room
 from server.player import Player
 from server.utils import generate_code
 from server.subsystems.base import base
+
 
 class Server:
 
@@ -39,8 +41,15 @@ class Server:
         self.logger.setLevel(logging.DEBUG if self.debug else logging.INFO)
 
     async def start(self):
+        ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        ssl_cert = "./fullchain1.pem"
+        ssl_key = "./privkey1.pem"
+        ssl_context.load_cert_chain(ssl_cert, keyfile=ssl_key)
+
         self.logger.info(f"Listening on {self.host}:{self.port}")
-        async with websockets.serve(self.ws_handler, self.host, self.port):
+        async with websockets.serve(
+            self.ws_handler, self.host, self.port, ssl=ssl_context
+        ):
             await asyncio.Future()
 
     async def ws_handler(self, websocket: websockets):
@@ -61,12 +70,11 @@ class Server:
         if info["type"] == "host":
             await room.bind_host(websocket)
 
-
         # Player connection
         if info["type"] == "player":
             name = info["name"]
             await room.bind_player(websocket, name)
-        
+
         self.logger.debug(f"{websocket.remote_address}: Handler terminated")
 
     async def get_info(self, websocket):
@@ -90,7 +98,6 @@ class Server:
             if "type" not in message:
                 continue
 
-
             # Case: Message type is "init"
             # (Host connection)
             if message["type"] == "init":
@@ -105,11 +112,7 @@ class Server:
 
                     self.rooms[code] = room
 
-                return {
-                    "type": "host",
-                    "room": code
-                }
-
+                return {"type": "host", "room": code}
 
             # Case: Message type is "join"
             # (Player connection)
@@ -132,11 +135,7 @@ class Server:
                 else:
                     continue
 
-                return {
-                        "type": "player",
-                        "room": code,
-                        "name": name
-                        }
+                return {"type": "player", "room": code, "name": name}
 
         # Can only reach here if connection was closed
         return None
