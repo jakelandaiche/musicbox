@@ -8,25 +8,27 @@ from similarity import Similarity
 import re
 
 from .player import Player
-from .utils import Sub 
+from .utils import Sub
 from .room import Room
+
 
 async def fake_game(room: Room):
 
     fake_players = [replace(player) for player in room.players.values()]
     fake_answers = [
-            "This is a song about a woman being happy that she is young and succesful.",
-            "Chill pop song with an interesting out of tune horns.",
-            "A woman singing in a low, repetitive, quiet voice about being successful. The song has a moderately fast tempo and features detuned horns.",
-            "ARIANA GRANDE",
-            "The track unfolds as a vibrant sonic tapestry, blending pulsating beats with the artist's vocals. Its buoyant energy and uplifting lyrics create a musical journey that encapsulates the essence of triumph and accomplishment by repeating the word successful.",
-            "A successful woman",
-            "A womans singing over minimal arrangement",
-            "uhh",
-            ]
+        "This is a song about a woman being happy that she is young and succesful.",
+        "Chill pop song with an interesting out of tune horns.",
+        "A woman singing in a low, repetitive, quiet voice about being successful. The song has a moderately fast tempo and features detuned horns.",
+        "ARIANA GRANDE",
+        "The track unfolds as a vibrant sonic tapestry, blending pulsating beats with the artist's vocals. Its buoyant energy and uplifting lyrics create a musical journey that encapsulates the essence of triumph and accomplishment by repeating the word successful.",
+        "A successful woman",
+        "A womans singing over minimal arrangement",
+        "uhh",
+    ]
+
     async def update_fake_players():
         objs = [player.to_obj() for player in fake_players]
-        await room.send({"type":"players", "players":objs})
+        await room.send({"type": "players", "players": objs})
 
     for player in fake_players:
         player.answer = None
@@ -34,27 +36,15 @@ async def fake_game(room: Room):
         player.score = 0
         player.color_list = []
 
-
     # Round Start
-    await room.broadcast({
-        "type": "state",
-        "state": "FAKEROUNDSTART"
-        })
+    await room.broadcast({"type": "state", "state": "FAKEROUNDSTART"})
     await update_fake_players()
-    await room.send({
-        "type": "video",
-        "id": "_IvArrFhcp0",
-        "start_time": 52
-        })
+    await room.send({"type": "video", "id": "_IvArrFhcp0", "start_time": 52})
     await asyncio.sleep(20)
 
-    
     # Collect
-    await room.broadcast({
-        "type": "state",
-        "state": "FAKEROUNDCOLLECT"
-        })
-    # Input fake answers at timed intervals 
+    await room.broadcast({"type": "state", "state": "FAKEROUNDCOLLECT"})
+    # Input fake answers at timed intervals
     for player, answer in zip(fake_players, fake_answers):
         await asyncio.sleep(1)
         player.answer = answer
@@ -70,18 +60,12 @@ async def fake_game(room: Room):
 
     # Round End
     await update_fake_players()
-    await room.broadcast({
-        "type": "state",
-        "state": "FAKEROUNDEND"
-        })
+    await room.broadcast({"type": "state", "state": "FAKEROUNDEND"})
     await asyncio.sleep(20)
 
     # Round End 2
     await update_fake_players()
-    await room.broadcast({
-        "type": "state",
-        "state": "FAKEROUNDEND2"
-        })
+    await room.broadcast({"type": "state", "state": "FAKEROUNDEND2"})
     await asyncio.sleep(10)
 
 
@@ -103,7 +87,7 @@ async def game_task(room: Room, N=5):
         return
 
     try:
-        # Init 
+        # Init
         for player in room.players.values():
             try:
                 player.db_id = db.create_player(player.name, game_id)
@@ -117,44 +101,35 @@ async def game_task(room: Room, N=5):
         await room.update_players()
 
         # Game Start
-        await room.broadcast({
-            "type": "state",
-            "state": "GAMESTART"
-            })
+        await room.broadcast({"type": "state", "state": "GAMESTART"})
 
         await asyncio.sleep(15)
 
         await fake_game(room)
 
-        for n in range(1, N+1):
+        for n in range(1, N + 1):
             # Reset scores
             for player in room.players.values():
                 player.clear()
             await room.update_players()
 
             # Update round number
-            await room.send({
-                "type": "round_num",
-                "round_num": n,
-            })
+            await room.send(
+                {
+                    "type": "round_num",
+                    "round_num": n,
+                }
+            )
             # Round Start
-            await room.broadcast({
-                "type": "state",
-                "state": "ROUNDSTART"
-                })
-            video = videos[n-1]
-            await room.send({
-                "type": "video",
-                "id": video["id"],
-                "start_time": video["start_time"]
-                })
+            await room.broadcast({"type": "state", "state": "ROUNDSTART"})
+            video = videos[n - 1]
+            await room.send(
+                {"type": "video", "id": video["id"], "start_time": video["start_time"]}
+            )
             await asyncio.sleep(20)
 
             # Collect answers
-            await room.broadcast({
-                "type": "state",
-                "state": "ROUNDCOLLECT"
-                })
+            await room.broadcast({"type": "state", "state": "ROUNDCOLLECT"})
             try:
                 await asyncio.wait_for(wait_for_answers(room), timeout=30)
             except TimeoutError:
@@ -176,23 +151,17 @@ async def game_task(room: Room, N=5):
 
             # Round end
             await room.update_players()
-            await room.broadcast({
-                "type": "state",
-                "state": "ROUNDEND"
-                })
+            await room.broadcast({"type": "state", "state": "ROUNDEND"})
             await asyncio.sleep(30)
 
         await room.broadcast(
             {
                 "type": "player_stats",
-                "player_stats": [p.to_obj() for p in room.players.values()]
+                "player_stats": [p.to_obj() for p in room.players.values()],
             }
         )
 
-        await room.broadcast({
-            "type": "state",
-            "state": "GAMEEND"
-            })
+        await room.broadcast({"type": "state", "state": "GAMEEND"})
 
     except asyncio.CancelledError:
         raise
@@ -207,24 +176,11 @@ async def game_task(room: Room, N=5):
 
 sim_checker = Similarity()
 
-common_words = [
-    "the",
-    "and",
-    "that",
-    "have",
-    "for",
-    "not",
-    "with",
-    "music"
-]
+common_words = ["the", "and", "that", "have", "for", "not", "with", "music"]
+
 
 def compute_scores(players: list[Player]):
-    with_answers = [
-        player for player in players if player.answer is not None
-    ]
-    split_answers = []
-    for p in with_answers:
-        split_answers.extend(re.split(", | |\. |; ", p.answer))
+    with_answers = [player for player in players if player.answer is not None]
     sim_scores = sim_checker.sim_scores([player.answer for player in with_answers])
     colors: dict[str, int] = {"the": 0}
 
@@ -233,8 +189,15 @@ def compute_scores(players: list[Player]):
         score = math.floor(sim_scores[i] * 1000)
         mult = 0
 
+        split_answers = []
+        for j in range(len(with_answers)):
+            if j != i:
+                split_answers.extend(
+                    with_answers[j].answer.strip(".;,\n\t").lower().split()
+                )
+
         # get words
-        answer_l = re.split(", | |. |; ", player.answer)
+        answer_l = player.answer.strip(".;,\n\t").lower().split()
         answer_s = set()
         matches = 0
 
@@ -261,13 +224,13 @@ def compute_scores(players: list[Player]):
             else:
                 player.color_list.append(0)
 
-        final_mult = matches / 10 * 35 / 100
-        player.score = (score + matches ^ 2) * (1 + final_mult)
+        final_mult = matches / 10 * 0.35
+        player.score = int((score + matches ^ 2) * (1 + final_mult))
         player.total += player.score
         player.score_info = {
             "bonus": f"{final_mult}%",
             "similarity": score,
-            "matches": matches ^ 2
+            "matches": matches ^ 2,
         }
 
 
@@ -284,7 +247,9 @@ async def wait_for_answers(room):
                         room.players[name].answer = message["answer"]
                         await room.update_players()
 
-                    if all(player.answer is not None for player in room.players.values()):
+                    if all(
+                        player.answer is not None for player in room.players.values()
+                    ):
                         break
                 except KeyError:
                     print("No key")
@@ -294,4 +259,3 @@ async def wait_for_answers(room):
         print("Did not receive all answers")
     finally:
         return
-
