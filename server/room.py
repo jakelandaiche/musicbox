@@ -1,11 +1,11 @@
 """
 Room module
 """
-
+import logging
 import json
+from sys import stdout
 from asyncio import Task, sleep, create_task, CancelledError
 from typing import Iterable, Callable, Coroutine
-from bidict import bidict
 
 from websockets import broadcast
 from websockets.server import WebSocketServerProtocol as Socket
@@ -14,17 +14,19 @@ from websockets.exceptions import ConnectionClosed
 from .utils import Hub, Sub, send
 from .player import Player
 
-# Global rooms object
-ROOMS: bidict[str, "Room"] = bidict()
-
 class Room:
     """ 
     A Room object. 
     """
     MAX_PLAYERS = 8 
-    MIN_TO_START = 0
+    MIN_TO_START = 3
 
-    def __init__(self, websocket=None):
+    dead: bool = False
+
+    def __init__(self, code: str, websocket=None, debug = False):
+        
+        self.code = code
+        self.debug = debug
         # The Host WebSocket tied to this room.
         self.websocket: Socket | None = websocket 
         
@@ -32,8 +34,8 @@ class Room:
         self.messages = Hub()
 
         # Players and their timeouts
-        self.players: bidict[str, Player] = bidict()
-        self.player_timeout_tasks: bidict[str, Task] = bidict()
+        self.players: dict[str, Player] = dict()
+        self.player_timeout_tasks: dict[str, Task] = dict()
 
         # This holds the timeout task, which is called whenever
         # the room loses the host websocket.
@@ -50,12 +52,12 @@ class Room:
         # The currently running game
         self.game: Task | None = None
 
-    @property
-    def code(self) -> str:
-        try:
-            return ROOMS.inv[self]
-        except:
-            return ""
+        self.setup_logger()
+
+    def setup_logger(self):
+        self.logger = logging.getLogger(__name__)
+        self.logger.addHandler(logging.StreamHandler(stdout))
+        self.logger.setLevel(logging.DEBUG if self.debug else logging.INFO)
 
     @property
     def connections(self) -> Iterable[Socket]:
@@ -101,17 +103,17 @@ class Room:
         from the ROOMS global dictionary
         """
         try:
-            print(f"{self.code}: Deleting self in {timeout} seconds")
+            self.logger.debug(f"{self.code}: Marking self dead in {timeout} seconds")
             await sleep(timeout)
 
-            del ROOMS[self.code]
+            self.dead = True
             for subsystem in list(self.subsystems):
                 subsystem.cancel()
             for connection in list(self.connections):
                 await connection.close()
             
         except CancelledError:
-            print(f"{self.code}: Self-destruct cancelled")
+            self.logger.debug(f"{self.code}: Self-destruct cancelled")
 
 
     async def bind_player(self, websocket: Socket, name: str):
@@ -172,13 +174,13 @@ class Room:
         a playem from self.players
         """
         try: 
-            print(f"{self.code}: Removing {name} in {timeout} seconds")
+            self.logger.debug(f"{self.code}: Removing {name} in {timeout} seconds")
             await sleep(timeout)
             del self.players[name]
             await self.update_players()
-            print(f"{self.code}: Removed {name}")
+            self.logger.debug(f"{self.code}: Removed {name}")
         except CancelledError:
-            print(f"{self.code}: Timeout to remove {name} cancelled")
+            self.logger.debug(f"{self.code}: Timeout to remove {name} cancelled")
 
 
     async def update_players(self):

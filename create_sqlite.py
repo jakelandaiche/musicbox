@@ -14,6 +14,9 @@ cur.execute(
 cur.execute(
     "CREATE TABLE IF NOT EXISTS answers(id INTEGER PRIMARY KEY, answer, round, score, player, video_id, FOREIGN KEY(player) REFERENCES players(id))"
 )
+cur.execute(
+    "CREATE TABLE IF NOT EXISTS songs(id INTEGER PRIMARY KEY, round, tags, norm_val, FOREIGN KEY(round) references rounds(id))"
+)
 
 # %%
 cur.execute("SELECT * FROM sqlite_master").fetchall()
