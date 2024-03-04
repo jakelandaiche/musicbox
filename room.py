@@ -1,26 +1,31 @@
 import json
 import asyncio
 import websockets
-from bidict import bidict
 from utils import Hub, Sub
-from game import start_game 
-
-ROOMS = bidict()
+from game import start_game
+import logging
+from sys import stdout
 
 MIN_PLAYERS_TO_START = 3
 
 class Room:
     """ room """
 
-    def __init__(self, websocket):
+    def __init__(self, websocket, debug):
         self.websocket = websocket
 
         self.messages = Hub()
-        self.players = bidict()
+        self.players = dict()
 
         self.lock = asyncio.Lock()
         self.task = asyncio.create_task(self.run())
         self.game = None
+        self.debug = debug
+
+    def setup_logger(self):
+        self.logger = logging.getLogger(__name__)
+        self.logger.addHandler(logging.StreamHandler(stdout))
+        self.logger.setLevel(logging.DEBUG if self.debug else logging.INFO)
 
 
     async def update_players(self):
@@ -41,6 +46,7 @@ class Room:
             try:
                 while True:
                     message = await queue.get()
+                    self.logger.debug(f"{message}")
 
                     if "type" not in message:
                         continue
