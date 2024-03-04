@@ -313,6 +313,12 @@ function renderPlayer(player) {
       break;
     case "GAMEEND":
       entry.innerText += ` [${Math.round(player.total)}]`;
+      const stats = document.createElement("ul");
+      var len = document.createElement("li");
+      var uniq = document.createElement("li");
+      len.textContent = player.score_info.avg_len;
+      uniq.textContent = player.score_info.unique_words;
+      div.appendChild(stats);
       break;
   }
 
