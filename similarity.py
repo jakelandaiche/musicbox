@@ -9,6 +9,8 @@ class Similarity:
         scores = []
         tensors = [self.model.encode(s, convert_to_tensor=True) for s in sentences]
         l = len(tensors)
+        if l == 1:
+            return [0]
         for x in range(l):
             tot = 0
             cur = tensors[x]
