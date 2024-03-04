@@ -154,14 +154,14 @@ const divs = {
 
 bind(STATE, (s) => {
   Object.keys(stateViews).forEach((k) => {
-    document.getElementById(stateViews[k].div).style.display = "none"
-  })
-  Object.keys(stateViews).forEach((k) => stateViews[k].reset())
-  console.log(stateViews)
+    document.getElementById(stateViews[k].div).style.display = "none";
+  });
+  Object.keys(stateViews).forEach((k) => stateViews[k].reset());
+  console.log(stateViews);
   if (s in stateViews) {
-    document.getElementById(stateViews[s].div).style.display = "block"
+    document.getElementById(stateViews[s].div).style.display = "block";
   }
-})
+});
 
 export function initViews() {
   Object.keys(stateViews).forEach((k) => stateViews[k].init());
@@ -208,55 +208,68 @@ function renderPlayer(player) {
       break;
     case "FAKEROUNDCOLLECT":
       {
-      const hiddenanswer = document.createElement("p")
-      hiddenanswer.innerText = player.answer !== null ? "* ".repeat(player.answer.length) : ""
-      answerDiv.appendChild(hiddenanswer)
-      div.appendChild(answerDiv)
+        const hiddenanswer = document.createElement("p");
+        hiddenanswer.innerText =
+          player.answer !== null ? "* ".repeat(player.answer.length) : "";
+        answerDiv.appendChild(hiddenanswer);
+        div.appendChild(answerDiv);
       }
       break;
     case "FAKEROUNDEND":
       {
-      const fullanswer = document.createElement("p")
-      console.log(player.color_list)
-      console.log(player.answer)
-      const color_list = player.color_list;
-      const raw_answer = player.answer !== null ? player.answer : ""
-      fullanswer.innerHTML = raw_answer.split(" ")
-        .map((word, i) => 
-          color_list[i] == 0 ? 
-            word 
-          :
-            `<span style="color: ${colors[color_list[i]]};">${word}</span>`
-        )
-        .join(" ");
-      console.log(fullanswer.innerHTML)
-      div.appendChild(fullanswer)
-      div.appendChild(score)
-      div.style.justifyContent = "space-between"
+        const fullanswer = document.createElement("p");
+        console.log(player.color_list);
+        console.log(player.answer);
+        const color_list = player.color_list;
+        const raw_answer = player.answer !== null ? player.answer : "";
+        fullanswer.innerHTML = raw_answer
+          .split(" ")
+          .map((word, i) =>
+            color_list[i] == 0
+              ? word
+              : `<span style="color: ${colors[color_list[i]]};">${word}</span>`
+          )
+          .join(" ");
+        console.log(fullanswer.innerHTML);
+        div.appendChild(fullanswer);
+        div.appendChild(score);
+        div.style.justifyContent = "space-between";
       }
-      break
+      break;
     case "FAKEROUNDEND2":
       {
-      entry.innerText += ` [${Math.round(player.total)}]`
-      const fullanswer = document.createElement("p")
-      console.log(player.color_list)
-      console.log(player.answer)
-      const color_list = player.color_list;
-      const raw_answer = player.answer !== null ? player.answer : ""
-      fullanswer.innerHTML = raw_answer.split(" ")
-        .map((word, i) => 
-          color_list[i] == 0 ? 
-            word 
-          :
-            `<span style="color: ${colors[color_list[i]]};">${word}</span>`
-        )
-        .join(" ");
-      console.log(fullanswer.innerHTML)
-      div.appendChild(fullanswer)
-      div.appendChild(score)
-      div.style.justifyContent = "space-between"
+        entry.innerText += ` [${Math.round(player.total)}]`;
+        const fullanswer = document.createElement("p");
+        console.log(player.color_list);
+        console.log(player.answer);
+        const color_list = player.color_list;
+        const raw_answer = player.answer !== null ? player.answer : "";
+        fullanswer.innerHTML = raw_answer
+          .split(" ")
+          .map((word, i) =>
+            color_list[i] == 0
+              ? word
+              : `<span style="color: ${colors[color_list[i]]};">${word}</span>`
+          )
+          .join(" ");
+        console.log(fullanswer.innerHTML);
+        const breakdown = document.createElement("ul");
+        var sim = document.createElement("li");
+        var matches = document.createElement("li");
+        var bonus = document.createElement("li");
+        sim.textContent = player.score_info.similarity;
+        matches.textContent = player.score_info.matches;
+        bonus.textContent = player.score_info.bonus;
+        breakdown.appendChild(sim);
+        breakdown.appendChild(matches);
+        breakdown.appendChild(bonus);
+
+        div.appendChild(fullanswer);
+        div.appendChild(breakdown);
+        div.appendChild(score);
+        div.style.justifyContent = "space-between";
       }
-      break
+      break;
     case "ROUNDSTART":
       entry.innerText += ` [${Math.round(player.total)}]`;
       div.style.justifyContent = "space-between";
@@ -282,7 +295,19 @@ function renderPlayer(player) {
             : `<span style="color: ${colors[color_list[i]]};">${word}</span>`
         )
         .join(" ");
+      const breakdown = document.createElement("ul");
+      var sim = document.createElement("li");
+      var matches = document.createElement("li");
+      var bonus = document.createElement("li");
+      sim.textContent = player.score_info.similarity;
+      matches.textContent = player.score_info.matches;
+      bonus.textContent = player.score_info.bonus;
+      breakdown.appendChild(sim);
+      breakdown.appendChild(matches);
+      breakdown.appendChild(bonus);
+
       div.appendChild(fullanswer);
+      div.appendChild(breakdown);
       div.appendChild(score);
       div.style.justifyContent = "space-between";
       break;
@@ -312,11 +337,22 @@ bind(STATE, () => {
   renderPlayers(retrieve(PLAYERS));
 });
 
+function roundSort(a, b) {
+  if (a.score > b.score) {
+    return -1;
+  } else if (a.score < b.score) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 function renderPlayers(players) {
   // Clear player list div
   while (playerlist.hasChildNodes())
     playerlist.removeChild(playerlist.firstChild);
 
+  players.sort(roundSort);
   players.map(renderPlayer).forEach((div) => playerlist.appendChild(div));
   playercount.innerText = `(${players.length}/8)`;
 

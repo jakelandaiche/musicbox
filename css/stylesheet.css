@@ -1,57 +1,56 @@
 :root {
-    --main-bg-color: #F7DBD2;
-    --main-fg-color: #2B2B2B;
+  --main-bg-color: #f7dbd2;
+  --main-fg-color: #2b2b2b;
 }
 
-
 body {
-    line-height: 1.6;
-    font-family: sans-serif;
-    font-size: 18px;
-    background-color: var(--main-bg-color);
-    color: var(--main-fg-color);
-    margin: 0px;
-    padding: 0px;
+  line-height: 1.6;
+  font-family: sans-serif;
+  font-size: 18px;
+  background-color: var(--main-bg-color);
+  color: var(--main-fg-color);
+  margin: 0px;
+  padding: 0px;
 }
 
 header {
-    text-align: center;
+  text-align: center;
 }
 
 form {
-    display: flex; 
-    flex-direction: column
+  display: flex;
+  flex-direction: column;
 }
 
 #div-players {
-    display: flex;
+  display: flex;
 }
 
 .twocol {
-    position: fixed;
-    width: 100%;
-    height: 100%;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 
-    width: 90vw;
-    height: 90vh;
+  width: 90vw;
+  height: 90vh;
 
-    top: 5vh;
-    bottom: 5vh;
-    left: 5vw;
-    right: 5vw;
+  top: 5vh;
+  bottom: 5vh;
+  left: 5vw;
+  right: 5vw;
 
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 
-    gap: 40px;
+  gap: 40px;
 }
 
 .leftcol {
-    flex: 0 0 500px;
+  flex: 0 0 500px;
 }
 
 .rightcol {
-    flex-basis: 100%;
+  flex-basis: 100%;
 }
 
 @keyframes roundtime {
@@ -61,23 +60,26 @@ form {
 }
 
 .progressbar {
-    width: 90%;
-    background-color: gray;
-    height: 20px;
+  width: 90%;
+  background-color: gray;
+  height: 20px;
 }
 
 .progressbar div {
-    background-color: red;
-    width: 100%;
-    height: 100%;
-    animation: roundtime calc(var(--duration)  * 1s) forwards;
-    transform-origin: left center;
+  background-color: red;
+  width: 100%;
+  height: 100%;
+  animation: roundtime calc(var(--duration) * 1s) forwards;
+  transform-origin: left center;
 }
 
 .playerlist {
-    display: grid; 
-    grid-template-columns: repeat(4, minmax(0, 1fr)); 
-    grid-template-rows: repeat(2, minmax(0, 1fr)); 
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
+.playerlist ul {
+  font-size: small;
+}
