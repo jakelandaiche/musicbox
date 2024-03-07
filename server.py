@@ -112,6 +112,11 @@ class Server:
 
                     self.rooms[code] = room
 
+                # clean out dead rooms
+                for key, room in self.rooms.items():
+                    if room.dead:
+                        del self.rooms[key]
+
                 return {"type": "host", "room": code}
 
             # Case: Message type is "join"

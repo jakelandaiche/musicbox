@@ -34,6 +34,12 @@ class Player:
         self.score = 0
         self.color_list = []
 
+    def avg_len(self):
+        if self.word_count == 0:
+            return 0
+        avg = self.word_len / self.word_count
+        return f"{avg:2f}"
+
     def to_obj(self):
         return {
             "name": self.name,
@@ -47,7 +53,7 @@ class Player:
             "db_id": self.db_id,
             "score_info": self.score_info,
             "unique_words": len(self.unique_words),
-            "avg_len": self.word_len / self.word_count if self.word_count > 0 else 0,
+            "avg_len": self.avg_len(),
         }
 
 
