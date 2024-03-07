@@ -79,7 +79,14 @@ export const stateViews = {
 
   GAMESTART: {
     div: "div-gamestart",
-    init: () => {},
+    init: () => {
+      const skipbtn = document.getElementById("lobby-startbtn");
+      skipbtn.addEventListener("click", (event) => {
+        socket.send({
+          type: "skip",
+        });
+      });
+    },
     reset: () => {},
   },
 
