@@ -253,17 +253,17 @@ function renderPlayer(player) {
           )
           .join(" ");
         console.log(fullanswer.innerHTML);
-        const breakdown = document.createElement("ul");
-        var sim = document.createElement("li");
-        var matches = document.createElement("li");
-        var bonus = document.createElement("li");
-        sim.textContent = player.score_info.similarity;
-        matches.textContent = player.score_info.matches;
-        bonus.textContent = player.score_info.bonus;
+        const breakdown = document.createElement("div");
+        var sim = document.createElement("div");
+        var matches = document.createElement("div");
+        var bonus = document.createElement("div");
+        sim.textContent = "Similarity: " + player.score_info.similarity;
+        matches.textContent = "Matches: " + player.score_info.matches;
+        bonus.textContent = "Bonus: " + player.score_info.bonus;
         breakdown.appendChild(sim);
         breakdown.appendChild(matches);
         breakdown.appendChild(bonus);
-
+        breakdown.style.fontSize = "small";
         div.appendChild(fullanswer);
         div.appendChild(breakdown);
         div.appendChild(score);
@@ -295,17 +295,17 @@ function renderPlayer(player) {
             : `<span style="color: ${colors[color_list[i]]};">${word}</span>`
         )
         .join(" ");
-      const breakdown = document.createElement("ul");
-      var sim = document.createElement("li");
-      var matches = document.createElement("li");
-      var bonus = document.createElement("li");
-      sim.textContent = player.score_info.similarity;
-      matches.textContent = player.score_info.matches;
-      bonus.textContent = player.score_info.bonus;
+      const breakdown = document.createElement("div");
+      var sim = document.createElement("div");
+      var matches = document.createElement("div");
+      var bonus = document.createElement("div");
+      sim.textContent = "Similarity: " + player.score_info.similarity;
+      matches.textContent = "Matches: " + player.score_info.matches;
+      bonus.textContent = "Bonus: " + player.score_info.bonus;
       breakdown.appendChild(sim);
       breakdown.appendChild(matches);
       breakdown.appendChild(bonus);
-
+      breakdown.style.fontSize = "small";
       div.appendChild(fullanswer);
       div.appendChild(breakdown);
       div.appendChild(score);
