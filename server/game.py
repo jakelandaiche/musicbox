@@ -103,9 +103,10 @@ async def game_task(room: Room, N=5):
         # Game Start
         await room.broadcast({"type": "state", "state": "GAMESTART"})
 
-        await asyncio.sleep(15)
-
-        await fake_game(room)
+        try:
+            await asyncio.wait_for(wait_skip(room), timeout=15)
+        except TimeoutError:
+            await fake_game(room)
 
         for n in range(1, N + 1):
             # Reset scores
@@ -257,5 +258,22 @@ async def wait_for_answers(room):
         print("Received all answers")
     except CancelledError:
         print("Did not receive all answers")
+    finally:
+        return
+
+async def wait_skip(room):
+    try:
+        with Sub(room.messages) as queue:
+            while True:
+                try:
+                    message = await queue.get()
+                    t = message["type"]
+                    if t == "skip":
+                        break
+                except KeyError:
+                    print("No key")
+
+    except CancelledError:
+        print("Did not skip")
     finally:
         return
