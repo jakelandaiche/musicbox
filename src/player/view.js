@@ -179,6 +179,19 @@ bind(STATE, (s) => {
     .filter((k) => k != s)
     .forEach((k) => stateViews[k].reset())
   document.getElementById(stateViews[s].div).style.display = "block"
+
+  if (s === "ROUNDCOLLECT") {
+    setTimeout(() => {
+      const answerform = document.getElementById("answerform")
+      const formData = new FormData(answerform)
+      const answer = formData.get("answer")
+      socket.send({
+        type: "answer",
+        name: retrieve(NAME),
+        answer: answer,
+      })
+    }, 29000)
+  }
 })
 
 export function initViews() {
