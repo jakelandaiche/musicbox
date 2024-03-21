@@ -20,10 +20,10 @@ class Player:
     score: int = 0
     total: int = 0
     db_id: str | None = None
-    score_info = dict()
-    unique_words = set()
-    word_count = 0
-    word_len = 0
+    score_info: dict = field(default_factory=dict)
+    unique_words: set = field(default_factory=set)
+    word_count: int = 0
+    word_len: int = 0
 
     @property
     def connected(self):
@@ -56,7 +56,3 @@ class Player:
             "avg_len": self.avg_len(),
         }
 
-
-class PlayerManager:
-    def __init__(self):
-        pass

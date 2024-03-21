@@ -30,10 +30,12 @@ class Server:
         parser.add_argument("--port", default=8080)
         parser.add_argument("--file", default="filtered.csv")
         parser.add_argument("--debug", action="store_true", default=False)
+        parser.add_argument("--nossl", action="store_true", default=False)
         args = parser.parse_args()
         self.host = args.host
         self.port = args.port
         self.debug = args.debug
+        self.nossl = args.nossl
 
     def setup_logger(self):
         self.logger = logging.getLogger(__name__)
@@ -41,16 +43,23 @@ class Server:
         self.logger.setLevel(logging.DEBUG if self.debug else logging.INFO)
 
     async def start(self):
-        ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        ssl_cert = "./fullchain1.pem"
-        ssl_key = "./privkey1.pem"
-        ssl_context.load_cert_chain(ssl_cert, keyfile=ssl_key)
+        if not self.nossl:
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            ssl_cert = "/home/jake/music-data-collection/fullchain1.pem"
+            ssl_key = "/home/jake/music-data-collection/privkey1.pem"
+            ssl_context.load_cert_chain(ssl_cert, keyfile=ssl_key)
 
-        self.logger.info(f"Listening on {self.host}:{self.port}")
-        async with websockets.serve(
-            self.ws_handler, self.host, self.port, ssl=ssl_context
-        ):
-            await asyncio.Future()
+            self.logger.info(f"Listening on {self.host}:{self.port}")
+            async with websockets.serve(
+                self.ws_handler, self.host, self.port, ssl=ssl_context
+            ):
+                await asyncio.Future()
+        else:
+            self.logger.info(f"Listening on {self.host}:{self.port}")
+            async with websockets.serve(
+                self.ws_handler, self.host, self.port
+            ):
+                await asyncio.Future()
 
     async def ws_handler(self, websocket: websockets):
         """
