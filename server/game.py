@@ -230,7 +230,7 @@ def compute_scores(players: list[Player]):
         player.score_info = {
             "bonus": f"{final_mult:0.3f}%",
             "similarity": score,
-            "matches": matches ^ 2,
+            "matches": matches**2,
         }
 
 
