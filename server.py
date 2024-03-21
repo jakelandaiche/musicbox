@@ -45,8 +45,8 @@ class Server:
     async def start(self):
         if not self.nossl:
             ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-            ssl_cert = "./fullchain1.pem"
-            ssl_key = "./privkey1.pem"
+            ssl_cert = "/home/jake/music-data-collection/fullchain1.pem"
+            ssl_key = "/home/jake/music-data-collection/privkey1.pem"
             ssl_context.load_cert_chain(ssl_cert, keyfile=ssl_key)
 
             self.logger.info(f"Listening on {self.host}:{self.port}")
