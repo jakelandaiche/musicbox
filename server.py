@@ -122,9 +122,12 @@ class Server:
                     self.rooms[code] = room
 
                 # clean out dead rooms
+                to_del = []
                 for key, room in self.rooms.items():
                     if room.dead:
-                        del self.rooms[key]
+                        to_del.append(key)
+                for key in to_del:
+                    del self.rooms[key]
 
                 return {"type": "host", "room": code}
 
