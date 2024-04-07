@@ -35,7 +35,6 @@ class Room:
 
         # Players and their timeouts
         self.players: dict[str, Player] = dict()
-        self.player_timeout_tasks: dict[str, Task] = dict()
 
         # This holds the timeout task, which is called whenever
         # the room loses the host websocket.
@@ -62,6 +61,10 @@ class Room:
     @property
     def connections(self) -> Iterable[Socket]:
         return (player.websocket for player in self.players.values() if player.websocket is not None)
+
+    @property
+    def nconnected(self) -> int:
+        return sum(1 for player in self.players.values() if player.connected)
 
 
     async def bind_host(self, websocket: Socket):
@@ -125,23 +128,22 @@ class Room:
         """
 
         # If there are too many players, don't
-        if len(self.players) >= Room.MAX_PLAYERS:
+        if self.nconnected >= Room.MAX_PLAYERS:
             return
         
         # Check if there is already a player with the given name
         if name in self.players:
             self.players[name].websocket = websocket
+            await send(websocket, {
+                "type": "playerinfo",
+                "player": self.players[name].to_obj()
+                })
         else:
             self.players[name] = Player(name=name, websocket=websocket)
             self.messages.pub({
                 "type": "newplayer",
                 "name": name
                 })
-
-        # Cancel timeout if there is one
-        if name in self.player_timeout_tasks:
-            self.player_timeout_tasks[name].cancel("Player rejoined")
-            del self.player_timeout_tasks[name]
         
         # Send init message
         await send(websocket, {
@@ -157,38 +159,16 @@ class Room:
 
         # Remove websocket
         # Note code can only reach here if connection was closed
-        if self.game is None:
-            # If no game running, just remove player
-            del self.players[name]
-            await self.update_players()
-        else:
-            # If game is running, set a timeout so player can reconnect
-            self.players[name].websocket = None
-            await self.update_players()
-            self.player_timeout_tasks[name] = create_task(self.player_timeout(name))
-
-
-    async def player_timeout(self, name, timeout=30):
-        """
-        A Task that waits timeout seconds, then removes 
-        a playem from self.players
-        """
-        try: 
-            self.logger.debug(f"{self.code}: Removing {name} in {timeout} seconds")
-            await sleep(timeout)
-            del self.players[name]
-            await self.update_players()
-            self.logger.debug(f"{self.code}: Removed {name}")
-        except CancelledError:
-            self.logger.debug(f"{self.code}: Timeout to remove {name} cancelled")
-
+        self.players[name].websocket = None
+        await self.update_players()
+        
 
     async def update_players(self):
         """
         Sends over all player information to the Host 
         websocket
         """
-        players = [player.to_obj() for player in self.players.values()]
+        players = [player.to_obj() for player in self.players.values() if player.connected]
         await self.send({"type":"players", "players":players})
 
 
