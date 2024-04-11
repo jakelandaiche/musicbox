@@ -55,3 +55,13 @@ export function bindmultiple(syms, handler) {
   syms.forEach(sym => bind(sym, () => handler(...syms.map(retrieve))))
 }
 
+/**
+ * Creates a state with a value derived from another state
+ * (DO NOT modify this state manually)
+ */
+export function derived(sym, f, name) {
+  const s = declare(f(sym), name ?? sym.toString()) 
+  bind(sym, v => update(s, f(v)))
+  return s
+}
+
