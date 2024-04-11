@@ -43,6 +43,7 @@ export const stateViews = {
       const startbtn = document.getElementById("lobby-startbtn");
       const datasetselect = document.getElementById("lobby-datasetselect");
       const nroundsinput = document.getElementById("lobby-nroundsinput");
+      const tutorialinput = document.getElementById("lobby-tutorialinput");
 
       datasetselect.addEventListener("change", (event) => {
         socket.send({
@@ -61,6 +62,7 @@ export const stateViews = {
       startbtn.addEventListener("click", (event) => {
         socket.send({
           type: "start",
+          tutorial: tutorialinput.checked
         });
       });
       bind(CODE, (c) => {
@@ -79,14 +81,7 @@ export const stateViews = {
 
   GAMESTART: {
     div: "div-gamestart",
-    init: () => {
-      const skipbtn = document.getElementById("gamestart-skipbtn");
-      skipbtn.addEventListener("click", (event) => {
-        socket.send({
-          type: "skip",
-        });
-      });
-    },
+    init: () => {},
     reset: () => {},
   },
 
