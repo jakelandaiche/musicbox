@@ -46,3 +46,12 @@ export function reset(sym) {
   state[sym] = inits[sym]
   handlers[sym].forEach(h => h(inits[sym]))
 }
+
+/**
+ * Allows for binding to multiple states at once.
+ * Handler arguments have to be in the same order as symbol list
+ */
+export function bindmultiple(syms, handler) {
+  syms.forEach(sym => bind(sym, () => handler(...syms.map(retrieve))))
+}
+
