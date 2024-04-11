@@ -7,13 +7,14 @@ from ..room import Room
 base = Subsystem("Base room functionality")
 
 @base.on("start")
-async def start_game(_, room):
-    num_players = len(room.players)
+async def start_game(message, room):
+    num_players = len(room.players) 
     all_ready = all(player.ready for player in room.players.values())
+    tutorial = message["tutorial"] 
 
     if (num_players >= Room.MIN_TO_START) and all_ready:
         print("starting!")
-        room.game = create_task(game_task(room, N=room.nrounds))
+        room.game = create_task(game_task(room, N=room.nrounds, tutorial=tutorial))
 
 
 @base.on("restart")
@@ -49,3 +50,4 @@ async def update_player_ready(message, room):
     player = room.players[message["name"]]
     player.ready = message["ready"]
     await room.update_players()
+

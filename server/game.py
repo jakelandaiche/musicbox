@@ -13,6 +13,7 @@ from .room import Room
 
 
 async def fake_game(room: Room):
+    print("fake game")
 
     fake_players = [replace(player) for player in room.players.values()]
     fake_answers = [
@@ -69,7 +70,7 @@ async def fake_game(room: Room):
     await asyncio.sleep(10)
 
 
-async def game_task(room: Room, N=5):
+async def game_task(room: Room, N=5, tutorial=True):
     print(f"Starting game with {room.dataset} and {N} rounds")
     try:
         db = Database()
@@ -102,10 +103,9 @@ async def game_task(room: Room, N=5):
 
         # Game Start
         await room.broadcast({"type": "state", "state": "GAMESTART"})
+        await asyncio.sleep(15)
 
-        try:
-            await asyncio.wait_for(wait_skip(room), timeout=15)
-        except TimeoutError:
+        if tutorial:
             await fake_game(room)
 
         for n in range(1, N + 1):
@@ -150,8 +150,7 @@ async def game_task(room: Room, N=5):
                 print("Error writing to database")
                 print(e)
 
-            # Round end
-            await room.update_players()
+            # Round end await room.update_players()
             await room.broadcast({"type": "state", "state": "ROUNDEND"})
             await asyncio.sleep(30)
 
@@ -165,6 +164,7 @@ async def game_task(room: Room, N=5):
         await room.broadcast({"type": "state", "state": "GAMEEND"})
 
     except asyncio.CancelledError:
+        print("Game cancelled")
         raise
     except Exception as e:
         print("Error in game")
@@ -258,22 +258,5 @@ async def wait_for_answers(room):
         print("Received all answers")
     except CancelledError:
         print("Did not receive all answers")
-    finally:
-        return
-
-async def wait_skip(room):
-    try:
-        with Sub(room.messages) as queue:
-            while True:
-                try:
-                    message = await queue.get()
-                    t = message["type"]
-                    if t == "skip":
-                        break
-                except KeyError:
-                    print("No key")
-
-    except CancelledError:
-        print("Did not skip")
     finally:
         return
