@@ -38,13 +38,21 @@ async def fake_game(room: Room):
         player.color_list = []
 
     # Round Start
-    await room.broadcast({"type": "state", "state": "FAKEROUNDSTART"})
+    await room.broadcast({
+        "type": "state", 
+        "state": "FAKEROUNDSTART",
+        "duration": 20
+        })
     await update_fake_players()
     await room.send({"type": "video", "id": "_IvArrFhcp0", "start_time": 52})
     await asyncio.sleep(20)
 
     # Collect
-    await room.broadcast({"type": "state", "state": "FAKEROUNDCOLLECT"})
+    await room.broadcast({
+        "type": "state", 
+        "state": "FAKEROUNDCOLLECT",
+        "duration": 20
+        })
     # Input fake answers at timed intervals
     for player, answer in zip(fake_players, fake_answers):
         await asyncio.sleep(1)
@@ -61,12 +69,20 @@ async def fake_game(room: Room):
 
     # Round End
     await update_fake_players()
-    await room.broadcast({"type": "state", "state": "FAKEROUNDEND"})
+    await room.broadcast({
+        "type": "state", 
+        "state": "FAKEROUNDEND",
+        "duration": 20
+        })
     await asyncio.sleep(20)
 
     # Round End 2
     await update_fake_players()
-    await room.broadcast({"type": "state", "state": "FAKEROUNDEND2"})
+    await room.broadcast({
+        "type": "state", 
+        "state": "FAKEROUNDEND2",
+        "duration": 10
+        })
     await asyncio.sleep(10)
 
 
@@ -102,12 +118,18 @@ async def game_task(room: Room, N=5, tutorial=True):
         await room.update_players()
 
         # Game Start
-        await room.broadcast({"type": "state", "state": "GAMESTART"})
+        await room.broadcast({
+            "type": "state", 
+            "state": "GAMESTART",
+            "duration": 15
+            })
         await asyncio.sleep(15)
 
+        # Tutorial
         if tutorial:
             await fake_game(room)
 
+        # Do rounds
         for n in range(1, N + 1):
             # Reset scores
             for player in room.players.values():
@@ -115,22 +137,29 @@ async def game_task(room: Room, N=5, tutorial=True):
             await room.update_players()
 
             # Update round number
-            await room.send(
-                {
-                    "type": "round_num",
-                    "round_num": n,
-                }
-            )
+            await room.send({
+                "type": "round_num",
+                "round_num": n,
+                })
+
             # Round Start
-            await room.broadcast({"type": "state", "state": "ROUNDSTART"})
-            video = videos[n - 1]
+            await room.broadcast({
+                "type": "state", 
+                "state": "ROUNDSTART",
+                "duration": 20,
+                })
+            video = videos[n-1]
             await room.send(
                 {"type": "video", "id": video["id"], "start_time": video["start_time"]}
             )
             await asyncio.sleep(20)
 
             # Collect answers
-            await room.broadcast({"type": "state", "state": "ROUNDCOLLECT"})
+            await room.broadcast({
+                "type": "state", 
+                "state": "ROUNDCOLLECT",
+                "duration": 30
+                })
             try:
                 await asyncio.wait_for(wait_for_answers(room), timeout=30)
             except TimeoutError:
@@ -151,7 +180,11 @@ async def game_task(room: Room, N=5, tutorial=True):
                 print(e)
 
             # Round end await room.update_players()
-            await room.broadcast({"type": "state", "state": "ROUNDEND"})
+            await room.broadcast({
+                "type": "state", 
+                "state": "ROUNDEND",
+                "duration": 30
+                })
             await asyncio.sleep(30)
 
         await room.broadcast(
@@ -161,7 +194,11 @@ async def game_task(room: Room, N=5, tutorial=True):
             }
         )
 
-        await room.broadcast({"type": "state", "state": "GAMEEND"})
+        await room.broadcast({
+            "type": "state", 
+            "state": "GAMEEND",
+            "duration": 0,
+            })
 
     except asyncio.CancelledError:
         print("Game cancelled")
