@@ -2,6 +2,8 @@ import { socket } from "../socket.js"
 import { declare, update, bind, retrieve, reset } from "../state.js"
 
 export const STATE = declare("CONNECT", "Game State")
+export const STATE_DURATION = declare(0, "State duration")
+
 export const CODE = declare("####", "Room Code")
 
 export const PLAYERS = declare([], "Player List")
@@ -14,6 +16,7 @@ socket.addMessageHandler("init", (message) => {
 })
 socket.addMessageHandler("state", (message) => {
   update(STATE, message.state)
+  update(STATE_DURATION, message.duration)
 })
 socket.addMessageHandler("players", (message) => {
   update(PLAYERS, message.players)

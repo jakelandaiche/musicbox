@@ -1,6 +1,7 @@
 import { socket } from "../socket.js";
 import { bind, retrieve, update } from "../state.js";
-import { STATE, CODE, PLAYERS, ROUND_NUM } from "./model.js";
+import { STATE, STATE_DURATION, CODE, PLAYERS, ROUND_NUM } from "./model.js";
+import { progressbar, progressbar_timer } from "../progressbar.js"
 
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
@@ -38,7 +39,7 @@ export const stateViews = {
 
   LOBBY: {
     div: "div-lobby",
-    init: () => {
+    init: (div) => {
       const codetext = document.getElementById("lobby-codetext");
       const startbtn = document.getElementById("lobby-startbtn");
       const datasetselect = document.getElementById("lobby-datasetselect");
@@ -81,34 +82,57 @@ export const stateViews = {
 
   GAMESTART: {
     div: "div-gamestart",
-    init: () => {},
+    init: (div) => {
+      const [PERCENTAGE, bar] = progressbar("gamestart")
+      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
+      div.appendChild(bar);
+    },
     reset: () => {},
   },
 
   FAKEROUNDSTART: {
     div: "div-fakeroundstart",
-    init: () => {},
+    init: (div) => {
+      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
+      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
+      div.appendChild(bar);
+    },
     reset: () => {},
   },
   FAKEROUNDCOLLECT: {
     div: "div-fakeroundcollect",
-    init: () => {},
+    init: (div) => {
+      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
+      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
+      div.appendChild(bar);
+    },
     reset: () => {},
   },
   FAKEROUNDEND: {
     div: "div-fakeroundend",
-    init: () => {},
+    init: (div) => {
+      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
+      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
+      div.appendChild(bar);
+    },
     reset: () => {},
   },
   FAKEROUNDEND2: {
     div: "div-fakeroundend2",
-    init: () => {},
+    init: (div) => {
+      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
+      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
+      div.appendChild(bar);
+    },
     reset: () => {},
   },
 
   ROUNDSTART: {
     div: "div-roundstart",
-    init: () => {
+    init: (div) => {
+      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
+      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
+      div.appendChild(bar);
       const roundnumtext = document.getElementById("roundstart-roundnumtext");
 
       bind(ROUND_NUM, (round_num) => {
@@ -120,13 +144,21 @@ export const stateViews = {
 
   ROUNDCOLLECT: {
     div: "div-roundcollect",
-    init: () => {},
+    init: (div) => {
+      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
+      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
+      div.appendChild(bar);
+    },
     reset: () => {},
   },
 
   ROUNDEND: {
     div: "div-roundend",
-    init: () => {},
+    init: (div) => {
+      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
+      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
+      div.appendChild(bar);
+    },
     reset: () => {},
   },
 
@@ -144,16 +176,6 @@ export const stateViews = {
   },
 };
 
-const divs = {
-  CONNECT: "div-connect",
-  LOBBY: "div-lobby",
-  GAMESTART: "div-gamestart",
-  ROUNDSTART: "div-roundstart",
-  ROUNDCOLLECT: "div-roundcollect",
-  ROUNDEND: "div-roundend",
-  GAMEEND: "div-gameend",
-};
-
 bind(STATE, (s) => {
   Object.keys(stateViews).forEach((k) => {
     document.getElementById(stateViews[k].div).style.display = "none";
@@ -166,7 +188,10 @@ bind(STATE, (s) => {
 });
 
 export function initViews() {
-  Object.keys(stateViews).forEach((k) => stateViews[k].init());
+  Object.keys(stateViews).forEach((k) => {
+    const div = document.getElementById(stateViews[k].div)
+    stateViews[k].init(div)
+  });
 }
 
 export function initVideoPlayer() {
@@ -333,6 +358,8 @@ bind(STATE, (s) => {
   } else {
     document.getElementById("playerdiv").style.display = "none";
   }
+  renderPlayers(retrieve(PLAYERS));
+  // set off timer
 });
 
 const playerlist = document.getElementById("playerlist");
@@ -340,9 +367,6 @@ const playercount = document.getElementById("playercount");
 
 bind(PLAYERS, (players) => {
   renderPlayers(players);
-});
-bind(STATE, () => {
-  renderPlayers(retrieve(PLAYERS));
 });
 
 function roundSort(a, b) {
