@@ -22,8 +22,10 @@ export function declare(init, name) {
 
 /** 
  * Updates a state variable's value, calling all bound handlers */
-export function update(sym, value) {
-  console.debug(`[STATE UPDATE] ${sym.description}: ${state[sym]} -> ${value}`)
+export function update(sym, value, quiet=false) {
+  if (!quiet) {
+    console.debug(`[STATE UPDATE] ${sym.description}: ${state[sym]} -> ${value}`)
+  }
   state[sym] = value
   handlers[sym].forEach(h => h(value))
 }
@@ -63,5 +65,19 @@ export function derived(sym, f, name) {
   const s = declare(f(sym), name ?? sym.toString()) 
   bind(sym, v => update(s, f(v)))
   return s
+}
+
+/*
+ * Sets state B to update to A's value whenever A updates
+ */
+export function mirror(a, b) {
+  bind(a, val => update(b, val))
+}
+
+/**
+ * Convenience function 
+ */
+export function elembind(sym, elem, f) {
+  bind(sym, val => f(val, elem))
 }
 
