@@ -8,8 +8,8 @@ import ssl
 
 from asyncio import create_task
 
-from server.room import Room
-from server.player import Player
+from server import Room, Player
+from server import generate_code
 from server.utils import generate_code
 from server.subsystems.base import base
 
