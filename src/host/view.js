@@ -3,6 +3,8 @@ import { bind, retrieve, update } from "../state.js";
 import { STATE, STATE_DURATION, CODE, PLAYERS, ROUND_NUM } from "./model.js";
 import { progressbar, progressbar_timer } from "../progressbar.js"
 
+const sleep = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
+
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
   let color = "#";
@@ -200,7 +202,7 @@ export function initVideoPlayer() {
   });
 }
 
-function renderPlayer(player) {
+async function renderPlayer(player) {
   const div = document.createElement("div");
   div.style.display = "flex";
   div.style.flexDirection = "column";
@@ -326,66 +328,75 @@ function renderPlayer(player) {
       var sim = document.createElement("div");
       var matches = document.createElement("div");
       var bonus = document.createElement("div");
-      sim.textContent = "Similarity: " + player.score_info.similarity;
+      sim.textContent = "Semantic Similarity: " + player.score_info.similarity;
       matches.textContent = "Matches: " + player.score_info.matches;
-      bonus.textContent = "Bonus: " + player.score_info.bonus;
-      breakdown.appendChild(sim);
-      breakdown.appendChild(matches);
-      breakdown.appendChild(bonus);
-      breakdown.style.fontSize = "small";
+      bonus.textContent = "Multiplier from matches: " + parseFloat(player.score_info.bonus) * 100;
       div.appendChild(fullanswer);
       div.appendChild(breakdown);
+      await sleep(1000);
+      breakdown.appendChild(sim);
+      await sleep(1000);
+      breakdown.appendChild(matches);
+      await sleep(1000);
+      breakdown.appendChild(bonus);
       div.appendChild(score);
       div.style.justifyContent = "space-between";
+      await sleep(3000);
       break;
     case "GAMEEND":
       entry.innerText += ` [${Math.round(player.total)}]`;
       const stats = document.createElement("ul");
       var len = document.createElement("li");
       var uniq = document.createElement("li");
-      len.textContent = player.score_info.avg_len;
-      uniq.textContent = player.score_info.unique_words;
+      len.textContent = "Average word length: " + Math.floor(parseInt(player.avg_len));
+      uniq.textContent = "Unique words written: " + parseInt(player.unique_words);
+      stats.appendChild(len);
+      stats.appendChild(uniq);
       div.appendChild(stats);
+      await sleep(4000);
       break;
   }
 
   return div;
 }
 
-bind(STATE, (s) => {
+bind(STATE, async (s) => {
   if (s != "CONNECT") {
     document.getElementById("playerdiv").style.display = "flex";
   } else {
     document.getElementById("playerdiv").style.display = "none";
   }
-  renderPlayers(retrieve(PLAYERS));
+  await renderPlayers(retrieve(PLAYERS));
   // set off timer
 });
 
 const playerlist = document.getElementById("playerlist");
 const playercount = document.getElementById("playercount");
 
-bind(PLAYERS, (players) => {
-  renderPlayers(players);
+bind(PLAYERS, async (players) => {
+  await renderPlayers(players);
 });
 
 function roundSort(a, b) {
   if (a.score > b.score) {
-    return -1;
-  } else if (a.score < b.score) {
     return 1;
+  } else if (a.score < b.score) {
+    return -1;
   } else {
     return 0;
   }
 }
 
-function renderPlayers(players) {
+async function renderPlayers(players) {
   // Clear player list div
   while (playerlist.hasChildNodes())
     playerlist.removeChild(playerlist.firstChild);
 
   players.sort(roundSort);
-  players.map(renderPlayer).forEach((div) => playerlist.appendChild(div));
+  for (let i = 0; i < 8 - players.length; i++) {
+    var rendered = await renderPlayer(players[i]);
+    playerlist.appendChild(rendered);
+  }
   playercount.innerText = `(${players.length}/8)`;
 
   for (let i = 0; i < 8 - players.length; i++) {
