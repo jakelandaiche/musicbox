@@ -90,7 +90,7 @@ async def game_task(room: Room, N=5, tutorial=True):
     print(f"Starting game with {room.dataset} and {N} rounds")
     try:
         if room.debug:
-            db = Database(file="file::memory?cache=shared")
+            db = Database(file="debug.db")
         else:
             db = Database()
         game_id = db.create_game()
