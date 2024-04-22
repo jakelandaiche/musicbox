@@ -89,7 +89,10 @@ async def fake_game(room: Room):
 async def game_task(room: Room, N=5, tutorial=True):
     print(f"Starting game with {room.dataset} and {N} rounds")
     try:
-        db = Database()
+        if room.debug:
+            db = Database(file="file::memory?cache=shared")
+        else:
+            db = Database()
         game_id = db.create_game()
     except Exception as e:
         print("Database error")

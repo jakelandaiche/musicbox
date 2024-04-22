@@ -13,7 +13,6 @@ from server.player import Player
 from server.utils import generate_code
 from server.subsystems.base import base
 
-
 class Server:
 
     rooms: dict[str, Room] = dict()
@@ -61,7 +60,7 @@ class Server:
             ):
                 await asyncio.Future()
 
-    async def ws_handler(self, websocket: websockets):
+    async def ws_handler(self, websocket):
         """
         WebSocket connection handler, determines what type of connection
         (player or host) and then pushes messages to the correct room

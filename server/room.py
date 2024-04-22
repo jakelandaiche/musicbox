@@ -23,7 +23,7 @@ class Room:
 
     dead: bool = False
 
-    def __init__(self, code: str, websocket=None, debug = False):
+    def __init__(self, code: str, websocket=None, debug=False):
         
         self.code = code
         self.debug = debug

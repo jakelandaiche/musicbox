@@ -3,8 +3,8 @@ import time
 
 
 class Database:
-    def __init__(self):
-        self.con = sqlite3.connect("musicbox.db")
+    def __init__(self, file="musicbox.db"):
+        self.con = sqlite3.connect(file)
         self.cur = self.con.cursor()
 
     def create_game(self):
@@ -24,3 +24,4 @@ class Database:
             f"INSERT INTO answers(answer, round, score, player, video_id) VALUES('{player.answer}', {round}, {player.score}, {player.db_id}, '{video_id}')"
         )
         self.con.commit()
+
