@@ -202,8 +202,8 @@ export function initVideoPlayer() {
   });
 }
 
-async function renderPlayer(player) {
-  const div = document.createElement("div");
+async function renderPlayer(player, playerDiv) {
+  const div = playerDiv;
   div.style.display = "flex";
   div.style.flexDirection = "column";
   div.style.justifyContent = "flex-start";
@@ -330,7 +330,7 @@ async function renderPlayer(player) {
       var bonus = document.createElement("div");
       sim.textContent = "Semantic Similarity: " + player.score_info.similarity;
       matches.textContent = "Matches: " + player.score_info.matches;
-      bonus.textContent = "Multiplier from matches: " + parseFloat(player.score_info.bonus) * 100;
+      bonus.textContent = "Multiplier from matches: " + parseInt(parseFloat(player.score_info.bonus) * 100);
       div.appendChild(fullanswer);
       div.appendChild(breakdown);
       await sleep(1000);
@@ -339,9 +339,10 @@ async function renderPlayer(player) {
       breakdown.appendChild(matches);
       await sleep(1000);
       breakdown.appendChild(bonus);
+      await sleep(1000);
       div.appendChild(score);
       div.style.justifyContent = "space-between";
-      await sleep(3000);
+      await sleep(4000);
       break;
     case "GAMEEND":
       entry.innerText += ` [${Math.round(player.total)}]`;
@@ -394,8 +395,9 @@ async function renderPlayers(players) {
 
   players.sort(roundSort);
   for (let i = 0; i < 8 - players.length; i++) {
-    var rendered = await renderPlayer(players[i]);
-    playerlist.appendChild(rendered);
+    var playerDiv = document.createElement("div");
+    playerlist.appendChild(playerDiv);
+    var rendered = await renderPlayer(players[i], playerDiv);
   }
   playercount.innerText = `(${players.length}/8)`;
 
