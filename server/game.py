@@ -179,7 +179,8 @@ async def game_task(room: Room, N=5, tutorial=True):
                 print("Error writing to database")
                 print(e)
 
-            # Round end await room.update_players()
+            # Round end 
+            await room.update_players()
             await room.broadcast({
                 "type": "state", 
                 "state": "ROUNDEND",
@@ -272,7 +273,7 @@ def compute_scores(players: list[Player]):
         }
 
 
-async def wait_for_answers(room):
+async def wait_for_answers(room: Room):
     try:
         with Sub(room.messages) as queue:
             while True:
