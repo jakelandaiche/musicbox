@@ -1,7 +1,10 @@
+import logging
 import pandas as pd
 
+logger = logging.getLogger(__name__)
+
 def get_videos(N=10, dataset="musicCaps1.csv") -> list[dict]:
-    print(f"Getting {N} videos from {dataset}")
+    logger.info(f"Getting {N} videos from {dataset}")
     dataset = pd.read_csv(
         dataset,
         on_bad_lines="skip",

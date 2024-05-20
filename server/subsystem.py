@@ -1,8 +1,12 @@
+import logging
+
 from asyncio import CancelledError
 from typing import Callable, Coroutine
 
 from .room import Room
 from .utils import Sub
+
+logger = logging.getLogger(__name__)
 
 callback = Callable[[dict, Room], Coroutine]
 
@@ -40,16 +44,14 @@ class Subsystem:
                         try:
                             func = self.typed_callbacks[message["type"]]
                             await func(message, room)
-                        except Exception as e:
-                            print(f"Error occurred while running {func.__name__} in {self.name}")
-                            print(e)
+                        except Exception:
+                            logger.exception("")
 
                     for func in self.all_callbacks:
                         try:
                             await func(message, room)
-                        except Exception as e:
-                            print(f"Error occurred while running {func.__name__} in {self.name}")
-                            print(e)
+                        except Exception:
+                            logger.exception("")
 
         except CancelledError:
             raise
