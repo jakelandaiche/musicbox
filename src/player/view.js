@@ -12,7 +12,7 @@ export const stateViews = {
         event.preventDefault() // prevent browser from reloading (default behavior)
 
         // init socket
-        const formData = new FormData(CONNECTFORM)
+        const formData = new FormData(connectform)
         const ws_host = formData.get("ws-host")
         socket.init(ws_host)
       })
