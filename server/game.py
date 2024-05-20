@@ -156,7 +156,7 @@ async def game_task(room: Room, N=5, tutorial=True):
         room.game = None
 
 
-async def wait_for_answers(room):
+async def wait_for_answers(room: Room):
     try:
         with Sub(room.messages) as queue:
             while True:
