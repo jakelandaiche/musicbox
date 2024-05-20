@@ -1,7 +1,7 @@
+from dataclasses import dataclass, field
 from websockets.server import WebSocketServerProtocol as Socket
 
-from dataclasses import dataclass, field
-
+from scoring import ScoreInfo
 
 @dataclass(eq=False, frozen=False)
 class Player:
@@ -10,49 +10,38 @@ class Player:
     a member of a Room
     """
 
-    websocket: Socket | None
     name: str
-
     color: str = "#000000"
-    color_list: list[int] = field(default_factory=list)
+    connected: bool = False
     ready: bool = False
     answer: str | None = None
     score: int = 0
     total: int = 0
     db_id: str | None = None
-    score_info: dict = field(default_factory=dict)
-    unique_words: set = field(default_factory=set)
-    word_count: int = 0
-    word_len: int = 0
+    score_info: ScoreInfo | None = None
+    wc: int = 1
+    wl: int = 0
+    unique: set = field(default_factory=set)
 
-    @property
-    def connected(self):
-        return self.websocket is not None
+    def __post__init__(self):
+        self.websocket: Socket | None = None
 
     def clear(self):
         self.answer = None
         self.score = 0
-        self.color_list = []
-
-    def avg_len(self):
-        if self.word_count == 0:
-            return 0
-        avg = self.word_len / self.word_count
-        return f"{avg:2f}"
+        self.score_info = None
 
     def to_obj(self):
         return {
             "name": self.name,
             "connected": self.connected,
             "color": self.color,
-            "color_list": self.color_list,
             "ready": self.ready,
             "answer": self.answer,
             "score": self.score,
             "total": self.total,
             "db_id": self.db_id,
-            "score_info": self.score_info,
-            "unique_words": len(self.unique_words),
-            "avg_len": self.avg_len(),
+            "score_info": self.score_info.to_obj() if self.score_info is not None else None,
+            "unique_words": len(self.unique),
+            "avg_len": self.wl/self.wc if self.wc != 0 else None,
         }
-

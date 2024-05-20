@@ -1,11 +1,17 @@
 import sqlite3
 import time
 
+INITSCRIPT = """
+CREATE TABLE IF NOT EXISTS games(id INTEGER PRIMARY KEY, date);
+CREATE TABLE IF NOT EXISTS players(id INTEGER PRIMARY KEY, username, game, FOREIGN KEY(game) REFERENCES games(id));
+CREATE TABLE IF NOT EXISTS answers(id INTEGER PRIMARY KEY, answer, round, score, player, video_id, FOREIGN KEY(player) REFERENCES players(id));
+CREATE TABLE IF NOT EXISTS songs(id INTEGER PRIMARY KEY, round, tags, norm_val, FOREIGN KEY(round) references rounds(id));
+"""
 
 class Database:
-    def __init__(self):
-        self.con = sqlite3.connect("musicbox.db")
-        self.cur = self.con.cursor()
+    def __init__(self, file="musicbox.db"):
+        self.con = sqlite3.connect(file)
+        self.cur = self.con.executescript(INITSCRIPT)
 
     def create_game(self):
         self.cur.execute(f"INSERT INTO games(date) VALUES('{time.time()}')")

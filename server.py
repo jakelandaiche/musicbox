@@ -8,11 +8,10 @@ import ssl
 
 from asyncio import create_task
 
-from server.room import Room
-from server.player import Player
+from server import Room, Player
+from server import generate_code
 from server.utils import generate_code
 from server.subsystems.base import base
-
 
 class Server:
 
@@ -61,7 +60,7 @@ class Server:
             ):
                 await asyncio.Future()
 
-    async def ws_handler(self, websocket: websockets):
+    async def ws_handler(self, websocket):
         """
         WebSocket connection handler, determines what type of connection
         (player or host) and then pushes messages to the correct room
