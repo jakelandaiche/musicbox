@@ -7,8 +7,11 @@ export const STATE_DURATION = declare(0, "State duration")
 export const CODE = declare("####", "Room Code")
 
 export const PLAYERS = declare([], "Player List")
+export const PLAYERDIVS = declare({}, "Player Divs")
 
 export const ROUND_NUM = declare(0, "Round Number")
+
+export const MATCHLIST = declare({}, "Match List")
 
 socket.addMessageHandler("init", (message) => {
   update(STATE, "LOBBY")
@@ -24,7 +27,9 @@ socket.addMessageHandler("players", (message) => {
 socket.addMessageHandler("round_num", (message) => {
   update(ROUND_NUM, message.round_num)
 })
-
+socket.addMessageHandler("matchlist", (message) => {
+  update(MATCHLIST, message.matchlist)
+})
 socket.addMessageHandler("reset", () => {
   update(STATE, "LOBBY")
 })

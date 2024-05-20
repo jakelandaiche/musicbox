@@ -3,6 +3,10 @@
  *   @module
  */
 
+export const _data = Symbol("DOM Element Data")
+export const getelem = id => document.getElementById(id)
+export const sleep = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms))
+
 export function debounce(callback, delay=1000) {
   let timeout;
   return (...args) => {

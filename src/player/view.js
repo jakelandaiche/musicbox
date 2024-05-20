@@ -2,6 +2,7 @@ import { socket } from "../socket.js"
 import { update, bind, retrieve } from "../state.js"
 import { STATE, NAME, COLOR, READY } from "./model.js"
 
+
 export const stateViews = {
   CONNECT: {
     div: "div-connect",
@@ -11,7 +12,7 @@ export const stateViews = {
         event.preventDefault() // prevent browser from reloading (default behavior)
 
         // init socket
-        const formData = new FormData(connectform)
+        const formData = new FormData(CONNECTFORM)
         const ws_host = formData.get("ws-host")
         socket.init(ws_host)
       })
@@ -83,6 +84,7 @@ export const stateViews = {
     init: () => {},
     reset: () => {},
   },
+
   FAKEROUNDSTART: {
     div: "div-gamestart",
     init: () => {},
@@ -112,7 +114,7 @@ export const stateViews = {
   },
 
   ROUNDCOLLECT: {
-    div: "div-roundcollect",
+    div: "div-roundstart",
     init: () => {
       const answerform = document.getElementById("answerform")
       const answerinput = document.getElementById("answerinput")

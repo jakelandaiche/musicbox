@@ -1,9 +1,14 @@
 import { socket } from "../socket.js";
+import { sleep } from "../utils.js";
 import { bind, retrieve, update } from "../state.js";
-import { STATE, STATE_DURATION, CODE, PLAYERS, ROUND_NUM } from "./model.js";
-import { progressbar, progressbar_timer } from "../progressbar.js"
+import { STATE, STATE_DURATION, CODE, PLAYERS, ROUND_NUM, MATCHLIST } from "./model.js";
 
-const sleep = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
+import { CONNECT } from "./views/connect.js"
+import { LOBBY } from "./views/lobby.js"
+import { GAMESTART } from "./views/gamestart.js"
+import { GAMEEND } from "./views/gameend.js"
+import { FAKEROUNDSTART, FAKEROUNDCOLLECT, FAKEROUNDEND, FAKEROUNDEND2 } from "./views/tutorial.js"
+import { ROUNDSTART, ROUNDCOLLECT, ROUNDEND } from "./views/round.js"
 
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
@@ -15,185 +20,38 @@ function getRandomColor() {
 }
 
 const colors = [];
-for (let x = 0; x < 25; x++) {
+for (let x = 0; x < 100; x++) {
   colors.push(getRandomColor());
 }
 
-export const stateViews = {
-  CONNECT: {
-    div: "div-connect",
-    init: () => {
-      const connectform = document.getElementById("connectform");
-      connectform.addEventListener("submit", (event) => {
-        event.preventDefault(); // prevent browser from reloading (default behavior)
+const stateViewMap = {
+  CONNECT: CONNECT,
+  LOBBY: LOBBY,
+  GAMESTART: GAMESTART,
+  GAMEEND: GAMEEND,
 
-        // init socket
-        const formData = new FormData(connectform);
-        const ws_host = formData.get("ws-host");
-        socket.init(ws_host);
-      });
-    },
-    reset: () => {
-      const hostinput = document.getElementById("connectform-hostinput");
-      hostinput.innerText = "wss://backend.drexel-musicbox.com:8080";
-    },
-  },
+  ROUNDSTART: ROUNDSTART,
+  ROUNDCOLLECT: ROUNDCOLLECT,
+  ROUNDEND: ROUNDEND,
 
-  LOBBY: {
-    div: "div-lobby",
-    init: (div) => {
-      const codetext = document.getElementById("lobby-codetext");
-      const startbtn = document.getElementById("lobby-startbtn");
-      const datasetselect = document.getElementById("lobby-datasetselect");
-      const nroundsinput = document.getElementById("lobby-nroundsinput");
-      const tutorialinput = document.getElementById("lobby-tutorialinput");
-
-      datasetselect.addEventListener("change", (event) => {
-        socket.send({
-          type: "dataset",
-          dataset: event.target.value,
-        });
-      });
-
-      nroundsinput.addEventListener("change", (event) => {
-        socket.send({
-          type: "nrounds",
-          nrounds: event.target.value,
-        });
-      });
-
-      startbtn.addEventListener("click", (event) => {
-        socket.send({
-          type: "start",
-          tutorial: tutorialinput.checked
-        });
-      });
-      bind(CODE, (c) => {
-        codetext.innerText = c;
-      });
-      bind(PLAYERS, (players) => {
-        // startbtn.disabled = players.length < 3
-      });
-      update(PLAYERS, []);
-    },
-    reset: () => {
-      const nroundsinput = document.getElementById("lobby-nroundsinput");
-      nroundsinput.value = "5";
-    },
-  },
-
-  GAMESTART: {
-    div: "div-gamestart",
-    init: (div) => {
-      const [PERCENTAGE, bar] = progressbar("gamestart")
-      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
-      div.appendChild(bar);
-    },
-    reset: () => {},
-  },
-
-  FAKEROUNDSTART: {
-    div: "div-fakeroundstart",
-    init: (div) => {
-      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
-      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
-      div.appendChild(bar);
-    },
-    reset: () => {},
-  },
-  FAKEROUNDCOLLECT: {
-    div: "div-fakeroundcollect",
-    init: (div) => {
-      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
-      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
-      div.appendChild(bar);
-    },
-    reset: () => {},
-  },
-  FAKEROUNDEND: {
-    div: "div-fakeroundend",
-    init: (div) => {
-      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
-      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
-      div.appendChild(bar);
-    },
-    reset: () => {},
-  },
-  FAKEROUNDEND2: {
-    div: "div-fakeroundend2",
-    init: (div) => {
-      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
-      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
-      div.appendChild(bar);
-    },
-    reset: () => {},
-  },
-
-  ROUNDSTART: {
-    div: "div-roundstart",
-    init: (div) => {
-      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
-      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
-      div.appendChild(bar);
-      const roundnumtext = document.getElementById("roundstart-roundnumtext");
-
-      bind(ROUND_NUM, (round_num) => {
-        roundnumtext.innerText = `Round ${round_num}`;
-      });
-    },
-    reset: () => {},
-  },
-
-  ROUNDCOLLECT: {
-    div: "div-roundcollect",
-    init: (div) => {
-      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
-      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
-      div.appendChild(bar);
-    },
-    reset: () => {},
-  },
-
-  ROUNDEND: {
-    div: "div-roundend",
-    init: (div) => {
-      const [PERCENTAGE, bar] = progressbar("fakeroundstart")
-      bind(STATE_DURATION, duration => progressbar_timer(PERCENTAGE, Date.now(), duration))
-      div.appendChild(bar);
-    },
-    reset: () => {},
-  },
-
-  GAMEEND: {
-    div: "div-gameend",
-    init: () => {
-      const restartbtn = document.getElementById("gameend-restartbtn");
-      restartbtn.addEventListener("click", (event) => {
-        socket.send({
-          type: "restart",
-        });
-      });
-    },
-    reset: () => {},
-  },
-};
+  FAKEROUNDSTART: FAKEROUNDSTART,
+  FAKEROUNDCOLLECT: FAKEROUNDCOLLECT,
+  FAKEROUNDEND: FAKEROUNDEND,
+  FAKEROUNDEND2: FAKEROUNDEND2,
+}
 
 bind(STATE, (s) => {
-  Object.keys(stateViews).forEach((k) => {
-    document.getElementById(stateViews[k].div).style.display = "none";
-  });
-  Object.keys(stateViews).forEach((k) => stateViews[k].reset());
-  console.log(stateViews);
-  if (s in stateViews) {
-    document.getElementById(stateViews[s].div).style.display = "block";
+  for (const [state, view] of Object.entries(stateViewMap)) {
+    if (s == state) {
+      view.show()
+    } else {
+      view.hide()
+    }
   }
 });
 
 export function initViews() {
-  Object.keys(stateViews).forEach((k) => {
-    const div = document.getElementById(stateViews[k].div)
-    stateViews[k].init(div)
-  });
+  Object.values(stateViewMap).forEach(view => view.init())
 }
 
 export function initVideoPlayer() {
@@ -202,16 +60,21 @@ export function initVideoPlayer() {
   });
 }
 
-async function renderPlayer(player, playerDiv) {
-  const div = playerDiv;
+const playerlist = document.getElementById("playerlist");
+
+async function renderPlayer(player) {
+  const div = document.createElement("div");
+  playerlist.appendChild(div)
+  div.classList.add("playercard");
   div.style.display = "flex";
   div.style.flexDirection = "column";
   div.style.justifyContent = "flex-start";
   div.style.alignItems = "center";
-  div.style.border = `5px solid ${player.color}`;
+  div.style.border = `10px solid ${player.color}`;
   div.style.grid = "50%";
 
   const state = retrieve(STATE);
+  const matchlist = retrieve(MATCHLIST)
 
   const entry = document.createElement("p");
   entry.innerText = player.name;
@@ -233,76 +96,24 @@ async function renderPlayer(player, playerDiv) {
     case "GAMESTART":
       entry.innerText += ` [${Math.round(player.total)}]`;
       break;
-    case "FAKEROUNDSTART":
-      break;
-    case "FAKEROUNDCOLLECT":
-      {
-        const hiddenanswer = document.createElement("p");
-        hiddenanswer.innerText =
-          player.answer !== null ? "* ".repeat(player.answer.length) : "";
-        answerDiv.appendChild(hiddenanswer);
-        div.appendChild(answerDiv);
-      }
-      break;
     case "FAKEROUNDEND":
       {
         const fullanswer = document.createElement("p");
-        console.log(player.color_list);
         console.log(player.answer);
-        const color_list = player.color_list;
         const raw_answer = player.answer !== null ? player.answer : "";
         fullanswer.innerHTML = raw_answer
-          .split(" ")
-          .map((word, i) =>
-            color_list[i] == 0
-              ? word
-              : `<span style="color: ${colors[color_list[i]]};">${word}</span>`
-          )
-          .join(" ");
         console.log(fullanswer.innerHTML);
         div.appendChild(fullanswer);
         div.appendChild(score);
         div.style.justifyContent = "space-between";
       }
       break;
-    case "FAKEROUNDEND2":
-      {
-        entry.innerText += ` [${Math.round(player.total)}]`;
-        const fullanswer = document.createElement("p");
-        console.log(player.color_list);
-        console.log(player.answer);
-        const color_list = player.color_list;
-        const raw_answer = player.answer !== null ? player.answer : "";
-        fullanswer.innerHTML = raw_answer
-          .split(" ")
-          .map((word, i) =>
-            color_list[i] == 0
-              ? word
-              : `<span style="color: ${colors[color_list[i]]};">${word}</span>`
-          )
-          .join(" ");
-        console.log(fullanswer.innerHTML);
-        const breakdown = document.createElement("div");
-        var sim = document.createElement("div");
-        var matches = document.createElement("div");
-        var bonus = document.createElement("div");
-        sim.textContent = "Similarity: " + player.score_info.similarity;
-        matches.textContent = "Matches: " + player.score_info.matches;
-        bonus.textContent = "Bonus: " + player.score_info.bonus;
-        breakdown.appendChild(sim);
-        breakdown.appendChild(matches);
-        breakdown.appendChild(bonus);
-        breakdown.style.fontSize = "small";
-        div.appendChild(fullanswer);
-        div.appendChild(breakdown);
-        div.appendChild(score);
-        div.style.justifyContent = "space-between";
-      }
-      break;
+    case "FAKEROUNDSTART":
     case "ROUNDSTART":
       entry.innerText += ` [${Math.round(player.total)}]`;
       div.style.justifyContent = "space-between";
       break;
+    case "FAKEROUNDCOLLECT":
     case "ROUNDCOLLECT":
       entry.innerText += ` [${Math.round(player.total)}]`;
       const hiddenanswer = document.createElement("p");
@@ -311,28 +122,30 @@ async function renderPlayer(player, playerDiv) {
       answerDiv.appendChild(hiddenanswer);
       div.appendChild(answerDiv);
       break;
+    case "FAKEROUNDEND2":
     case "ROUNDEND":
       entry.innerText += ` [${Math.round(player.total)}]`;
+      if (player.score_info === null) break;
       const fullanswer = document.createElement("p");
-      const color_list = player.color_list;
       const raw_answer = player.answer !== null ? player.answer : "";
       fullanswer.innerHTML = raw_answer
-        .split(" ")
-        .map((word, i) =>
-          color_list[i] == 0
-            ? word
-            : `<span style="color: ${colors[color_list[i]]};">${word}</span>`
-        )
-        .join(" ");
+        .replace(/[a-zA-Z]+/g, word => {
+          const idx = matchlist.indexOf(word.toLowerCase())
+          console.log(idx)
+          return idx === -1 ?
+            word : `<span style="color: ${colors[idx]};">${word}</span>` 
+        })
       const breakdown = document.createElement("div");
       var sim = document.createElement("div");
       var matches = document.createElement("div");
       var bonus = document.createElement("div");
       sim.textContent = "Semantic Similarity: " + player.score_info.similarity;
       matches.textContent = "Matches: " + player.score_info.matches;
-      bonus.textContent = "Multiplier from matches: " + parseInt(parseFloat(player.score_info.bonus) * 100);
+      bonus.textContent = "Multiplier from matches: " + player.score_info.bonus;
       div.appendChild(fullanswer);
       div.appendChild(breakdown);
+      breakdown.style.fontSize = "small";
+      div.style.justifyContent = "space-between";
       await sleep(1000);
       breakdown.appendChild(sim);
       await sleep(1000);
@@ -341,7 +154,6 @@ async function renderPlayer(player, playerDiv) {
       breakdown.appendChild(bonus);
       await sleep(1000);
       div.appendChild(score);
-      div.style.justifyContent = "space-between";
       await sleep(4000);
       break;
     case "GAMEEND":
@@ -371,8 +183,6 @@ bind(STATE, async (s) => {
   // set off timer
 });
 
-const playerlist = document.getElementById("playerlist");
-const playercount = document.getElementById("playercount");
 
 bind(PLAYERS, async (players) => {
   await renderPlayers(players);
@@ -394,19 +204,18 @@ async function renderPlayers(players) {
     playerlist.removeChild(playerlist.firstChild);
 
   players.sort(roundSort);
-  for (let i = 0; i < 8 - players.length; i++) {
-    var playerDiv = document.createElement("div");
-    playerlist.appendChild(playerDiv);
-    var rendered = await renderPlayer(players[i], playerDiv);
+
+  for (let i = 0; i < players.length; i++) {
+    const div = await renderPlayer(players[i])
   }
-  playercount.innerText = `(${players.length}/8)`;
 
   for (let i = 0; i < 8 - players.length; i++) {
     const div = document.createElement("div");
-    div.style.border = "5px solid #A9A9A9";
+    div.classList.add("emptycard");
     div.style.grid = "50%";
     playerlist.appendChild(div);
   }
 }
+
 
 const rank = document.getElementById("rankdiv");

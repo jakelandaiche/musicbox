@@ -1,5 +1,5 @@
 import { socket } from "../socket.js";
-import { update } from "../state.js";
+import { update, statedump } from "../state.js";
 
 import { STATE, CODE } from "./model.js";
 import * as View from "./view.js";
@@ -20,6 +20,7 @@ socket.onOpen(() => {
   });
 });
 
-socket.init("wss://backend.drexel-musicbox.com:8080")
+statedump()
+socket.init("ws://localhost:8080")
 .catch(socket => socket.init("ws://localhost:8080"))
 .catch(() => console.error("Unable to conect to any websocket"));

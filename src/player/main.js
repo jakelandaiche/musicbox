@@ -26,6 +26,4 @@ socket.addMessageHandler("init", (message) => {
   update(CODE, message.code);
 });
 
-socket.init("wss://backend.drexel-musicbox.com:8080")
-.catch(socket => socket.init("ws://localhost:8080"))
-.catch(() => console.error("Unable to conect to any websocket"));
+socket.init("ws://localhost:8080")

@@ -3,6 +3,8 @@
  *   @module
  */
 
+/** Array that keeps track of *all* states */
+const states = []
 /** Keeps track of current value for each state */
 const state = {}
 /** Keeps track of initial values for each state */
@@ -17,6 +19,7 @@ export function declare(init, name) {
   inits[sym] = init
   state[sym] = init
   handlers[sym] = []
+  states.push(sym)
   return sym
 }
 
@@ -80,4 +83,17 @@ export function mirror(a, b) {
 export function elembind(sym, elem, f) {
   bind(sym, val => f(val, elem))
 }
+
+/**
+ * Prints every state variable at once to the console
+ */
+export function statedump() {
+  console.group(
+    "%cSTATE DUMP:",
+    "font-size: 18px font-weight: bold;"
+  )
+  states.forEach(sym => console.log(`${sym.description}: ${retrieve(sym)}`))
+  console.groupEnd()
+}
+
 

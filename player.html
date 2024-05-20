@@ -4,6 +4,10 @@
     <title>MusicBox</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/stylesheet.css">
 
     <script type="module" src="./src/socket.js"></script>
@@ -19,8 +23,7 @@
     max-width: 800px;
     ">
     <header>
-      <h1>MusicBox</h1>
-      <hr>
+      <img src="./img/logo.svg" width="100%"/>
     </header>
     <main>
 
@@ -60,23 +63,13 @@
         </div>
       </div>
 
-      <!-- Round Start -->
+      <!-- Round Start/Collect -->
       <div id="div-roundstart" style="display: none;">
-        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
-          <p>Listen to the audio carefully</p>
-        </div>
-      </div>
-
-      <!-- Round Collect -->
-      <div id="div-roundcollect" style="display: none;">
         <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
           <form id="answerform" style="width: 400px;">
             <textarea id="answerinput" name="answer" placeholder="Answer, e.g "></textarea>
             <input type="submit" value="Submit"></input>
           </form>
-          <div class="progressbar" style="--duration: 20;">
-            <div></div>
-          </div>
           <div id="roundcollect-postsubmit" style="display: none;"> 
             <p>You've submitted your answer!</p>
           </div>
