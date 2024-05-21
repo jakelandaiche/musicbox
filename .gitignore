@@ -1,5 +1,7 @@
 __pycache__/
 **.db
+*.log
+*.db
 *.csv
 *.ipynb
 *.db

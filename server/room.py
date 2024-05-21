@@ -7,7 +7,6 @@ import json
 
 from asyncio import Task, create_task, sleep, CancelledError
 from typing import Iterable 
-from dataclasses import asdict
 
 from websockets.server import WebSocketServerProtocol as Socket
 from websockets.exceptions import ConnectionClosed
@@ -128,7 +127,7 @@ class Room:
                 # Resend player info
                 await send(websocket, {
                     "type": "playerinfo",
-                    "player": asdict(self.players[name])
+                    "player": self.players[name].to_obj()
                     })
             else:
                 # Player is already connected
