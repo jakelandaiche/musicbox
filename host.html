@@ -24,8 +24,8 @@
           <img src="./img/logo.svg" width="100%"/>
         </header>
 
-        <main style="display:flex;">
-          <div class="box">
+        <main style="display:flex; position: relative;">
+          <div class="box" style="width: 80%;">
 
             <!-- Connection form -->
             <div id="div-connect" style="display: none;">
@@ -61,7 +61,7 @@
             </div>
 
             <!-- Game Start -->
-            <div id="div-gamestart" style="display: none;">
+            <div id="div-gamestart" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <p>Welcome to MusicBox. This game tests how well you can describe music. A short demo round will play.</p>
                 <!-- <button id="gamestart-skipbtn" style="width: 100px;">Skip</button> -->
@@ -69,21 +69,21 @@
             </div>
 
             <!-- Fake Round Start -->
-            <div id="div-fakeroundstart" style="display: none;">
+            <div id="div-fakeroundstart" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <p>You will be presented with a short clip of music to listen to</p>
               </div>
             </div>
 
             <!-- Fake Round Collect -->
-            <div id="div-fakeroundcollect" style="display: none;">
+            <div id="div-fakeroundcollect" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <p>Then, you'll write what you think the music sounded like. More points the better the description is!</p>
               </div>
             </div>
 
             <!-- Fake Round End -->
-            <div id="div-fakeroundend" style="display: none;">
+            <div id="div-fakeroundend" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <p>Then we'll see how everyones answers matches up. The more you can read each other's minds, the better.</p>
                 <!--               
@@ -99,14 +99,14 @@
             </div>
 
             <!-- Fake Round End 2 -->
-            <div id="div-fakeroundend2" style="display: none;">
+            <div id="div-fakeroundend2" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <p>That's all. Your cumulative score is tracked between rounds next to your name. Try to get the highest score!</p>
               </div>
             </div>
 
             <!-- Round Start -->
-            <div id="div-roundstart" style="display: none;">
+            <div id="div-roundstart" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <h2 id="roundstart-roundnumtext"></h2>
                 <p>Listen carefully</p>
@@ -114,7 +114,7 @@
             </div>
 
             <!-- Round Collect -->
-            <div id="div-roundcollect" style="display: none;">
+            <div id="div-roundcollect" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <p>Enter your answers now!</p>
               </div>
@@ -124,7 +124,7 @@
             </div>
 
             <!-- Round End -->
-            <div id="div-roundend" style="display: none;">
+            <div id="div-roundend" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <p>Here is how everyone answered, and their current scores</p>
               </div>
@@ -134,7 +134,7 @@
             </div>
 
             <!-- Game End -->
-            <div id="div-gameend" style="display: none;">
+            <div id="div-gameend" style="display: none; width: 100%;">
               <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;">
                 <p>Thanks for playing!</p>
                 <button id="gameend-restartbtn" style="width: 100px;">Another Game</button>

@@ -88,12 +88,13 @@ form {
 
 .progressbar {
   width: 90%;
-  background-color: gray;
+  background-color: var(--main-fg-color);
+  border: 10px solid var(--main-fg-color);
   height: 20px;
 }
 
 .progressbar div {
-  background-color: red;
+  background-color: var(--secondary-2);
   width: 100%;
   height: 100%;
   transition: all 300ms;
