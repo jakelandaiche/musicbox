@@ -2031,3 +2031,180 @@ sqlite3.OperationalError: near "m": syntax error
          server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
          server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196ba65a50>
          server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196acea860>
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG ESHF: Marking self dead in 10 seconds
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:186    DEBUG ESHF: Self-destruct cancelled
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room LJMK
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 5 rounds
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196af25990>
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG LJMK: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room SARW
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:186    DEBUG LJMK: Self-destruct cancelled
+         server.game         game.py:181     INFO Did not receive all answers
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 1 rounds
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG SARW: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ZRHI
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+         server.room         room.py:186    DEBUG SARW: Self-destruct cancelled
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 0 rounds
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196acea800>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196acea800>
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196acea800>]
+         server.room         room.py:206     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': True, 'answer': None, 'score': 0, 'total': 0, 'db_id': '64', 'score_info': None, 'unique_words': 0, 'avg_len': 0.0}]}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196acea800>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196acea800>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196acea800>
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.game         game.py:181     INFO Did not receive all answers
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.game         game.py:181     INFO Did not receive all answers
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'player_stats', 'player_stats': []}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room GIMN
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG GIMN: Marking self dead in 10 seconds
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room NZRZ
+         server.room         room.py:186    DEBUG GIMN: Self-destruct cancelled
+         server.game         game.py:181     INFO Did not receive all answers
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG ZRHI: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room UQHL
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:186    DEBUG ZRHI: Self-destruct cancelled
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 1 rounds
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>
+         server.game         game.py:181     INFO Did not receive all answers
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>]
+         server.room         room.py:206     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': True, 'answer': 'QWDWQD', 'score': 0, 'total': 0, 'db_id': '65', 'score_info': {'bonus': '0.000%', 'matches': 0, 'similarity': 0, 'unique_words': ['qwdwqd'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}]}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x79196826bb80>
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': False, 'color': '#000000', 'ready': True, 'answer': None, 'score': 0, 'total': 0, 'db_id': '63', 'score_info': None, 'unique_words': 1, 'avg_len': 2.5}]}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+         server.room         room.py:205     INFO []
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:197    DEBUG Attempted to send message to nonexistent Host socket
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room BHMQ
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG BHMQ: Marking self dead in 10 seconds
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room IYRC
+         server.room         room.py:186    DEBUG BHMQ: Self-destruct cancelled
