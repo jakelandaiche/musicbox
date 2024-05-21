@@ -1,7 +1,7 @@
 import { socket } from "../socket.js";
 import { update } from "../state.js";
 
-import { STATE, CODE } from "./model.js";
+import { NAME, STATE, CODE } from "./model.js";
 import * as View from "./view.js";
 
 console.log(
@@ -26,6 +26,22 @@ socket.addMessageHandler("init", (message) => {
   update(CODE, message.code);
 });
 
+
+function init_from_query_params (socket) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const name = urlParams.get('name')
+  const code = urlParams.get('code')
+  if (name !== null && code !== null) {
+    update(NAME, name)
+    socket.send({
+      type: "join",
+      name: name,
+      code: code,
+    })
+  }
+}
+
 socket.init("wss://backend.drexel-musicbox.com:8080")
 .catch(socket => socket.init("ws://localhost:8080"))
-.catch(() => console.error("Unable to conect to any websocket"));
+.catch(() => console.error("Unable to conect to any websocket"))
+.then(init_from_query_params)
