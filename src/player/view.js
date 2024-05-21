@@ -182,6 +182,8 @@ bind(STATE, (s) => {
     .forEach((k) => stateViews[k].reset())
   document.getElementById(stateViews[s].div).style.display = "block"
 
+  document.getElementById("answersubmit").disabled = (s === "ROUNDSTART")
+
   if (s === "ROUNDCOLLECT") {
     setTimeout(() => {
       const answerform = document.getElementById("answerform")
