@@ -128,9 +128,9 @@ async def game_task(room: Room, N=5, tutorial=True):
             await room.broadcast({
                 "type": "state", 
                 "state": "ROUNDEND",
-                "duration": 30
+                "duration": 45 
                 })
-            await asyncio.sleep(30)
+            await asyncio.sleep(45)
 
         await room.broadcast(
             {

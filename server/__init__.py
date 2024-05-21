@@ -74,10 +74,12 @@ class Server:
 
         # Host connection
         if info["type"] == "host":
+            logger.info(f"{websocket.remote_address[0]}: Is Host")
             await room.bind_host(websocket)
 
         # Player connection
         if info["type"] == "player":
+            logger.info(f"{websocket.remote_address[0]}: Is Player")
             name = info["name"]
             await room.bind_player(websocket, name)
 

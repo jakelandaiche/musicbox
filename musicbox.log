@@ -2208,3 +2208,591 @@ sqlite3.OperationalError: near "m": syntax error
          server.room         room.py:175    DEBUG BHMQ: Marking self dead in 10 seconds
          server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room IYRC
          server.room         room.py:186    DEBUG BHMQ: Self-destruct cancelled
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG ESHF: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room LJMK
+         server.room         room.py:186    DEBUG ESHF: Self-destruct cancelled
+              server     __init__.py:84      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG LJMK: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room SARW
+         server.room         room.py:186    DEBUG LJMK: Self-destruct cancelled
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:140    DEBUG Jasper
+              server     __init__.py:141    DEBUG {}
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:140    DEBUG Jasper
+              server     __init__.py:141    DEBUG {'ESHF': <server.room.Room object at 0x7541b53896c0>}
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:140    DEBUG ESHF
+              server     __init__.py:141    DEBUG {'ESHF': <server.room.Room object at 0x7541b53896c0>}
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+    server.subsystem    subsystem.py:48     ERROR 
+Traceback (most recent call last):
+  File "/home/jasper/Documents/Classes/senior-design/music-data-collection/server/subsystem.py", line 46, in bind
+    await func(message, room)
+  File "/home/jasper/Documents/Classes/senior-design/music-data-collection/server/subsystems/base.py", line 52, in update_player_ready
+    player = room.players[message["name"]]
+KeyError: ''
+              server     __init__.py:86      INFO 127.0.0.1: Socket handler terminated
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:140    DEBUG ESHF
+              server     __init__.py:141    DEBUG {'ESHF': <server.room.Room object at 0x7541b53896c0>}
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:140    DEBUG ESHF
+              server     __init__.py:141    DEBUG {'ESHF': <server.room.Room object at 0x75107a6f96c0>}
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:140    DEBUG ESHF
+              server     __init__.py:141    DEBUG {'ESHF': <server.room.Room object at 0x75107a6f96c0>}
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jimmy...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:140    DEBUG ESHF
+              server     __init__.py:141    DEBUG {'ESHF': <server.room.Room object at 0x75107a6f96c0>}
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jake...
+              server     __init__.py:86      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG ESHF: Marking self dead in 10 seconds
+         server.room         room.py:186    DEBUG ESHF: Self-destruct cancelled
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room LJMK
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:86      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG ESHF: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room LJMK
+              server     __init__.py:86      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG LJMK: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room SARW
+         server.room         room.py:186    DEBUG ESHF: Self-destruct cancelled
+         server.room         room.py:186    DEBUG LJMK: Self-destruct cancelled
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jimmy...
+              server     __init__.py:86      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:175    DEBUG ESHF: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room LJMK
+         server.room         room.py:186    DEBUG ESHF: Self-destruct cancelled
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jake...
+              server     __init__.py:86      INFO 127.0.0.1: Socket handler terminated
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jimmy...
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jimmy...
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jimmy...
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:81     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:119    DEBUG Trying to bind player Jimmy...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 5 rounds
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.game         game.py:181     INFO Did not receive all answers
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'wahh', 'score': 220, 'total': 3345, 'db_id': '66', 'score_info': {'bonus': '0.000%', 'matches': 0, 'similarity': 220, 'unique_words': ['wahh'], 'word_count': 1, 'word_len': 4}, 'unique_words': 6, 'avg_len': 4.222222222222222}, {'name': 'Jake', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'bfwef ewfjew f', 'score': 220, 'total': 3434, 'db_id': '67', 'score_info': {'bonus': '0.000%', 'matches': 0, 'similarity': 220, 'unique_words': ['ewfjew', 'bfwef'], 'word_count': 3, 'word_len': 14}, 'unique_words': 6, 'avg_len': 3.909090909090909}, {'name': 'Jimmy', 'connected': True, 'color': '#000000', 'ready': '', 'answer': None, 'score': 0, 'total': 3186, 'db_id': '68', 'score_info': None, 'unique_words': 4, 'avg_len': 3.75}]}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+         server.room         room.py:205     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>]
+         server.room         room.py:206     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee39f30>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3a9b0>
+         server.room         room.py:208     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7bc0dee3ae30>
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:80     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jimmy...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 1 rounds
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>]
+         server.room         room.py:205     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'My ass', 'score': 1074, 'total': 1074, 'db_id': '69', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['ass'], 'word_count': 2, 'word_len': 6}, 'unique_words': 1, 'avg_len': 2.0}, {'name': 'Jake', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'My ass', 'score': 1074, 'total': 1074, 'db_id': '70', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['ass'], 'word_count': 2, 'word_len': 6}, 'unique_words': 1, 'avg_len': 2.0}, {'name': 'Jimmy', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'My ass', 'score': 1074, 'total': 1074, 'db_id': '71', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['ass'], 'word_count': 2, 'word_len': 6}, 'unique_words': 1, 'avg_len': 2.0}]}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af65f60>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af669e0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7e258af665f0>
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:80     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jimmy...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 1 rounds
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>]
+         server.room         room.py:205     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '72', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}, {'name': 'Jake', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '73', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}, {'name': 'Jimmy', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '74', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}]}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbd9ed0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbda950>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7f94dbbdadd0>
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:80     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jimmy...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 1 rounds
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>]
+         server.room         room.py:205     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '75', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}, {'name': 'Jake', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '76', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}, {'name': 'Jimmy', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '77', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}]}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a5f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a69b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7572644a6e30>
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:80     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jimmy...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 1 rounds
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>]
+         server.room         room.py:205     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'music', 'score': 1000, 'total': 1000, 'db_id': '78', 'score_info': {'bonus': '0.000%', 'matches': 0, 'similarity': 1000, 'unique_words': [], 'word_count': 1, 'word_len': 5}, 'unique_words': 0, 'avg_len': 2.5}, {'name': 'Jake', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'music', 'score': 1000, 'total': 1000, 'db_id': '79', 'score_info': {'bonus': '0.000%', 'matches': 0, 'similarity': 1000, 'unique_words': [], 'word_count': 1, 'word_len': 5}, 'unique_words': 0, 'avg_len': 2.5}, {'name': 'Jimmy', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'music', 'score': 1000, 'total': 1000, 'db_id': '80', 'score_info': {'bonus': '0.000%', 'matches': 0, 'similarity': 1000, 'unique_words': [], 'word_count': 1, 'word_len': 5}, 'unique_words': 0, 'avg_len': 2.5}]}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764df30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764e9b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x7b883764ee30>
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:80     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jimmy...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 1 rounds
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>]
+         server.room         room.py:205     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '81', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}, {'name': 'Jake', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '82', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}, {'name': 'Jimmy', 'connected': True, 'color': '#000000', 'ready': False, 'answer': 'guitar', 'score': 1074, 'total': 1074, 'db_id': '83', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['guitar'], 'word_count': 1, 'word_len': 6}, 'unique_words': 1, 'avg_len': 3.0}]}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e93345f30>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933469b0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x728e933465c0>
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:80     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jimmy...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 1 rounds
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDSTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDCOLLECT', 'duration': 30}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>
+         server.game         game.py:179     INFO Received all answers
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'ROUNDEND', 'duration': 45}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>]
+         server.room         room.py:205     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'indian music', 'score': 1074, 'total': 1074, 'db_id': '84', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['indian'], 'word_count': 2, 'word_len': 12}, 'unique_words': 1, 'avg_len': 4.0}, {'name': 'Jake', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'indian music', 'score': 1074, 'total': 1074, 'db_id': '85', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['indian'], 'word_count': 2, 'word_len': 12}, 'unique_words': 1, 'avg_len': 4.0}, {'name': 'Jimmy', 'connected': True, 'color': '#000000', 'ready': '', 'answer': 'indian music', 'score': 1074, 'total': 1074, 'db_id': '86', 'score_info': {'bonus': '7.000%', 'matches': 2, 'similarity': 1000, 'unique_words': ['indian'], 'word_count': 2, 'word_len': 12}, 'unique_words': 1, 'avg_len': 4.0}]}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>, <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d849f00>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84a980>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x778a7d84ae00>
+              server     __init__.py:86      INFO 127.0.0.1: Socket handler terminated
+         server.room         room.py:174    DEBUG ESHF: Marking self dead in 10 seconds
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:80     DEBUG 127.0.0.1: Trying to bind to room LJMK
+         server.room         room.py:185    DEBUG ESHF: Self-destruct cancelled
+              server     __init__.py:57      INFO Starting on localhost:8080
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:77      INFO 127.0.0.1: Is Host
+         server.room         room.py:80     DEBUG 127.0.0.1: Trying to bind to room ESHF
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jasper...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jake...
+              server     __init__.py:66      INFO 127.0.0.1: New connection
+              server     __init__.py:82      INFO 127.0.0.1: Is Player
+         server.room         room.py:118    DEBUG Trying to bind player Jimmy...
+         server.game         game.py:20      INFO Starting game with musicCaps1.csv and 0 rounds
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x751961789ea0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a920>, <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a530>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMESTART', 'duration': 15}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x751961789ea0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a920>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a530>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x751961789ea0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a920>, <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a530>]
+         server.room         room.py:205     INFO {'type': 'player_stats', 'player_stats': [{'name': 'Jasper', 'connected': True, 'color': '#000000', 'ready': '', 'answer': None, 'score': 0, 'total': 0, 'db_id': '87', 'score_info': None, 'unique_words': 0, 'avg_len': 0.0}, {'name': 'Jake', 'connected': True, 'color': '#000000', 'ready': '', 'answer': None, 'score': 0, 'total': 0, 'db_id': '88', 'score_info': None, 'unique_words': 0, 'avg_len': 0.0}, {'name': 'Jimmy', 'connected': True, 'color': '#000000', 'ready': '', 'answer': None, 'score': 0, 'total': 0, 'db_id': '89', 'score_info': None, 'unique_words': 0, 'avg_len': 0.0}]}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x751961789ea0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a920>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a530>
+         server.room         room.py:204     INFO [<websockets.legacy.server.WebSocketServerProtocol object at 0x751961789ea0>, <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a920>, <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a530>]
+         server.room         room.py:205     INFO {'type': 'state', 'state': 'GAMEEND', 'duration': 0}
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x751961789ea0>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a920>
+         server.room         room.py:207     INFO <websockets.legacy.server.WebSocketServerProtocol object at 0x75196178a530>
