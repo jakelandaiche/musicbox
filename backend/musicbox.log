@@ -2960,3 +2960,6 @@ sqlite3.OperationalError: near "s": syntax error
               server     __init__.py:57      INFO Starting on 167.71.241.60:8080
               server     __init__.py:66      INFO 198.232.124.228: New connection
               server     __init__.py:77      INFO 198.232.124.228: Is Host
+              server     __init__.py:57      INFO Starting on 167.71.241.60:8080
+              server     __init__.py:66      INFO 198.232.124.228: New connection
+              server     __init__.py:77      INFO 198.232.124.228: Is Host

@@ -14,8 +14,8 @@ parser.add_argument("--port", default=8080)
 parser.add_argument("--file", default="filtered.csv")
 parser.add_argument("--debug", action="store_true", default=False)
 parser.add_argument("--ssl", action=argparse.BooleanOptionalAction, default=True)
-parser.add_argument("--key", action="store_true", default="/home/jake/music-data-collection/privkey1.pem")
-parser.add_argument("--cert", action="store_true", default="/home/jake/music-data-collection/fullchain1.pem")
+parser.add_argument("--key", action="store_true", default="privkey1.pem")
+parser.add_argument("--cert", action="store_true", default="fullchain1.pem")
 
 
 def setup_logging(args):
